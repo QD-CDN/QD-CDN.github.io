@@ -111,7 +111,7 @@ div#ajaxBusy, div.loading {
 	z-index: 999;
 }
 div#ajaxBusy p, div.loading p {
-	background: url(anozero.vteximg.com.br/arquivos/ajax-loader2.gif) no-repeat 100px center #fcf9dd;
+	background: url(//anozero.vteximg.com.br/arquivos/ajax-loader2.gif) no-repeat 100px center #fcf9dd;
 	border: 2px #fef282 solid;
 	border-top: 0;
 	-webkit-border-radius: 0 0 4px 4px;
@@ -173,7 +173,7 @@ div#ajaxBusy p, div.loading p {
 	line-height:13px;
 	font-weight:bold;
 	padding:0 0 0 14px;
-	background:url(anozero.vteximg.com.br/arquivos/mb-ico-01.png?v=dsad) no-repeat;
+	background:url(//anozero.vteximg.com.br/arquivos/mb-ico-01.png?v=dsad) no-repeat;
 	background-size:10px 12px;
 }
 .search-form {margin:0 0 26px;}
@@ -243,7 +243,7 @@ div#ajaxBusy p, div.loading p {
 #header .logo {
 	/*width:439px;
 	height:118px;
-	background:url(anozero.vteximg.com.br/arquivos/mb-logo.png) no-repeat;
+	background:url(//anozero.vteximg.com.br/arquivos/mb-logo.png) no-repeat;
 	background-size:439px 118px;*/
 	display:block;
 	margin:0 auto 9px;
@@ -490,7 +490,7 @@ body.qd-black-friday .products ul > li {
     height: 28px;
     text-indent: -9999px;
     overflow: hidden;
-    background: url(anozero.vteximg.com.br/arquivos/mb-bg-socials.png?v=ver004) no-repeat;
+    background: url(//anozero.vteximg.com.br/arquivos/mb-bg-socials.png?v=ver004) no-repeat;
     background-size: 252px 28px;
 }
 .socials .facebook {background-position: -54px 0;}
@@ -737,7 +737,7 @@ ul.links li a{color: #fff;}
 	width:17px;
 	height:15px;
 	content:'';
-	background:url(anozero.vteximg.com.br/arquivos/mb-ico-02.png?v=das) no-repeat;
+	background:url(//anozero.vteximg.com.br/arquivos/mb-ico-02.png?v=das) no-repeat;
 	background-size:17px 15px;
 	margin:0 10px 0 0;
 }
@@ -803,7 +803,7 @@ ul.links li a{color: #fff;}
 	content:'';
 	display:inline-block;
 	vertical-align:top;
-	background:url(anozero.vteximg.com.br/arquivos/mb-ico-03.png?v=dasd) no-repeat;
+	background:url(//anozero.vteximg.com.br/arquivos/mb-ico-03.png?v=dasd) no-repeat;
 	background-size:14px 12px;
 	margin: 2px 8px 0 -2px;
 }
@@ -1079,7 +1079,7 @@ ul.links li a{color: #fff;}
 	left:0;
 	width:19px;
 	height:35px;
-	background:url(anozero.vteximg.com.br/arquivos/mb-arrow-01.png?v=dadsa) no-repeat;
+	background:url(//anozero.vteximg.com.br/arquivos/mb-arrow-01.png?v=dadsa) no-repeat;
 	background-size:19px 35px;
 	text-indent:-9999px;
 	top:50%;
@@ -1089,7 +1089,7 @@ ul.links li a{color: #fff;}
 .slideshow .flex-next {
 	left:auto;
 	right:0;
-	background:url(anozero.vteximg.com.br/arquivos/mb-arrow-02.png?v=dad546) no-repeat;
+	background:url(//anozero.vteximg.com.br/arquivos/mb-arrow-02.png?v=dad546) no-repeat;
 	background-size:19px 35px;
 }
 
@@ -1275,7 +1275,7 @@ ul.links li a{color: #fff;}
   width: 230px;
 }
 .notifyme .sku-notifyme-form .notifyme-button-ok {
-  background: url("anozero.vteximg.com.br/arquivos/btn-avise-me.jpg") no-repeat;
+  background: url("//anozero.vteximg.com.br/arquivos/btn-avise-me.jpg") no-repeat;
   width: 190px;
   height: 35px;
   font-size: 0;
@@ -1302,7 +1302,7 @@ ul.links li a{color: #fff;}
 
 .buy-button:before{
 	content:'';
-	background-image:url(anozero.vteximg.com.br/arquivos/mb-ico-cart.png);
+	background-image:url(//anozero.vteximg.com.br/arquivos/mb-ico-cart.png);
 	width:40px;
 	height:36px;
     display: inline-block;
@@ -1639,7 +1639,7 @@ body.account .order-detail-display { padding-bottom: 16px; width: 100%; }
 }
 .btn-area:before{
 	content: '';
-    background-image: url(anozero.vteximg.com.br/arquivos/mb-ico-03.png);
+    background-image: url(//anozero.vteximg.com.br/arquivos/mb-ico-03.png);
     width: 40px;
     height: 36px;
     display: inline-block;
