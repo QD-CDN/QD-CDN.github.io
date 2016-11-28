@@ -117,6 +117,7 @@ try {
 
 	var Home = {
 		init: function() {
+			Home.apllyBrandsCarousel();
 			Home.slickFullBaner();
 			Home.searchByFilter();
 		},
