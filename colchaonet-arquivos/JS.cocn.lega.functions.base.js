@@ -264,8 +264,8 @@ try {
 		ajaxStop: function() {},
 		windowOnload: function() {},
 		mosaicBanners: function() {
-			$(".brands-qd-v1 .box-banner").QD_mosaicBanners();
-		},
+			$(".mosaic-qd-v1 .box-banner").QD_mosaicBanners();
+		}
 	};
 
 	var Orders = {
