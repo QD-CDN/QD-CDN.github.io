@@ -40,6 +40,13 @@ try {
 				$(document.body).toggleClass('qd-am-on');
 				return false;
 			});
+
+			// Blackdrop
+			$('body').append($('<div class="header-qd-v1-menu-blackdrop"></div>'));
+			$('.header-qd-v1-menu-blackdrop').click(function(){
+				$(document.body).toggleClass('qd-am-on');
+				return false;
+			});
 		},
 		apllySmartCart: function() {
 			var wrapper = $(".qd-sc-wrapper");
@@ -117,9 +124,9 @@ try {
 
 	var Home = {
 		init: function() {
-			Home.apllyBrandsCarousel();
 			Home.slickFullBaner();
 			Home.searchByFilter();
+			Home.apllyBrandsCarousel();
 		},
 		ajaxStop: function() {},
 		windowOnload: function() {},
