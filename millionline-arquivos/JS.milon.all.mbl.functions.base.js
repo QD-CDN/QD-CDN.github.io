@@ -32,7 +32,7 @@ try {
 		reloadMobileBackPage: function() {
 			$(window).bind("pageshow", function(event) {
 				if (event.originalEvent.persisted) {
-					window.location.reload()
+					$.fn.simpleCart(true);
 				}
 			});
 		},
