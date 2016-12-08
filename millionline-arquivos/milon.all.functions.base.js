@@ -24,90 +24,77 @@ try {
 		},
 		windowOnload: function () {},
 		loginDealer: function() {
-			var modal = $('.modal').clone().appendTo(document.body).addClass('modal-qd-v1-login');
+			var fn = function() {
+				var modal = $('<div class="modal modal-qd-v1-login fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button></div><div class="modal-body"><div class="login-qd-v1-step"><img src="/arquivos/milon.all.logo.png" alt="" /><div class="login-qd-v1-step-1"><form novalidate="1"><p>Para continuar, informe seu e-mail abaixo.</p><div class="form-row"><input type="text" name="qd_email" class="qd_email form-control required" placeholder="Ex:jose@email.com" /></div><button class="login-qd-v1-btn-submit">CONFIRMAR</button></form></div><div class="login-qd-v1-step-2"><p>Olá! Identificamos que você possui acesso à área de revendedor. O que você gostaria de fazer agora ?</p><div class="link-row"><span class="login-qd-v1-btn-wholesale" data-qd-sc="2">Acessar preços em atacado</span><span class="login-qd-v1-btn-retail" data-qd-sc="1">Acessar preços em varejo</span></div><span class="login-qd-v1-btn-back">Voltar</span></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>').appendTo(document.body);
+				var step1 = modal.find('.login-qd-v1-step-1');
+				var step2 = modal.find('.login-qd-v1-step-2');
 
-			modal.find('.modal-body').html('<div class="login-qd-v1-step"> <img src="/arquivos/milon.all.logo.png" alt="" /> <div class="login-qd-v1-step-1"> <form novalidate="1"> <p>Para continuar, informe seu e-mail abaixo.</p> <div class="form-row"> <input type="text" name="qd_email" class="qd_email form-control required" placeholder="Ex:jose@email.com" /> </div> <button class="login-qd-v1-btn-submit">CONFIRMAR</button> </form> </div> <div class="login-qd-v1-step-2"> <p>Olá! Identificamos que você possui acesso à área de revendedor. O que você gostaria de fazer agora ?</p> <div class="link-row"> <a href="?sc=2">Acessar preços em atacado</a> <span>Acessar preços em varejo</span> </div> <a class="vtexIdUI-back-link pull-left dead-link"> <i class="vtexid-icon-arrow-left"></i> <span data-i18n="vtexid.backLink">Voltar</span> </a> </div> </div>');
-			var wrapper2 = modal.find('.login-qd-v1-step-2');
+				$('.login-reseller a, .wholesale-qd-v1-login').click(function(evt) {
+					evt.preventDefault();
 
-			$('.login-reseller a').click(function(evt) {
-				evt.preventDefault();
+					modal.modal({backdrop: 'static'});
+					$(document.body).addClass('qd-v1-login');
+				});
 
-				modal.modal({backdrop: 'static'});
-				$(document.body).addClass('qd-v1-login');
-			});
+				modal.on('hidden.bs.modal', function (e) {
+					$(document.body).removeClass('qd-v1-login');
+				});
 
-			modal.on('hidden.bs.modal', function (e) {
-				$(document.body).removeClass('qd-v1-login');
-			});
+				var form = modal.find('form');
 
-			var form = modal.find('form');
-
-			form.validate({
-				rules: {
-					email: {
-						email: true
-					}
-				},
-				submitHandler: function(form){
-					var $form = $(form);
-					var email = $form.find('.qd_email').val();
-
-					if(!$form.valid())
-						return;
-
-					$.ajax({
-						url: "//api.vtexcrm.com.br/" + jsnomeSite + "/dataentities/CL/search",
-						data: {"_fields": "id,approvedDealer", "email": email},
-						type: "GET",
-						dataType: "json",
-						headers: {Accept: "application/vnd.vtex.ds.v10+json"},
-						success: function(data) {
-							if(data.length && data[0].approvedDealer && data[0].approvedDealer == true) {
-								$('.login-qd-v1-step-1').removeClass('active-l').addClass('inative');
-								$('.login-qd-v1-step-2').removeClass('inative').addClass('active');
-							} else {
-								modal.modal('hide');
-								vtexid.setEmail(email);
-								vtexid.start();
-							}
-
-							wrapper2.find('.link-row a').click(function(evt) {
-								evt.preventDefault();
-								var a = $('<a></a>');
-								a[0].href= (vtexid.getReturnUrl() || '');
-								a[0].search += '&sc=2';
-
-								vtexid.start({
-									email: email,
-									returnUrl: a[0].href.replace('?&', '?')
-								});
-
-								modal.modal('hide');
-							});
-
-							wrapper2.find('.link-row span').click(function(evt) {
-								var a = $('<a></a>');
-								a[0].href= (vtexid.getReturnUrl() || '');
-								a[0].search += '&sc=1';
-
-								vtexid.start({
-									email: email,
-									returnUrl: a[0].href.replace('?&', '?')
-								});
-
-								modal.modal('hide');
-							});
+				form.validate({
+					rules: {
+						email: {
+							email: true
 						}
-					});
-				},
-				errorPlacement: function(error, element) {}
-			});
+					},
+					submitHandler: function(form){
+						var $form = $(form);
+						var email = $form.find('.qd_email').val();
 
-			wrapper2.find('.vtexIdUI-back-link').click(function(evt) {
-				evt.preventDefault();
-				$('.login-qd-v1-step-1').removeClass('inative').addClass('active-l');
-				$('.login-qd-v1-step-2').addClass('inative');
-			});
+						if(!$form.valid())
+							return;
+
+						$.ajax({
+							url: "//api.vtexcrm.com.br/" + jsnomeSite + "/dataentities/CL/search",
+							data: {"_fields": "id,approvedDealer", "email": email},
+							type: "GET",
+							dataType: "json",
+							headers: {Accept: "application/vnd.vtex.ds.v10+json"},
+							success: function(data) {
+								if(data.length && data[0].approvedDealer && data[0].approvedDealer == true) {
+									step1.removeClass('active-l').addClass('inative');
+									step2.removeClass('inative').addClass('active');
+								} else {
+									modal.modal('hide');
+									vtexid.setEmail(email);
+									vtexid.start();
+								}
+
+								step2.find('.login-qd-v1-btn-wholesale, .login-qd-v1-btn-retail').click(function() {
+									var code = $(this).attr('data-qd-sc');
+									var a = $('<a></a>');
+									a[0].href= (vtexid.getReturnUrl() || '');
+									a[0].search += '&sc=' + code;
+
+									vtexid.start({
+										email: email,
+										returnUrl: a[0].href.replace('?&', '?')
+									});
+
+									modal.modal('hide');
+								});
+							}
+						});
+					},
+					errorPlacement: function(error, element) {}
+				});
+
+				step2.find('.login-qd-v1-btn-back').click(function() {
+					step1.removeClass('inative').addClass('active-l');
+					step2.addClass('inative');
+				});
+			}
 
 			$.qdAjax({
 				url: "/no-cache/profileSystem/getProfile",
@@ -117,6 +104,8 @@ try {
 					try{
 						if(data.IsUserDefined) {
 							$(".login-reseller").html('Olá! ' + data.FirstName + '. <a href="/no-cache/user/logout">Sair</a>');
+						} else {
+							fn();
 						}
 					}
 					catch (e) {if (typeof console !== "undefined" && typeof console.info === "function") console.info("Ops, algo saiu errado com o login.", e.message); }
