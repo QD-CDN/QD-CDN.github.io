@@ -1,0 +1,25 @@
+/*! Não edite esse arquivo, ele foi gerado de maneira automatizada */
+.order-qd-v1-back-store-btn {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 25px;
+  margin-top: 40px;
+  background: #dc716b;
+  font-size: 16px;
+  letter-spacing: 4px;
+  font-weight: 600;
+  color: #FFF;
+  padding: 15px 0;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+  transition: all 0.2s ease-out;
+}
+.order-qd-v1-back-store-btn:focus,
+.order-qd-v1-back-store-btn:active,
+.order-qd-v1-back-store-btn:hover {
+  background: #d24942;
+  text-decoration: none;
+  color: #FFF;
+}
