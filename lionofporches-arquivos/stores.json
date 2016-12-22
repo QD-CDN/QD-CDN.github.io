@@ -1,0 +1,60 @@
+{
+	"store": [
+		{
+			"title": "LION OF PORCHES 8ª Avenida",
+			"address": "C.C. 8ª Avenida, 0.006S. João da Madeira",
+			"phone": "T . +351 966 088 806T",
+			"latitude": 40.8877650,
+			"longitude": -8.4914840
+		},
+		{
+			"title": "LION OF PORCHES Alameda",
+			"address": "Alameda Shop & Spot, 329 Porto",
+			"phone": "T . +351 925 906 951T",
+			"latitude": 41.1607232,
+			"longitude": -8.6545543
+		},
+		{
+			"title": "LION OF PORCHES AlgarveShopping",
+			"address": "AlgarveShopping, 1.115Albufeira",
+			"phone": "T . +351 914 843 243T",
+			"latitude": 37.1275761,
+			"longitude": -8.2800462
+		},
+		{
+			"title": "LION OF PORCHES Arrábida",
+			"address": "Arrábida Shopping, 117Vila Nova de Gaia",
+			"phone": "T . +351 912 348 415T",
+			"latitude": 41.1408327,
+			"longitude": -8.6365817
+		},
+		{
+			"title": "LION OF PORCHES Aveiro",
+			"address": "Avenida Lourenço Peixinho, 66Aveiro",
+			"phone": "T . +351 234 377 619T",
+			"latitude": 40.6421087,
+			"longitude": -8.6505109
+		},
+		{
+			"title": "LION OF PORCHES Braga",
+			"address": "Braga Parque, 219 ABraga",
+			"phone": "T . +351 914 856 230T",
+			"latitude": 41.5581080,
+			"longitude": -8.4059194
+		},
+		{
+			"title": "LION OF PORCHES Bragança",
+			"address": "Rua Almirante Reis, 12Bragança",
+			"phone": "T . +351 273 333 144T",
+			"latitude": 41.8062600,
+			"longitude": -6.7571206
+		},
+		{
+			"title": "LION OF PORCHES Caldas da Rainha",
+			"address": "Vivaci Caldas da Rainha, 2.10Caldas da Rainha",
+			"phone": "T . +351 262 842 206T",
+			"latitude": 39.4010412,
+			"longitude": -9.1368491
+		}
+	]
+}
