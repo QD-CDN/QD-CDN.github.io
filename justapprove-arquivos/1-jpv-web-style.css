@@ -7,14 +7,12 @@
 	display: none !important;
 }
 
-.slick-default .slick-prev {
-	@media (max-width: 767px) {
+@media (max-width: 767px) {
+	.slick-default .slick-prev {
 		left: 0;
 	}
-}
-
-.slick-default .slick-next {
-	@media (max-width: 767px) {
+	
+	.slick-default .slick-next {
 		right: 0;
 	}
 }
