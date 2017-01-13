@@ -16,3 +16,7 @@
 		right: 0;
 	}
 }
+
+.slick-default .slick-dots button {
+	padding: 0;
+}
