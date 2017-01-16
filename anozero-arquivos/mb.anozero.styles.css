@@ -7,7 +7,7 @@
 	height:100%;
 }
 html {height:100%;}
-img{border-style:none;}
+img{border-style:none; max-width: 100%;}
 a{
 	color:#000;
 	text-decoration:none;
@@ -288,7 +288,7 @@ div#ajaxBusy p, div.loading p {
 	height: auto;
 	display: inline-block;
 	vertical-align: middle;
-	max-width: 100%;
+	max-width:100%;
 }
 /* end visual */
 /* main */
@@ -1200,11 +1200,12 @@ ul.links li a{color: #fff;}
   list-style: none;
   vertical-align: top;
   width: 100%;
+  padding: 0;
+  text-align: center;
 }
 
 .topic .specification{
 	display:block;
-	/*font-size:18px;*/
 	line-height:22px;
 	margin:0 0 6px;
 	font-weight:bold;
@@ -1713,4 +1714,51 @@ body.account .order-detail-display { padding-bottom: 16px; width: 100%; }
 }
 .tipbar-qd-v1 .tipbar-qd-v1-img-4 {
     top: 2px;
+}
+
+.veja-a-grade {
+	margin-top: 45px;
+	margin-bottom: 35px;
+	text-align: center;
+}
+
+.veja-a-grade-btn {
+	display: block;
+	vertical-align: top;
+	margin: 0 0 20px;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	min-width: 120px;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #fff;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	text-align: center;
+	text-shadow: none;
+	border: 0;
+	font-size: 11px;
+	line-height: 30px;
+	padding: 0;
+	width: 80%;
+	max-width: 200px;
+	background: #053d15;
+	margin: 10px auto 0;
+	letter-spacing: 2px;
+
+}
+
+.veja-a-grade span.fa.fa-question-circle {
+	position: relative;
+	top: 2px;
+	font-size: 18px;
+	margin-right: 10px;
+	color: #fff;
+}
+
+.veja-a-grade-description {
+	margin-right: 5px;
+	font-size: 14px;
+	color: #000;
+	font-weight: bold;
 }
