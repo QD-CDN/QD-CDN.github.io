@@ -7,7 +7,7 @@
 	display: none !important;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 991px) {
 	.slick-default .slick-prev {
 		left: 0;
 	}
@@ -19,4 +19,16 @@
 
 .slick-default .slick-dots button {
 	padding: 0;
+}
+
+@media (max-width: 767px) {
+	.qd-first-line {
+		clear: both;
+	}
+}
+
+.shelf-default .slick-slide {
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-bottom: 60px;
 }
