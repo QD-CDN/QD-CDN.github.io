@@ -35,14 +35,14 @@ $(document).ready(function(){
 		wrapper.find('.prateleira').each(function(){
 			var wrap = $(this);
 			// wrap.find("h2").addClass('heading-1').insertBefore(wrap);
-			$('<div class="irma-qd-v1-wrapper"></div>').append($(wrap.find('> ul'))).appendTo(wrap);
+			$('<div class="carousel-qd-v1-wrapper"></div>').append($(wrap.find('> ul'))).appendTo(wrap);
 		});
 
-		wrapper.find('.irma-qd-v1-wrapper').owlCarousel({
+		wrapper.find('.carousel-qd-v1-wrapper').owlCarousel({
 			items: 1,
 			slideSpeed: 800,
-			navigation: false,
-			pagination: true,
+			navigation: true,
+			pagination: false,
 			scrollPerPage: true
 		});
 	}();
