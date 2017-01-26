@@ -1788,6 +1788,9 @@ body.account .order-detail-display { padding-bottom: 16px; width: 100%; }
 	background: #fbabc4;
 	color: white;
 }
+.tab-qd-v1-collections-wrapper .tabsNav .qd-activeTab span {
+	color: white;
+}
 .tab-qd-v1-collections-wrapper .tabsNav li {
 	border: #fbabc4 solid;
 	border-width: 2px;
@@ -2289,8 +2292,8 @@ body.account .order-detail-display { padding-bottom: 16px; width: 100%; }
  }
  .qd-shelf-carousel .owl-prev:before {
  	content: "\f053";
- 	display: inline-block;
- 	font-size: 1em;
+ 	display: inline-block
+ ;	font-size: 1em;
  	font-style: normal;
  	font-weight: normal;
  	height: 1em;
