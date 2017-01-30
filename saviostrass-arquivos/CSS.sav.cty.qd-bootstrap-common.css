@@ -6150,7 +6150,7 @@ a:active {
   margin-right: auto;
 }
 .loading-bg {
-  background: url("/arquivos/ajax-loader.gif") no-repeat center center transparent;
+  background: url("//bulking.vteximg.com.br/arquivos/ajax-loader.gif") no-repeat center center transparent;
 }
 .text-remove {
   text-indent: -9999pc;
@@ -6526,7 +6526,7 @@ div#ajaxBusy p {
   letter-spacing: 1px;
   margin: -2px auto 0;
   padding: 8px 30px 8px 8px;
-  background: url("/arquivos/ajax-loader2.gif") no-repeat 90px center #fff6bf;
+  background: url("//bulking.vteximg.com.br/arquivos/ajax-loader2.gif") no-repeat 90px center #fff6bf;
   border: #382e1a solid;
   border-width: 1px;
   white-space: nowrap;
@@ -7076,7 +7076,7 @@ body[data-qd-scroll-0="1"] .header-qd-v2-mini-cart .v2-vtexsc-cart {
 }
 .header-qd-v3-searchbar-btn-content .header-qd-v3-searchbar-btn:before {
   content: "";
-  background: url('/arquivos/header-qd-v3-search-ico.png') no-repeat center;
+  background: url('//bulking.vteximg.com.br//bulking.vteximg.com.br/arquivos/header-qd-v3-search-ico.png') no-repeat center;
   width: 16px;
   height: 19px;
   display: block;
@@ -8098,7 +8098,7 @@ body.qd-sn-on .qd-am-overlay {
   }
 }
 .footer-qd-v2-store-footer-top {
-  background: url("/arquivos/bg-newsletter-footer.jpg") center center;
+  background: url("//bulking.vteximg.com.br/arquivos/bg-newsletter-footer.jpg") center center;
   text-align: center;
 }
 .footer-qd-v2-store-footer-top i {
@@ -8151,7 +8151,7 @@ body.qd-sn-on .qd-am-overlay {
 }
 .footer-qd-v2-newsletter-form .footer-qd-v2-newsletter-btn {
   color: transparent;
-  background: url('/arquivos/img.sav.cty.sprite.png') no-repeat -261px -42px;
+  background: url('//bulking.vteximg.com.br/arquivos/img.sav.cty.sprite.png') no-repeat -261px -42px;
   width: 21px;
   height: 21px;
   display: inline-block;
@@ -8624,7 +8624,7 @@ body.qd-sn-on .qd-am-overlay {
   }
 }
 .footer-qd-v2-store-footer .footer-qd-v2-store-footer-attendance .br-flag-ico {
-  background: url('/arquivos/img.sav.cty.sprite.png') no-repeat -135px -1px;
+  background: url('//bulking.vteximg.com.br/arquivos/img.sav.cty.sprite.png') no-repeat -135px -1px;
   width: 21px;
   height: 21px;
   display: block;
@@ -8637,7 +8637,7 @@ body.qd-sn-on .qd-am-overlay {
   }
 }
 .footer-qd-v2-store-footer .footer-qd-v2-store-footer-attendance .wrold-flag-ico {
-  background: url('/arquivos/img.sav.cty.sprite.png') no-repeat -168px -1px;
+  background: url('//bulking.vteximg.com.br/arquivos/img.sav.cty.sprite.png') no-repeat -168px -1px;
   width: 21px;
   height: 21px;
   display: block;
@@ -8677,7 +8677,7 @@ body.qd-sn-on .qd-am-overlay {
   text-decoration: none;
 }
 .footer-qd-v2-payment-stamps [class*="stamp"] {
-  background: url('/arquivos/qd-payment-stamp-flat.png') no-repeat 0 0;
+  background: url('//bulking.vteximg.com.br/arquivos/qd-payment-stamp-flat.png') no-repeat 0 0;
   width: 47px;
   height: 28px;
   list-style: none;
@@ -8751,7 +8751,7 @@ body.qd-sn-on .qd-am-overlay {
   }
 }
 .footer-qd-v2-company-stamps .poweredByVtex {
-  background: url('/arquivos/img.sav.cty.sprite.png') no-repeat -3px -39px;
+  background: url('//bulking.vteximg.com.br/arquivos/img.sav.cty.sprite.png') no-repeat -3px -39px;
   width: 82px;
   height: 25px;
   display: inline-block;
@@ -8762,7 +8762,7 @@ body.qd-sn-on .qd-am-overlay {
   filter: alpha(opacity=70);
 }
 .footer-qd-v2-company-stamps .designedByQuatroDigital {
-  background: url('/arquivos/img.sav.cty.sprite.png') no-repeat -101px -39px;
+  background: url('//bulking.vteximg.com.br/arquivos/img.sav.cty.sprite.png') no-repeat -101px -39px;
   width: 93px;
   height: 28px;
   display: inline-block;
@@ -9150,7 +9150,7 @@ body.qd-sn-on .qd-am-overlay {
 }
 .boxPopUp2 .skuselector-buy-btn-wrap .skuselector-buy-btn:before {
   content: "";
-  background-image: url("/arquivos/img.sav.cty.sprite.png") !important;
+  background-image: url("//bulking.vteximg.com.br/arquivos/img.sav.cty.sprite.png") !important;
   background-position: -283px -41px !important;
   background-repeat: no-repeat !important;
   padding-left: 26px;
@@ -9453,7 +9453,7 @@ body.qd-sn-on .qd-am-overlay {
 }
 .shelf-qd-v1 .shelf-qd-v1-buy-button .btn-add-buy-button-asynchronous:before {
   content: "";
-  background-image: url("/arquivos/img.sav.cty.sprite.png") !important;
+  background-image: url("//bulking.vteximg.com.br/arquivos/img.sav.cty.sprite.png") !important;
   background-position: -241px -41px !important;
   background-repeat: no-repeat !important;
   padding-left: 26px;
@@ -9522,7 +9522,7 @@ body.qd-sn-on .qd-am-overlay {
   color: #b0b0b0;
 }
 .shelf-qd-v1 .shelf-qd-v1-buy-button .btn-add-buy-button-asynchronous:hover:before {
-  background-image: url("/arquivos/img.sav.cty.sprite.png") !important;
+  background-image: url("//bulking.vteximg.com.br/arquivos/img.sav.cty.sprite.png") !important;
   background-position: -201px -41px !important;
   background-repeat: no-repeat !important;
   padding-left: 26px;
@@ -9730,7 +9730,7 @@ body.qd-sn-on .qd-am-overlay {
   color: #b0b0b0;
 }
 .shelf-qd-v1:hover .btn-add-buy-button-asynchronous:before {
-  background-image: url("/arquivos/img.sav.cty.sprite.png") !important;
+  background-image: url("//bulking.vteximg.com.br/arquivos/img.sav.cty.sprite.png") !important;
   background-position: -201px -41px !important;
   background-repeat: no-repeat !important;
   padding-left: 26px;
@@ -9820,7 +9820,7 @@ body.produto .qd-sp-wrapper {
   color: #007e21;
 }
 #vtexIdContainer {
-  background: url("/arquivos/bg-login.jpg") no-repeat center top;
+  background: url("//bulking.vteximg.com.br/arquivos/bg-login.jpg") no-repeat center top;
   border: none;
   box-shadow: none;
 }
@@ -9912,7 +9912,7 @@ body.produto .qd-sp-wrapper {
   width: 100%;
   height: 50px;
   display: block;
-  background: url("/arquivos/IMG.sav.cty.ckt-logo.png") no-repeat scroll center 3px;
+  background: url("//bulking.vteximg.com.br/arquivos/IMG.sav.cty.ckt-logo.png") no-repeat scroll center 3px;
 }
 #vtexIdContainer .modal-header .close {
   background: transparent;
