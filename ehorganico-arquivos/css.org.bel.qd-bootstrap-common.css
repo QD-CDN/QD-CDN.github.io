@@ -6552,7 +6552,7 @@ div#ajaxBusy p {
 .v2-amazing-menu {
   background: #f4f4f4;
 }
-@media (max-width: 767px) {
+@media (max-width: 991px) {
   .v2-amazing-menu {
     padding: 10px 0;
   }
@@ -6560,7 +6560,7 @@ div#ajaxBusy p {
 .v2-amazing-menu .amazing-menu-toggle:hover {
   text-decoration: none;
 }
-.v2-amazing-menu .header-qd-v1-amazing-menu-trigger {
+.v2-amazing-menu .amazing-menu-toggle span {
   font-weight: 700;
   margin-left: 5px;
   position: relative;
@@ -6573,7 +6573,7 @@ div#ajaxBusy p {
 .v2-main-amazing-menu {
   background: #f4f4f4;
 }
-@media (max-width: 1200px) {
+@media (max-width: 992px) {
   .v2-main-amazing-menu {
     display: none;
   }
@@ -7050,6 +7050,7 @@ div#ajaxBusy p {
 .v2-vtx-tip-bar-full {
   padding: 5px 0 8px;
   border-bottom: solid 2px #d3d3d3;
+  background: #ffffff;
 }
 body.home .v2-vtx-tip-bar-full {
   border: none;
