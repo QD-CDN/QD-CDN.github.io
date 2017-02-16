@@ -62,7 +62,7 @@ try {
 					if (wrapper.find('.qd-v1-product-360-image').length)
 						return;
 
-					wrapper.find('#image').after('<div class="qd-v1-product-360-image"> <div class="threesixty"> <div class="spinner"> <span>0%</span> </div> <ol class="threesixty_images"></ol> </div> <div class="qd-v1-product-360-slider"> <i class="fa fa-play-circle" aria-hidden="true"></i> <i class="fa fa-stop" aria-hidden="true"></i> <div class="slider"></div> <i class="fa fa-question-circle" aria-hidden="true"></i> <div class="qd-v1-product-360-text" style="display: none;"> <p>Clique no botão “360º”  e arraste para visualizar mais detalhes do produto.</p> </div> </div> </div>');
+					wrapper.find('#image').after('<div class="qd-v1-product-360-image"> <div class="threesixty"> <div class="spinner"> <span>0%</span> </div> <ol class="threesixty_images"></ol> </div> <div class="qd-v1-product-360-slider"> <i class="qd-v1-product-360-icon qd-v1-product-360-play"></i> <i class="qd-v1-product-360-icon qd-v1-product-360-stop"></i> <div class="slider"></div> <i class="qd-v1-product-360-icon qd-v1-product-360-question"></i> <div class="qd-v1-product-360-text" style="display: none;"> <p>Clique no botão “360º”  e arraste para visualizar mais detalhes do produto.</p> </div> </div> </div>');
 
 					var slider = $(".qd-v1-product-360-slider .slider");
 					var fnMousemove = true;
@@ -85,7 +85,7 @@ try {
 						filePrefix: '',
 						ext: '.jpg',
 						drag: false,
-						// responsive: true,
+						responsive: true,
 						width: 500,
 						height: 500,
 						autoplayDirection: -1,
@@ -109,31 +109,45 @@ try {
 						}
 					});
 
+					var count = {};
+					var playElem = wrapper.find('.qd-v1-product-360-play');
+					var stopElem = wrapper.find('.qd-v1-product-360-stop');
+
 					moveSlider = function() {
 						if(fnMousemove)
 							return;
+
+						if (count[15]) {
+							$('.qd-v1-product-360-stop').click();
+							count = {};
+							return;
+						}
+						count[product360.getNormalizedCurrentFrame()] = true;
+
 						setTimeout(function() {
 							slider.slider("value", product360.getNormalizedCurrentFrame());
 							moveSlider();
 						}, 49);
 					}
 
-					$('.fa-play-circle').click(function(){
+					playElem.click(function(){
+						slider.slider("value", 0);
+						product360.gotoAndPlay(0);
 						product360.play();
 						fnMousemove = false;
 						moveSlider();
 						$(this).hide();
-						$('.fa-stop').show();
+						stopElem.show();
 					});
 
-					$('.fa-stop').click(function(){
+					stopElem.click(function(){
 						product360.stop();
 						fnMousemove = true;
 						$(this).hide();
-						$('.fa-play-circle').show();
+						playElem.show();
 					});
 
-					$('.fa-question-circle').hover(
+					$('.qd-v1-product-360-question').hover(
 						function() {
 							$('.qd-v1-product-360-text').show();
 						}, function() {
