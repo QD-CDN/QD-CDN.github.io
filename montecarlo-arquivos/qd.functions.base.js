@@ -88,6 +88,7 @@ try {
 						responsive: true,
 						width: 500,
 						height: 500,
+						playSpeed: 162,
 						autoplayDirection: -1,
 						onReady: function() {
 							product360Image.mousemove(function(e){
