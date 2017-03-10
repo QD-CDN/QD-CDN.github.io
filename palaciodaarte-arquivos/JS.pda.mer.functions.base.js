@@ -527,10 +527,6 @@ try {
 					$(document.body).addClass('qd-product-unavailable').removeClass('qd-product-available');
 			}
 
-			$(document).on("skuSelected.vtex", function(e, id, sku) {
-				console.log(sku.available);
-			});
-
 			checkVisibleNotify(skuJson.available);
 		},
 		shelfOfPage: function() {
