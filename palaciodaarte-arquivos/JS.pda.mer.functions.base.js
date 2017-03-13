@@ -102,17 +102,11 @@ try {
 				if(!href.length)
 					return;
 
-				$t.each(function() {
-					var hash = (this.hash || '').replace('#', '');
-					if(!hash.length)
-						return;
-
-					this.hash = hash.replace(/(col-)?(xs|sm|md|lg|hidden-xs|hidden-sm|hidden-md|hidden-lg)(-([0-9]{1,2}))?,?/ig, function(match){
-						var str = match.replace(",", "").toLowerCase();
-						cols.push( str.substr(0,4) === "col-" ? str : str );
-						return "";
-					});
-				});
+				$t.attr( "href", href.replace(/(col-)?(xs|sm|md|lg|hidden-xs|hidden-sm|hidden-md|hidden-lg)(-([0-9]{1,2}))?,?/ig, function(match){
+					var str = match.replace(",", "").toLowerCase();
+					cols.push( str.substr(0,4) === "col-" ? str : str );
+					return "";
+				}) );
 
 				$t.parent().addClass( cols.length ? cols.join(" ") : "col-xs-12 col-sm-12" );
 			});
@@ -526,6 +520,10 @@ try {
 				else
 					$(document.body).addClass('qd-product-unavailable').removeClass('qd-product-available');
 			}
+
+			$(document).on("skuSelected.vtex", function(e, id, sku) {
+				console.log(sku.available);
+			});
 
 			checkVisibleNotify(skuJson.available);
 		},
