@@ -2,6 +2,9 @@
 .simulator-qd-v1-description {
   margin-top: 10px;
 }
+.simulator-qd-v1-description img {
+  width: 100%;
+}
 .simulator-qd-v1-form {
   padding: 0 30px;
 }
@@ -83,11 +86,7 @@
 }
 .simulator-qd-v1-form input[type="radio"] + .simulator-qd-v1-option {
   padding: 5px 15px;
-}
-@media (max-width: 480px) {
-  .simulator-qd-v1-form input[type="radio"] + .simulator-qd-v1-option {
-    text-align: left;
-  }
+  text-align: left;
 }
 .simulator-qd-v1-form input[type="radio"] + .simulator-qd-v1-option:before {
   content: "\f096";
