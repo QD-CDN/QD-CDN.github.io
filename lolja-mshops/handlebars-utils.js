@@ -1,5 +1,5 @@
 function _calculatePercentage(value, percent){
-  return  'R$ ' + qd_number_format(value - (value * percent / 100), 2, ",", ".");
+  return  qd_number_format(value - (value * percent / 100), 2, ",", ".");
 }
 function _qdNumberFormat(value) {
   return  qd_number_format(value, 2, ",", ".");
