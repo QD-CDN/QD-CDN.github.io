@@ -1,7 +1,4 @@
 /*! Não edite esse arquivo, ele foi gerado de maneira automatizada */
-.simulator-qd-v1-description {
-  margin-top: 10px;
-}
 .simulator-qd-v1-description img {
   width: 100%;
 }
@@ -36,7 +33,7 @@
   color: #686868;
   border-radius: 5px;
   font-size: 16px;
-  padding: 5px 25px;
+  padding: 5px 10px;
   text-align: center;
 }
 .simulator-qd-v1-form .simulator-qd-v1-option:before,
@@ -63,7 +60,7 @@
   font-weight: 400;
 }
 .simulator-qd-v1-form .simulator-qd-v1-option > span {
-  width: 120px;
+  width: 110px;
   text-align: left;
 }
 .simulator-qd-v1-form .simulator-qd-v1-option .simulator-qd-v1-input-quantity {
@@ -87,6 +84,9 @@
 .simulator-qd-v1-form input[type="radio"] + .simulator-qd-v1-option {
   padding: 5px 15px;
   text-align: left;
+}
+.simulator-qd-v1-form input[type="radio"] + .simulator-qd-v1-option span {
+  width: 120px;
 }
 .simulator-qd-v1-form input[type="radio"] + .simulator-qd-v1-option:before {
   content: "\f096";
@@ -159,11 +159,11 @@
 }
 .simulator-qd-v1-finished-window p {
   text-align: center;
-  font-size: 21px;
+  font-size: 18px;
   margin-bottom: 10px;
 }
 .simulator-qd-v1-finished-window p:first-child {
-  font-size: 26px;
+  font-size: 21px;
   color: #004786;
   font-weight: 700;
   margin-bottom: 0px;
@@ -179,8 +179,9 @@
   text-align: center;
   padding: 8px 0;
   color: #FFF;
+  text-decoration: none;
   background-color: #ff9600;
-  font-size: 16px;
+  font-size: 14px;
   border: none;
   border-radius: 5px;
 }
