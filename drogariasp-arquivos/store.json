@@ -10,22 +10,22 @@
       "logistics": "Retire na loja - Alphaville"
     },
     {
-      "title": "Drogaria São Paulo",
-      "address": " Alameda Araguaia, 451 - Alphaville Industrial, Barueri - SP",
-      "phone": "(11) 4326-5209 / (11) 4326-5230",
-      "latitude": -23.4977268,
-      "longitude": -46.8570809,
-      "attendance": "Todos os dias: 07h00 às 23h00",
-      "logistics": "Retire na loja - Alphaville 2"
+      "title": "Drogaria São Paulo 24h",
+      "address": "Av. Braz Leme, 2.034 , Santana",
+      "phone": "(11) 2973-6508 / (11) 2976-0083",
+      "latitude": -23.5047496,
+      "longitude": -46.6406438,
+      "attendance": "Todos os dias: 24h00",
+      "logistics": "Retire na loja - Braz Leme"
     },
     {
       "title": "Drogaria São Paulo - Shopping Tamboré I",
-      "address": "Avenida Piracema, 669 , Tamboré Barueri, SP 06460-030",
-      "phone": "(11) 4191-2258 / (11) 4191-0984",
-      "latitude": -23.5044234,
-      "longitude": -46.8346556,
-      "attendance": "Todos os dias: 10h00 às 22h00",
-      "logistics": "Retire na loja -"
+      "address": "Av. Giovanni Gronchi, 5.471 , Morumbi São Paulo, SP 05724-003",
+      "phone": "(11) 3744-2058 / (11) 3746-7448",
+      "latitude": -23.6274618,
+      "longitude": -46.735458,
+      "attendance": "Todos os dias: 24h00",
+      "logistics": "Retire na loja - Morumbi"
     },
     {
       "title": "Drogaria São Paulo",
@@ -34,7 +34,7 @@
       "latitude": -23.7377379,
       "longitude": -46.6930276,
       "attendance": "Todos os dias: 07h00 às 23h00",
-      "logistics": "Retire na loja -"
+      "logistics": ""
     },
     {
       "title": "Drogaria São Paulo",
@@ -43,7 +43,7 @@
       "latitude": -23.8306916,
       "longitude": -46.8165465,
       "attendance": "Todos os dias: 07h00 às 23h00",
-      "logistics": "Retire na loja -"
+      "logistics": ""
     },
     {
       "title": "Drogaria São Paulo",
@@ -52,7 +52,7 @@
       "latitude": -23.7217248,
       "longitude": -46.689078,
       "attendance": "Todos os dias: 07h00 às 23h00",
-      "logistics": "Retire na loja -"
+      "logistics": ""
     },
     {
       "title": "Drogaria São Paulo",
@@ -61,7 +61,7 @@
       "latitude": -23.5908754,
       "longitude": -46.5816119,
       "attendance": "Todos os dias: 07h00 às 23h00",
-      "logistics": "Retire na loja -"
+      "logistics": ""
     },
     {
       "title": "Drogaria São Paulo",
@@ -70,7 +70,7 @@
       "latitude": -23.581448,
       "longitude": -46.5859986,
       "attendance": "Seg. à Sab.: 07h00 às 23h00",
-      "logistics": "Retire na loja -"
+      "logistics": ""
     },
     {
       "title": "Drogaria São Paulo",
@@ -79,7 +79,7 @@
       "latitude": -23.573707,
       "longitude": -46.5586343,
       "attendance": "Todos os dias: 07h00 às 23h00",
-      "logistics": "Retire na loja -"
+      "logistics": ""
     },
     {
       "title": "Drogaria São Paulo",
@@ -88,7 +88,7 @@
       "latitude": -23.5963612,
       "longitude": -46.6899633,
       "attendance": "Seg. à Sex.: 07h00 às 22h00 / Sáb.: 07h00 às 13h00",
-      "logistics": "Retire na loja -"
+      "logistics": ""
     }
   ]
 }
