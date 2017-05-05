@@ -659,7 +659,7 @@ try {
 									var $t = $(this);
 									fieldsCRM[$t.attr('data-qd-name-crm')] = $t.val();
 								});
-								fieldsCRM['ip'] = ip;
+								// fieldsCRM['ip'] = ip;
 								fieldsCRM['userId'] = userId;
 								fieldsCRM['phone'] = phone;
 
