@@ -45,6 +45,12 @@ body.qd-am-on {
     text-align: center;
   }
 }
+.header-qd-v1-cards .header-qd-v1-cards-menu .qd-am-overlay {
+  display: none !important;
+}
+body.qd-am-on .header-qd-v1-cards .header-qd-v1-cards-menu .qd-am-overlay {
+  display: block !important;
+}
 .header-qd-v1-cards .header-qd-v1-cards-menu > div {
   vertical-align: middle;
 }
