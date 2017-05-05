@@ -6,7 +6,8 @@
       "phone": "(11) 4003-3393",
       "latitude": -23.4982474,
       "longitude": -46.8488287,
-      "attendance": "Todos os dias: 24h00"
+      "attendance": "Todos os dias: 24h00",
+      "logistics": "Retire na loja - Alphaville"
     },
     {
       "title": "Drogaria São Paulo",
@@ -14,7 +15,8 @@
       "phone": "(11) 4326-5209 / (11) 4326-5230",
       "latitude": -23.4977268,
       "longitude": -46.8570809,
-      "attendance": "Todos os dias: 07h00 às 23h00"
+      "attendance": "Todos os dias: 07h00 às 23h00",
+      "logistics": "Retire na loja - Alphaville 2"
     },
     {
       "title": "Drogaria São Paulo - Shopping Tamboré I",
@@ -22,7 +24,8 @@
       "phone": "(11) 4191-2258 / (11) 4191-0984",
       "latitude": -23.5044234,
       "longitude": -46.8346556,
-      "attendance": "Todos os dias: 10h00 às 22h00"
+      "attendance": "Todos os dias: 10h00 às 22h00",
+      "logistics": "Retire na loja -"
     },
     {
       "title": "Drogaria São Paulo",
@@ -30,7 +33,8 @@
       "phone": "(11) 2985-7243 / (11) 2305-2146",
       "latitude": -23.7377379,
       "longitude": -46.6930276,
-      "attendance": "Todos os dias: 07h00 às 23h00"
+      "attendance": "Todos os dias: 07h00 às 23h00",
+      "logistics": "Retire na loja -"
     },
     {
       "title": "Drogaria São Paulo",
@@ -38,7 +42,8 @@
       "phone": "(11) 4661-3276 / (11) 4661-2335",
       "latitude": -23.8306916,
       "longitude": -46.8165465,
-      "attendance": "Todos os dias: 07h00 às 23h00"
+      "attendance": "Todos os dias: 07h00 às 23h00",
+      "logistics": "Retire na loja -"
     },
     {
       "title": "Drogaria São Paulo",
@@ -46,7 +51,8 @@
       "phone": "(11) 2306-4523 / (11) 23064532",
       "latitude": -23.7217248,
       "longitude": -46.689078,
-      "attendance": "Todos os dias: 07h00 às 23h00"
+      "attendance": "Todos os dias: 07h00 às 23h00",
+      "logistics": "Retire na loja -"
     },
     {
       "title": "Drogaria São Paulo",
@@ -54,7 +60,8 @@
       "phone": "(11) 2729-2056 / (11) 2729-3293",
       "latitude": -23.5908754,
       "longitude": -46.5816119,
-      "attendance": "Todos os dias: 07h00 às 23h00"
+      "attendance": "Todos os dias: 07h00 às 23h00",
+      "logistics": "Retire na loja -"
     },
     {
       "title": "Drogaria São Paulo",
@@ -62,7 +69,8 @@
       "phone": "(11) 2215-0061 / (11) 2274-8865",
       "latitude": -23.581448,
       "longitude": -46.5859986,
-      "attendance": "Seg. à Sab.: 07h00 às 23h00"
+      "attendance": "Seg. à Sab.: 07h00 às 23h00",
+      "logistics": "Retire na loja -"
     },
     {
       "title": "Drogaria São Paulo",
@@ -70,7 +78,8 @@
       "phone": "(11) 2717-6684 / (11) 2154-6622",
       "latitude": -23.573707,
       "longitude": -46.5586343,
-      "attendance": "Todos os dias: 07h00 às 23h00"
+      "attendance": "Todos os dias: 07h00 às 23h00",
+      "logistics": "Retire na loja -"
     },
     {
       "title": "Drogaria São Paulo",
@@ -78,7 +87,8 @@
       "phone": "(11) 3045-4255 / (11) 3044-4113",
       "latitude": -23.5963612,
       "longitude": -46.6899633,
-      "attendance": "Seg. à Sex.: 07h00 às 22h00 / Sáb.: 07h00 às 13h00"
+      "attendance": "Seg. à Sex.: 07h00 às 22h00 / Sáb.: 07h00 às 13h00",
+      "logistics": "Retire na loja -"
     }
   ]
 }
