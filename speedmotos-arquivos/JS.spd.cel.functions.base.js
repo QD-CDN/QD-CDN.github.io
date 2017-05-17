@@ -511,6 +511,8 @@ try {
 			Product.skuListSelection();
 			Product.qdNotifymeShow();
 			Product.qdCallSmartPrice();
+			Product.qdShowFloatinBar();
+			Product.qdCallSmartPriceFloatingInfoPrice();
 		},
 		ajaxStop: function () {
 			Product.addCloseBtnFreightTable();
@@ -605,6 +607,59 @@ try {
 					changeNativePrice: false,
 					isProductPage: true,
 					skuPrice: null
+				}
+			});
+
+			$(window).on("skuSelected", function(e, id, data) {
+				if(data.available)
+					wrapper.show();
+				else
+					wrapper.hide();
+			});
+		},
+		qdShowFloatinBar: function() {
+			var elem = $(".product-qd-v1-floating-info-price");
+
+			$(window).scroll(function() {
+				var scrollPos = $(document).scrollTop();
+
+				if (!elem.is('.active-btn')) {
+					if(scrollPos >= 317) {
+						elem.addClass("active");
+					}
+					else {
+						elem.removeClass("active");
+					}
+				}
+			});
+
+			$(".product-qd-v1-floating-info-close").click(function(evt){
+				elem.toggleClass("active");
+				elem.addClass('active-btn');
+			});
+
+			$(".product-qd-v1-floating-price-button, .product-qd-v1-floating-info-price .btn-size-installments").click(function() {
+				$('html, body').stop().animate({
+					'scrollTop': 0
+				}, 900, 'swing');
+
+				elem.removeClass("active");
+			});
+		},
+		qdCallSmartPriceFloatingInfoPrice: function() {
+			var wrapper = $(".product-qd-v1-floating-info-price");
+
+			if(!skuJson.available){
+				wrapper.hide();
+				return;
+			}
+
+			$(".product-qd-v1-floating-info-price .flag").QD_SmartPrice({
+				filterFlagBy: "[class*='desconto']",
+				productPage:{
+					wrapperElement: ".product-qd-v1-floating-info-price",
+					changeNativePrice: false,
+					isProductPage: true
 				}
 			});
 
