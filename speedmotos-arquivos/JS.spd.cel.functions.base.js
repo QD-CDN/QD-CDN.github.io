@@ -232,7 +232,7 @@ try {
 		cartAddProduct: function() {
 			var modal = $('.qd-v1-modal').clone().appendTo(document.body).addClass('qd-v1-modal-add-product-cart').removeClass('qd-v1-modal');
 
-			modal.find('.modal-body').append('<p><i class="fa fa-check-circle" aria-hidden="true"></i> Produto adicionado com sucesso!</p>');
+			modal.find('.modal-body').append('<p><i class="fa fa-check-circle" aria-hidden="true"></i> Produto adicionado ao carrinho com sucesso!</p>');
 
 			$(window).on("cartProductAdded.vtex", function() {
 				modal.modal();
@@ -590,7 +590,7 @@ try {
 					$(document.body).removeClass('notify-active');
 				}
 				else {
-					notifyWrapper.parent().parent().attr('class', "").addClass('col-xs-12');
+					notifyWrapper.parent().parent().attr('class', "").addClass('col-xs-12 col-lg-6');
 					$(document.body).addClass('notify-active');
 				}
 			}
@@ -676,18 +676,14 @@ try {
 			});
 		},
 		qdShowFloatinBar: function() {
-			var elem = $(".product-qd-v1-floating-info-price");
+			var targetOffset = $(".product-qd-v1-buy-button").offset().top-30;
 
-			$(window).scroll(function() {
-				var scrollPos = $(document).scrollTop();
-
-				if (!elem.is('.active-btn')) {
-					if(scrollPos >= 317) {
-						elem.addClass("active");
-					}
-					else {
-						elem.removeClass("active");
-					}
+			var $w = $(window).scroll(function(){
+				if ( $w.scrollTop() > targetOffset ) {
+					$(".product-qd-v1-floating-info-price").addClass("active");
+				} 
+				else {
+					$(".product-qd-v1-floating-info-price").removeClass("active");
 				}
 			});
 
