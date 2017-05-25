@@ -679,14 +679,19 @@ try {
 		},
 		qdShowFloatinBar: function() {
 			var targetOffset = $(".product-qd-v1-buy-button").offset().top-30;
+			var elem = $(".product-qd-v1-floating-info-price");
 
 			var $w = $(window).scroll(function(){
-				if ( $w.scrollTop() > targetOffset ) {
-					$(".product-qd-v1-floating-info-price").addClass("active");
+
+				if (!elem.is('.active-btn')) {
+					if ( $w.scrollTop() > targetOffset ) {
+						elem.addClass("active");
+					}
+					else {
+						elem.removeClass("active");
+					}
 				}
-				else {
-					$(".product-qd-v1-floating-info-price").removeClass("active");
-				}
+
 			});
 
 			$(".product-qd-v1-floating-info-close").click(function(evt){
