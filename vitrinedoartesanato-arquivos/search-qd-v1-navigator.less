@@ -1,0 +1,475 @@
+@import "components/partials/primary-button.less";
+
+.search-qd-v1-navigator {
+	margin-bottom: 30px;
+	max-width: 265px;
+
+	@media (max-width: @screen-lg-min) {
+		max-width: 220px;
+	}
+
+	@media (max-width: @screen-md-min) {
+		margin-bottom: 15px;
+		max-width: 100%;
+	}
+
+	@media (max-width: @screen-xs-max) {
+		padding-right: 15px;
+		padding-left: 15px;
+	}
+
+
+	.search-qd-v1-navigator-trigger {
+		.primary-button(@bg-color: @color-2-500);
+		.size(100%, 49px);
+		position: relative;
+		z-index: 9;
+		display: none;
+		margin-right: auto;
+		margin-left: auto;
+		max-width: 250px;
+		text-decoration: none !important;
+		white-space: nowrap;
+		text-transform: none;
+		box-shadow: inset 0 3px 5px darken(@color-2-500, 5%);
+		line-height: 1.5;
+
+		&:before {
+			.font-ico("\f0b0");
+			margin-right: 10px;
+			color: @white;
+			font-size: @font-size-lg;
+		}
+
+		@media (max-width: @screen-md-min){
+			display: block;
+		}
+
+		body[data-qd-scroll-0="1"] & {
+			.size(47px, 47px);
+			position: fixed;
+			top: 90px;
+			left: 10px;
+			z-index: 100;
+			padding: 10px 14px;
+			color: transparent;
+			border-radius: 50px;
+			box-shadow: 0 3px 5px fade(@black, 20%);
+
+			&:after {
+				top: 11px;
+				left: 13px;
+				font-size: @font-size-h5;
+				line-height: 1;
+			}
+		}
+	}
+
+	.menu-navegue {
+		display: none;
+	}
+
+	.qd-viewMoreMenu {
+		display: none;
+	}
+
+	.qd-viewMoreWrapper {
+		a {
+			margin-bottom: 5px;
+			padding-left: 19px;
+			font-size: @font-size-xs;
+			color: @text-color-1-400 !important;
+			font-style: normal !important;
+			text-decoration: none !important;
+			background: transparent !important;
+			border: none !important;
+
+			&:before {
+				.font-ico(@fa-chevron-circle-down) !important;
+				position: static !important;
+				margin-right: 5px !important;
+			}
+		}
+
+		&.minus a:before {
+			.font-ico(@fa-chevron-circle-up) !important;
+		}
+	}
+
+	.search-single-navigator {
+		@media (max-width: @screen-md-min) {
+			.transition();
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			left: -85%;
+			z-index: 999999999;
+			max-width: 410px;
+			padding: 50px 20px 15px;
+			width: 85%;
+			background-color: @white;
+			overflow: auto;
+
+			body.qd-sn-on & {
+				display: block;
+
+				@media (max-width: @screen-md-min) {
+					left: 0;
+				}
+			}
+
+			&:before {
+				display: block;
+				color: @color-1-500;
+				padding-right: 10px;
+				padding-left: 10px;
+				font-weight: @bold;
+				font-size: @font-size-xlg;
+				content: "Filtrar Resultado";
+
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+
+				@media (max-width: @screen-md-min) {
+					padding: 10px 30px;
+					color: @white;
+					text-align: center;
+					background-color: @color-1-500;
+				}
+			}
+		}
+	}
+
+	// NOME DO DEPARTAMENTO
+	h3 {
+		padding: 10px 0;
+		color: @text-color-1-500;
+		font-size: @font-size-md;
+		line-height: 1.5;
+		font-weight: @bold;
+
+		&.qd-is-visible {
+			a {
+				color: @color-2-500;
+			}
+
+			.arrow > i {
+				transform: rotate(-180deg);
+			}
+		}
+
+		.arrow {
+			color: @text-color-1-300;
+			font-size: @font-size-lg;
+			.relative-r(0, 0);
+			width: 30%;
+			display: inline-block;
+			text-align: right;
+			cursor: pointer;
+
+			i {
+				.transition();
+			}
+		}
+
+		a {
+			.border-left(@color-1-500, 3px);
+			padding-left: 15px;
+			.transition();
+			display: inline-block;
+			color: @text-color-1-500;
+			text-decoration: none;
+			width: 70%;
+
+			&:hover {
+				color: @color-2-500;
+			}			
+		}
+
+		// Coleções existentes nesse departamento/categoria
+		+ ul {
+			// Não estilizar a <ul>, apenas os filhos! Porra presta atenção!!!
+			display: none;
+			
+			> li {
+				display: block;
+				padding-left: 18px;
+
+				&:first-letter {
+					text-transform: uppercase;
+				}
+
+				a {
+					.transition();
+					display: inline-block;
+					padding-top: 5px;
+					padding-bottom: 5px;
+					color: @text-color-1-400;
+					font-size: @font-size-sm;
+					font-weight: @normal;
+					text-decoration: none !important;
+
+					&:hover {
+						color: @color-2-500;
+					}
+				}
+
+				&.last {
+					margin-bottom: 5px;
+				}
+
+				&.filtro-ativo {
+					display: inline-block;
+					padding-top: 5px;
+					padding-bottom: 5px;
+					color: @color-2-500;
+					font-size: @font-size-md;
+					text-decoration: none !important;
+
+					&:after {
+						.size(100%, 2px, block);
+						margin-top: 3px;
+						background-color: @color-2-500;
+						content: "";
+					}
+				}
+			}
+
+			a.ver-filtros {
+				.transition();
+				display: block;
+				margin: 5px 10px 10px;
+				color: @text-color-1-300;
+				font-size: @font-size-sm;
+				text-decoration: none !important;
+
+				&:hover {
+					color: @color-2-500;
+				}
+
+				&:before {
+					.font-ico(@fa-times-circle-o);
+					margin-right: 5px;
+				}
+			}
+		}
+	}
+
+	// NOME DA CATEGORIA
+	h4 {
+		padding: 10px 0;
+		color: @text-color-1-500;
+		font-size: @font-size-md;
+		line-height: 1.5;
+		font-weight: @bold;
+
+		&.qd-is-visible {
+			a {
+				color: @color-2-500;
+			}
+
+			.arrow > i {
+				transform: rotate(-180deg);
+			}
+		}
+
+		.arrow {
+			color: @text-color-1-300;
+			font-size: @font-size-lg;
+			.relative-r(0, 0);
+			width: 30%;
+			display: inline-block;
+			text-align: right;
+			cursor: pointer;
+
+			i {
+				.transition();
+			}
+		}
+
+		a {
+			.border-left(@color-1-500, 3px);
+			padding-left: 15px;
+			.transition();
+			display: inline-block;
+			color: @text-color-1-500;
+			text-decoration: none;
+			width: 70%;
+
+			&:hover {
+				color: @color-2-500;
+			}			
+		}
+
+		// Subcategorias (3º nível)
+		+ ul {
+			display: none;
+
+			// Não estilizar a <ul>, apenas os filhos! Porra Presta atenção!!!
+			> li {
+				display: block;
+				padding-top: 5px;
+				padding-bottom: 5px;
+				color: @color-2-500;
+				font-size: @font-size-sm;
+				padding-left: 18px;
+
+				&:first-letter {
+					text-transform: uppercase;
+				}
+
+				a {
+					.transition();
+					display: inline-block;
+					color: @text-color-1-400;
+					text-decoration: none !important;
+
+					&:hover {
+						color: @color-2-500;
+					}
+				}
+			}
+
+			.qd-viewMoreWrapper {
+				a {
+					padding-left: 32px !important;
+				}
+			}
+		}
+	}
+
+	// TÍTULO DO FILTRO
+	h5 {
+		display: block;
+		color: @text-color-1-500;
+		font-size: @font-size-md;
+		font-weight: @bold;
+		.border-left(@color-1-500, 3px);
+		margin-top: 20px;
+		padding: 3px 0;
+		padding-left: 15px;
+
+		&.qd-is-visible {
+			color: @color-2-500;
+
+			.arrow > i {
+				transform: rotate(-180deg);
+			}
+		}
+
+		.arrow {
+			color: @text-color-1-300;
+			font-size: @font-size-lg;
+			.relative-r(0, 0);
+			display: inline-block;
+			text-align: right;
+			cursor: pointer;
+			float: right;
+
+			i {
+				.transition();
+			}
+		}
+
+		// itens do filtro
+		+ ul {
+			display: none;
+
+			// Não estilizar a <ul>, apenas os filhos! Porra Presta atenção!!!
+			> li {
+				padding: 5px 20px;
+				color: @text-color-1-400;
+				font-size: @font-size-sm;
+				margin-left: 18px;
+
+				&:first-letter {
+					text-transform: uppercase;
+				}
+
+				a {
+					.transition();
+					position: relative;
+					display: block;
+					color: @text-color-1-400;
+					text-decoration: none!important;
+
+					&:before {
+						.font-ico(@fa-square-o);
+						.absolute(-20px, 4px);
+						.transition();
+						margin-right: 5px;
+						font-size: @font-size-sm;
+						line-height: 1;
+					}
+
+					&:hover {
+						color: @color-2-500;
+
+						&:before {
+							content: "\f14a";
+						}
+					}
+
+					&:first-letter {
+						text-transform: uppercase;
+					}
+				}
+
+				// item com filtro ativo
+				&.filtro-ativo {
+					position: relative;
+					padding-top: 5px;
+					padding-bottom: 5px;
+					color: @color-2-500;
+					font-size: @font-size-md;
+					text-decoration: none !important;
+
+					&:before {
+						.font-ico(@fa-check-square);
+						.absolute(0, 6px);
+						margin-right: 5px;
+						font-size: @font-size-md;
+					}
+				}
+			}
+
+			.qd-viewMoreWrapper {
+				a {
+					padding-left: 32px !important;
+				}
+			}
+
+			// Botão de limpar os filtros
+			a.ver-filtros {
+				.text-remove(0);
+				color: @text-color-1-400;
+				margin: 5px 10px;
+				text-decoration: none !important;
+
+				&:hover {
+					&:before,
+					&:after {
+						color: @color-2-500;
+					}
+				}
+
+				&:before {
+					.transition();
+					.font-ico(@fa-caret-left);
+					margin-right: 5px;
+					color: @text-color-1-400;
+					font-size: @font-size-sm;
+				}
+
+				&:after {
+					.transition();
+					content: "Limpar filtro";
+					color: @text-color-1-400;
+					font-size: @font-size-sm;
+				}
+			}
+		}
+	}
+}
