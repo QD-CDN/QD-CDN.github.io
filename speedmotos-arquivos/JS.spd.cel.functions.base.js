@@ -217,7 +217,6 @@ try {
 			};
 
 			$(".header-qd-v1-cart-link").click(function(evt) {
-				console.log("clique do smart cart");
 				evt.preventDefault();
 				$(document.body).toggleClass('qd-cart-show');
 
@@ -272,9 +271,7 @@ try {
 				fade: true,
 				speed: 400,
 				cssEase: 'linear',
-				prevArrow: '<button type="button" class="slick-prev" title="Anterior"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>',
-				nextArrow: '<button type="button" class="slick-next" title="Próximo"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>',
-				dots: true
+				arrows: false
 			});
 		},
 		mosaicSetCol: function() {
@@ -535,8 +532,8 @@ try {
 			Product.qdShowFloatinBar();
 			Product.addLinkOpenModalTableSize();
 			Product.qdCallSmartPriceFloatingInfoPrice();
-			
 			Product.qdCallThumbVideo();
+			Product.selectSkuLightboxNotification();
 		},
 		ajaxStop: function () {
 			Product.addCloseBtnFreightTable();
@@ -552,7 +549,7 @@ try {
 			var link = $('<a class="btn-size-installments" href="#size-table">Parcelas</a>');
 
 			function addBtn() {
-				var wrapper = $(".product-qd-v1-price .price-installments");
+				var wrapper = $(".product-qd-v1-box-buy .price-installments");
 				var wrapperPaymentMethod = $(".product-qd-v1-price-payment-method");
 
 				if (wrapper.find(".btn-size-installments").length)
@@ -811,6 +808,42 @@ try {
 		startBootstrapTooltip: function() {
 			$('[data-toggle="tooltip"]').tooltip({
 				trigger: 'hover focus'
+			});
+		},
+		selectSkuLightboxNotification: function () {
+			var buyButton = $('.product-qd-v1-buy-button .buy-button');
+			var newBB = buyButton.clone().insertAfter(buyButton).hide();
+			var skuWrapper = $('.sku-selector-container');
+
+			newBB.attr('href', 'javascript:void(0)');
+			newBB.attr('data-template', '/templates/sku-selector/' + skuJson.productId);
+			newBB.addClass('to-bind-modal');
+
+			$.ajax('/no-cache/horaatualservidor.aspx');  // Forço um ajax para disparar o evento da Vtex de modal
+
+			buyButton.click(function (e) {
+				if ((this.href || '').indexOf('javascript:') < 0)
+					return;
+				e.preventDefault();
+				newBB.click();
+			});
+
+			$(document).ajaxComplete(function (event, xhr, settings) {
+				if (settings.url.indexOf('/templates/sku-selector/') < -1)
+					return;
+
+				$('#sku-selector-container').find('.skuselector-specification-label').each(function () {
+					var input = $(this);
+					var id = (input.attr('id') || '');
+
+					if (id.indexOf('qd_') == 0)
+						return;
+
+					input.next('label').attr('for', 'qd_' + id).off('click.qd_skuLightboxNotify').on('click.qd_skuLightboxNotify', function() {
+						skuWrapper.find('label[for="' + id + '"]').click();
+					});
+					input.attr('id', 'qd_' + id);
+				});
 			});
 		}
 	};
