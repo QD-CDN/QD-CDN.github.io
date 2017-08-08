@@ -13,6 +13,7 @@ try {
 			Common.bannerResponsive();
 			Common.bannersCount();
 			Common.callCartLinkShow();
+			Common.openSearchModal();
 			Common.floatBarMiniCart();
 			Common.smartCart();
 			Common.cartAddProduct();
@@ -98,7 +99,7 @@ try {
 			$('.header-qd-v1-main-amazing-menu').QD_amazingMenu();
 
 			// Amazing Menu Responsivo
-			$(".header-qd-v1-amazing-menu-toggle").click(function(){
+			$(".header-qd-v1-amazing-menu-toggle, .header-qd-v1-amazing-menu-trigger").click(function(){
 				$("body").toggleClass('qd-am-on');
 			});
 
@@ -150,7 +151,7 @@ try {
 			if ($(window).width() < 750){
 				$(".header-qd-v1-cart-link").click(function(evt) {
 					evt.preventDefault();
-
+					$(".header-qd-v1-main-amazing-menu-mobile-wrapper, .btn-close-mobile").attr('style', 'display:none !important');
 					$(".v2-vtexsc-cart").toggleClass('cart-show');
 				});
 			}
@@ -226,6 +227,18 @@ try {
 
 			$(".components-qd-v1-overlay, .qd_ddc_lightBoxClose").click(function(evt){
 				$(document.body).removeClass('qd-cart-show');
+				$(".qd-am-overlay").hide();
+			});
+		},
+		openSearchModal: function () {
+			$('.header-qd-v1-action-search').click(function () {
+				$('.modal-qd-v1-search').modal();
+				$(document.body).addClass('qd-search-modal-open');
+				return false;
+			});
+
+			$('body').on('hidden.bs.modal', '.modal-qd-v1-search', function () {
+				$(document.body).removeClass('qd-search-modal-open');
 			});
 		},
 		cartAddProduct: function() {
