@@ -20,6 +20,27 @@
     font-style: normal
 }
 
+.products__slider {
+    margin-bottom: 90px !important;
+}
+
+#hlCarousel {
+    display: none !important;
+}
+
+#wrapper_bannersEspecialHomem *,
+#wrapper_bannersEspecialHomem {
+    box-sizing: content-box!important;
+}
+
+#wrapper_bannersEspecialHomem {
+    margin-bottom: 10px;
+}
+
+body.especial-homem {
+    font-family: AvertaStd;
+}
+
 body #wrapper_bannerBottomEspecialHomem,
 body #wrapper_bannersEspecialHomem,
 body #wrapper_subMenuEspecialHomem {
@@ -67,13 +88,15 @@ body.especial-homem .bannersBottom {
 #wrapper_mainSliderEspecialHomem .cycle-next-custom.cycle-prev-custom,
 #wrapper_mainSliderEspecialHomem .cycle-prev-custom.cycle-prev-custom {
     left: 10px;
-    background: url("/arquivos/especial-homem-arrow-left.png") no-repeat top left;
+    background: url("//drogariasp.vteximg.com.br/arquivos/especial-homem-arrow-left.png?v=20170823-11-09-20") no-repeat top left;
+    filter: invert(100%);
 }
 
 #wrapper_mainSliderEspecialHomem .cycle-next-custom.cycle-next-custom,
 #wrapper_mainSliderEspecialHomem .cycle-prev-custom.cycle-next-custom {
     right: 10px;
-    background: url("/arquivos/especial-homem-arrow-right.png") no-repeat top left;
+    background: url("//drogariasp.vteximg.com.br/arquivos/especial-homem-arrow-right.png?v=20170823-11-09-23") no-repeat top left;
+    filter: invert(100%);
 }
 
 #wrapper_mainSliderEspecialHomem .cycle-slideshow {
@@ -95,6 +118,7 @@ body.especial-homem .bannersBottom {
     width: 725px;
     max-height: 378px;
     margin-left: 0;
+    box-sizing: content-box !important;
 }
 
 #wrapper_mainSliderEspecialHomem .cycle-slideshow * {
@@ -271,6 +295,59 @@ body.especial-homem .bannersBottom {
     font-weight: bold;
 }
 
+body.especial-homem .products__slider--default h2 {
+    color: #454b51;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 10px;
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 45px auto 0;
+    padding-left: 10px;
+}
+
+body.especial-homem .products__slider--default h2:before {
+    border-top: 7px solid #eeeeee;
+    content: "";
+    margin: 0 auto;
+    position: absolute;
+    top: 6px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background: transparent;
+}
+
+body.especial-homem .hl_header {
+    color: #454b51;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 10px;
+    position: relative;
+    width: 100%;
+    margin: 45px auto 0;
+    padding-left: 10px;
+}
+
+body.especial-homem .hl_header:before {
+    border-top: 7px solid #eeeeee;
+    content: "";
+    margin: 0 auto;
+    position: absolute;
+    top: 6px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background: transparent;
+}
+
 body.especial-homem .mainPrateleira h2 {
     color: #454b51;
     font-size: 20px;
@@ -295,6 +372,7 @@ body.especial-homem .mainPrateleira h2::before {
     right: 0;
     bottom: 0;
     z-index: -1;
+    background: transparent;
 }
 
 #wrapper_bannerBottomEspecialHomem {

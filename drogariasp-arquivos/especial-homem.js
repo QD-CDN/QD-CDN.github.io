@@ -69,10 +69,11 @@ function eh_loadMenuEspecialHomem() {
 }
 
 function eh_isEspecialHomem() {
-    var path = (window.location.pathname) ? window.location.pathname.toLowerCase() : '';
 
-    if (path.indexOf('/especialhomem') === 0) return true;
-    else return false;
+    if ($(document.body).is('.especial-homem'))
+        return true;
+    else 
+        return false;
 }
 
 $(document).ready(function() {
