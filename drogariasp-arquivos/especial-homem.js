@@ -85,6 +85,7 @@ $(document).ready(function() {
 
     // Verifica qual o menu ativo
     eh_loadMenuEspecialHomem();
+    
 });
 
 window.addEventListener("orientationchange", eh_loadMainSliderEspecialHomem);
