@@ -1013,29 +1013,17 @@ try {
 		},
 		forceImageZoom: function () {
 			try {
-				var sliderWrapper = $('.product-qd-v1-image-carrousel');
-				var image = sliderWrapper.find('.slick-current img');
-				
-				if (!image.parent().is('.product-qd-v1-zoom-wrapper'))
-					image.wrap('<span class="product-qd-v1-zoom-wrapper" style="display:inline-block"></span>')
-						.css('display', 'block')
-						.parent()
-						.zoom({ url: image.attr("src").replace(/(ids\/[0-9]+)[0-9-]+/i, "$1-1200-1804"), touch: false });
-				else 
-					image.zoom({ url: image.attr("src").replace(/(ids\/[0-9]+)[0-9-]+/i, "$1-1200-1804"), touch: false });
-				
-				sliderWrapper.on('afterChange', function (event, slick, slide) {
-					image = sliderWrapper.find('.slick-current img');
-					
+				$('.product-qd-v1-image-carrousel').find('.slick-slide img').each(function() {
+					var image = $(this);
+
 					if (!image.parent().is('.product-qd-v1-zoom-wrapper'))
 						image.wrap('<span class="product-qd-v1-zoom-wrapper" style="display:inline-block"></span>')
-					.css('display', 'block')
+							.css('display', 'block')
 							.parent()
-							.zoom({ url: image.attr("src").replace(/(ids\/[0-9]+)[0-9-]+/i, "$1-1200-1804"), touch: false });
-					else
-						image.zoom({ url: image.attr("src").replace(/(ids\/[0-9]+)[0-9-]+/i, "$1-1200-1804"), touch: false });
+							.zoom({ url: image.attr("src").replace(/(ids\/[0-9]+)[0-9-]+/i, "$1-1200-1804"), on: 'mouseover', touch: false });
+					else 
+						image.zoom({ url: image.attr("src").replace(/(ids\/[0-9]+)[0-9-]+/i, "$1-1200-1804"), on: 'mouseover', touch: false });
 				});
-
 			}
 			catch (e) { (typeof console !== "undefined" && typeof console.error === "function" && console.error("Ops, algo saiu errado com o zoom :( . Detalhes: " + e.message)); }
 		},
