@@ -602,7 +602,7 @@ try {
 			$(".search-qd-v1-navigator input[type='checkbox']").QD_SmartResearch({
 				insertMenuAfter: ".search-multiple-navigator",
 				filterScrollTop: function (shelfOffset) {
-					return (shelfOffset.top - 80);
+					return (shelfOffset.top - 200);
 				}
 			});
 			$('.search-qd-v1-navigator').css('display', 'block');
