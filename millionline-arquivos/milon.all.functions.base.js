@@ -17,23 +17,182 @@ try {
 			Common.shelfQuickview();
 			Common.callSmartPrice();
 			Common.salesChannelBodyClass();
-			Common.resellerTopBar();
+			// Common.resellerTopBar();
+			Common.expressPurchase();
+			Common.lingerieSellerLinksFix();
 		},
 		ajaxStop: function () {
 			Common.callSmartPrice();
 		},
-		windowOnload: function () {},
+		windowOnload: function () {
+			Common.addBackToHome();
+		},
+		expressPurchase: function() {
+			if(!$(document.body).is(".compra-express"))
+				return;
+
+			var table = $(".qd-products-table tbody");
+			var textarea = $(".express-purchase-title-qd-v1 textarea");
+			var purchaseShelf = $('.express-purchase-shelf-qd-v1');
+			var purchaseContent = $('.express-purchase-content');
+			var orderId = {};
+
+			$('.qd-products-table thead').html('<tr> <th class="id-table">ID</th> <th class="id-sku">Cod </th> <th class="image-table"></th><th class="product-name-table">PRODUTO</th> <th class="price-table">PREÇO</th> <th class="buy-table">ADICIONAR</th> </tr>');
+
+			purchaseShelf.find(".buy-all").click(function() {
+				table.find(".buy-button").click();
+				return false;
+			});
+
+			$(".btn-search-product").click(function() {
+				var value = (textarea.val() || "").trim();
+				var lines = value.split("\n");
+				var line;
+				table.empty();
+				purchaseShelf.hide();
+
+				for(var i = 0; i < lines.length; i++){
+					line = lines[i].match(/([^\,\;\s\t]+)([\,\;\s\t]+)?([0-9]+)?/i) || [];
+
+					if(line[1]) {
+						orderId[line[1]] = i + 1;
+						getItem(line[1], line[3] || 1);
+					}
+				}
+			});
+
+			var request = 0;
+			var requestComplete = 0;
+			function getItem(id, qty){
+				request++;
+
+				purchaseContent.addClass('qd-loading');
+
+				$.ajax({
+					url: "/api/catalog_system/pub/products/search/" + id,
+					dataType: "json",
+					headers: {"REST-Range": "resources=0-99"},
+					success: function(data) {
+						var html, $html;
+
+						if(!data.length) {
+							table.append('<tr class="qd-item-not-found" data-qd-id-table="' + id + '"><td>' + id + '</td><td class="not-found-item-table" colspan="4"><div class="shelf-not-found-item"><p>Item não encontrado</p></div></td></tr>');
+							return purchaseShelf.show();
+						}
+
+						for(var i = 0; i < data.length; i++)
+							for(var l = 0; l < data[i].items.length; l++) {
+								if (purchaseShelf.find('#qd-sku-' + data[i].items[l].itemId).length)
+									continue;
+
+								html = '<tr id="qd-sku-' + data[i].items[l].itemId + '" data-qd-id-table="' + id + '">';
+								html += '<td class="id-table">' + id + '</td>';
+								html += '<td class="id-sku">' + data[i].items[l].itemId + '</td>';
+								html += '<td class="image-table shelf-image"><img src="' + data[i].items[l].images[0].imageUrl.replace(/(ids\/[0-9]+)(\-[0-9]+\-[0-9]+)?/i, "$1-60-60") + '" /></td>';
+								html += '<td class="product-name-table">';
+								html += '<h3 class="shelf-product-name"><a href="' + data[i].link + '" target="_blank">' + data[i].items[l].nameComplete + '</a></h3>';
+								html += '</td>';
+								if(data[i].items[l].sellers[0].commertialOffer.AvailableQuantity){
+									html += '<td class="price-table">';
+									html += '<div class="shelf-price-best-price"><span class="best-price">R$ ' + qd_number_format(data[i].items[l].sellers[0].commertialOffer.Price, 2, ",", ".") + '</span></div>';
+									html += '</td>';
+									html += '<td class="buy-table shelf-common-buy-button" data-qd-qty="' + qty + '">';
+									html += '<span class="qd-sq-minus qd-qtt-buton">-</span>';
+									html += '<input type="text" class="quant qd-sq-quantity">';
+									html += '<span class="qd-sq-more qd-qtt-buton">+</span>';
+									html += '<a href="' + data[i].items[l].sellers[0].addToCartLink + '" class="buy-button qd-buy-button btn-add-buy-button-asynchronous remove-href">Comprar</a>';
+									html += '</td>';
+								}
+								else
+									html += '<td colspan="2" class="no-stock-table found-item-table"> <div class="shelf-no-stock"> <p>indisponível</p> </div> </td>';
+								html += '</tr>';
+								$html = $(html);
+								table.append($html);
+							}
+
+						purchaseShelf.show();
+					},
+					error: function() {
+						var html = $('<tr class="qd-request-error"><td>' + id + '</td><td colspan="4">Desculpe, houve um erro ao tentar buscar este item. Refaça sua busca ou <a href="#">clique aqui para buscar novamente este item.</a></td></tr>');
+						html.appendTo(table);
+						html.find("a").click(function() {
+							getItem(id, qty);
+							html.slideUp();
+							return false;
+						});
+					},
+					complete: function() {
+						requestComplete++;
+
+						if (!(requestComplete >= request))
+							return;
+
+						var items = purchaseShelf.find('tbody tr').sort(function(f, s){
+							var a = orderId[$(f).attr('data-qd-id-table')];
+							var b = orderId[$(s).attr('data-qd-id-table')];
+
+
+							if(a < b)
+								return -1;
+							else if (a > b)
+								return 1;
+							return 0;
+						});
+
+						purchaseShelf.find(".shelf-common-buy-button").each(function() {
+							var $t = $(this);
+							$t.QD_smartQuantity({initialValue: $t.attr('data-qd-qty')});
+						});
+
+						$(".qd_cart_auto").QD_buyButton();
+
+						purchaseContent.removeClass('qd-loading');
+						purchaseShelf.find('tbody').append(items);
+					}
+				});
+			};
+		},
 		loginDealer: function() {
 			var fn = function() {
 				var modal = $('<div class="modal modal-qd-v1-login fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button></div><div class="modal-body"><div class="login-qd-v1-step"><img src="/arquivos/milon.all.logo.png" alt="" /><div class="login-qd-v1-step-1"><form novalidate="1"><p>Para continuar, informe seu e-mail abaixo.</p><div class="form-row"><input type="text" name="qd_email" class="qd_email form-control required" placeholder="Ex:jose@email.com" /></div><button class="login-qd-v1-btn-submit">CONFIRMAR</button></form></div><div class="login-qd-v1-step-2"><p>Olá! Identificamos que você possui acesso à área de revendedor. O que você gostaria de fazer agora ?</p><div class="link-row"><span class="login-qd-v1-btn-wholesale" data-qd-sc="2">Acessar preços em atacado</span><span class="login-qd-v1-btn-retail" data-qd-sc="1">Acessar preços em varejo</span></div><span class="login-qd-v1-btn-back">Voltar</span></div></div></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div>').appendTo(document.body);
 				var step1 = modal.find('.login-qd-v1-step-1');
 				var step2 = modal.find('.login-qd-v1-step-2');
 
-				$('.login-reseller a, .wholesale-qd-v1-login').click(function(evt) {
+					var loginLinkClickEv = function(evt) {
+						evt.preventDefault();
+
+						modal.modal({backdrop: 'static'});
+						$(document.body).addClass('qd-v1-login');
+					}
+
+				if(jsnomeLoja.indexOf('millilingerie') === -1) {
+					var loginLinkClickHandler = function(evt) {
+						evt.preventDefault();
+
+						modal.modal({backdrop: 'static'});
+						$(document.body).addClass('qd-v1-login');
+					}
+				} else {
+					var loginLinkClickHandler = function(evt) {
+						evt.preventDefault();
+						vtexid.start();
+					}
+				}
+
+				$('.login-reseller a').click(loginLinkClickHandler);
+
+				$('.wholesale-qd-v1-login').click(function(evt) {
 					evt.preventDefault();
 
-					modal.modal({backdrop: 'static'});
-					$(document.body).addClass('qd-v1-login');
+					console.log(this);
+
+					var a = $('<a></a>');
+					a[0].href= (vtexid.getReturnUrl() || '');
+					a[0].search += '&sc=2';
+
+					vtexid.start({
+						returnUrl: a[0].href.replace('?&', '?')
+					});
 				});
 
 				modal.on('hidden.bs.modal', function (e) {
@@ -132,7 +291,18 @@ try {
 			});
 		},
 		amazingMenu:function(){
-			$('.store-header .navbar-default').QD_amazingMenu();
+			// Verificando Loja para aplicar amazing menu correspondente a loja
+			if (jsnomeLoja == "millionline") {
+				$('.header-qd-v1-amazing-menu-loading').hide();
+				$('.amazing-menu-qd-v2').hide();
+				$('.amazing-menu-qd-v1').show().QD_amazingMenu().removeClass('header-qd-v1-amazing-menu-loading');
+				$('.main-amazing-menu-xs.amazing-menu-qd-v1-mobile').QD_amazingMenu().addClass('active');
+			} else if (jsnomeLoja.indexOf('millilingerie') !== -1) {
+				$('.header-qd-v1-amazing-menu-loading').hide();
+				$('.amazing-menu-qd-v1').hide();
+				$('.amazing-menu-qd-v2').show().QD_amazingMenu().removeClass('header-qd-v1-amazing-menu-loading');
+				$('.main-amazing-menu-xs.amazing-menu-qd-v2-mobile').attr('style', '').QD_amazingMenu().addClass('active');
+			}
 
 			$('.qd-amazing-menu em').each(function(){
 				$(this).click(function(){
@@ -203,7 +373,7 @@ try {
 			};
 		},
 		shelfQuickview:function(){
-			var modal = $(".modal");
+			var modal = $(".modal").not('.modal-qd-v1-login');
 
 			$(".quickview-btn").click(function(){
 				var $t = $(this);
@@ -262,6 +432,19 @@ try {
 		},
 		salesChannelBodyClass: function() {
 			$(document.body).addClass('qd-sc-' + jssalesChannel);
+		},
+		addBackToHome: function() {
+			if(!$(document.body).is('.login'))
+				return;
+			$('#vtexIdUI-main-content .vtexIdUI-providers-list').append($('.back-to-home-qd-v1').removeClass('hide'));
+		},
+		lingerieSellerLinksFix: function() {
+			if(jsnomeLoja.indexOf('millilingerie') == -1)
+				return;
+
+			$('a[href*="sc=1"]').attr('href', function(index, value) {
+				return value.replace("sc=1", "sc=3");
+			});
 		}
 	};
 
@@ -272,14 +455,20 @@ try {
 			Home.cycle2();
 			Home.cycle2Footer();
 			Home.mosaicImageShelf();
+			Home.newTabBanners();
+			// Home.modalNavigation();
+			Home.mosaicBanners();
 
 			// if($(document.body).is('.mosaico'))
 				// Home.mosaicSetCol();
 		},
 		ajaxStop: function () {},
 		windowOnload: function () {},
+		mosaicBanners: function() {
+			$(".vtx-mosaic .box-banner").QD_mosaicBanners();
+		},
 		bannerResponsive : function(){
-			$(".qd-banner-responsive .box-banner a").each(function(){
+			$(".qd-banner-responsive:not(.vtx-mosaic) .box-banner a").each(function(){
 				var $t = $(this);
 				var cols = [];
 
@@ -344,6 +533,35 @@ try {
 
 			mosaic.find(".prateleira ul li").prepend(htmlImageBack);
 			mosaic.find(".prateleira ul li.helperComplement .qd-shelf-size-img").remove();
+		},
+		newTabBanners: function() {
+			// Array dos Alts das imagens
+			var alt = ['#NovoCanal'];
+
+			$('.home-qd-v2-full-slider img').each(function() {
+				$t = $(this);
+				if(alt.indexOf($t.attr('alt')) > -1)
+					$t.closest('a').attr('target', '_blank');
+			});
+		},
+		modalNavigation: function() {
+			if (jsnomeLoja.indexOf('millilingerie') !== -1)
+				return;
+
+			var cookie = $.cookie('QD_Rslr');
+			if(cookie || jssalesChannel == 2)
+				return;
+
+			var modal = $('.modal:first').clone().appendTo(document.body).addClass('navigation-qd-v1-modal-wrapper');
+			modal.modal('show');
+			modal.find('.modal-header').append('<div class="navigation-qd-v1-modal-image"><img src="/arquivos/resseler-modal-image.jpg" alt=""/></div>');
+			var modalBody = modal.find('.modal-body');
+			modalBody.append('<h4>Qual área deseja acessar?</h4><a href="#" class="navigation-qd-v1-modal-retail">Varejo</a><a href="/revendedor-sex-shop" class="navigation-qd-v1-modal-wholesale">Atacado</a>')
+			modalBody.find('a.navigation-qd-v1-modal-retail').click(function(){
+				modal.modal('hide');
+				$.cookie('QD_Rslr', 'default', { expires: 90, path: "/"});
+			});
+			modal.find('.modal-footer').remove();
 		}
 	};
 
@@ -690,9 +908,15 @@ try {
 			Institutional.resellerSmartCart();
 			Institutional.resellerCheckStep();
 			Institutional.resellerExitStep();
+
+			Institutional.hideResellerLoginBtn();
 		},
 		ajaxStop: function () {},
 		windowOnload: function () {},
+		hideResellerLoginBtn: function() {
+			if(jsnomeLoja.indexOf('millilingerie') !== -1)
+				$('a.wholesale-qd-v2-sticker[href*="login"]').addClass('hide');
+		},
 		resellerExitStep: function() {
 			$('.reseller-qd-v1-starter-kit-product-exit').click(function(evt){
 				evt.preventDefault();
@@ -707,9 +931,36 @@ try {
 			if(!$(document.body).is('.atacado.step-1'))
 				return;
 
-			if (location.search.indexOf('idproduto') == -1) {
-				window.location.href = window.location.pathname + '?idproduto=102239425';
-			}
+			var idProduto = '102239425';
+
+			$.qdAjax({
+				url: '/buscapagina?sl=9c19a589-607c-403e-9f62-d2eed5c175a9&cc=1&sm=0&PS=1&PageNumber=1&fq=H:179',
+				dataType: 'html',
+				clearQueueDelay: null,
+				success: function(data) {
+					var $data = $(data);
+					var dataIdProduto = '';
+
+					if ($data.find('.reseller-qd-v1-buy-button a').length > 0)
+						dataIdProduto = $data.find('.reseller-qd-v1-buy-button a').attr('href').replace(/\?idproduto=/g, '');
+					else {
+						$(document.body).removeClass('step-2').removeClass('step-3').addClass('step-4');
+						$('.reseller-qd-v1-without-kit').slideDown(500);
+						$('.reseller-qd-v1-starter-kit').slideUp(1000);
+						$('html, body').stop().animate({'scrollTop': 0 }, 900, 'swing');
+					}
+
+					if (dataIdProduto.length > 0)
+						idProduto = dataIdProduto;
+
+					if (location.search.indexOf('idproduto') == -1)
+						window.location.href = window.location.pathname + '?idproduto=' + idProduto;
+				},
+				error: function() {
+					if (location.search.indexOf('idproduto') == -1)
+						window.location.href = window.location.pathname + '?idproduto=' + idProduto;
+				}
+			});
 
 			if ($.cookie('sellerForm') == 'true' && location.search.indexOf('idproduto') >= 1) {
 				$(document.body).removeClass('step-1').addClass('step-2');
@@ -726,6 +977,15 @@ try {
 				$('.reseller-qd-v1-cart').slideDown(500);
 				$('.reseller-qd-v1-starter-kit').slideUp(1000);
 				$('html, body').stop().animate({'scrollTop': 0 }, 900, 'swing');
+
+				if ($.cookie('sellerFormEmail')) {
+					window.dataLayer.push({
+						event: "GA Events",
+						ga_event_category: "Cadastro de Revendedor",
+						ga_event_action: $.cookie('sellerFormEmail'),
+						ga_event_label: document.location.href
+					});
+				}
 			});
 		},
 		resellerSmartCart: function() {
@@ -933,7 +1193,7 @@ try {
 								dataType: 'json',
 								headers: {'Accept': 'application/vnd.vtex.ds.v10+json', 'Content-Type': 'application/json; charset=utf-8'},
 								data: JSON.stringify({
-									ip: 							ip,
+									// ip: 							ip,
 									firstName: 						inputs.filter('[name="wholesaleName"]').val() || '',
 									lastName: 						inputs.filter('[name="wholesaleLastName"]').val() || '',
 									email: 							email,
@@ -989,6 +1249,7 @@ try {
 													$('.wholesale-qd-v1-form-submit').hide();
 												} else {
 													$.cookie('sellerForm', 'true', {path: '/'});
+													$.cookie('sellerFormEmail', email, {path: '/'});
 
 													$(document.body).removeClass('step-1').addClass('step-2');
 													$('html, body').stop().animate({'scrollTop': 0 }, 900, 'swing');
@@ -1060,7 +1321,6 @@ try {
 					'scrollTop': $(".institucional-quem-somos-block-3").offset().top - 75
 				}, 900, 'swing');
 			});
-
 		},
 		institucionalQuemSomosParalaxSlider: function() {
 			if ($(document.body).is('.institucional.quem-somos')){
@@ -1312,8 +1572,6 @@ window.QuatroDigital_scroll.scrollTop&&d.call(c,window.QuatroDigital_scroll.scro
 (function(c){"function"===typeof define&&define.amd?define(["jquery"],c):"object"===typeof exports?c(require("jquery")):c(jQuery)})(function(c){function n(b){b=f.json?JSON.stringify(b):String(b);return f.raw?b:encodeURIComponent(b)}function m(b,e){var a;if(f.raw)a=b;else a:{var d=b;0===d.indexOf('"')&&(d=d.slice(1,-1).replace(/\\"/g,'"').replace(/\\\\/g,"\\"));try{d=decodeURIComponent(d.replace(l," "));a=f.json?JSON.parse(d):d;break a}catch(g){}a=void 0}return c.isFunction(e)?e(a):a}var l=/\+/g,f=
 c.cookie=function(b,e,a){if(void 0!==e&&!c.isFunction(e)){a=c.extend({},f.defaults,a);if("number"===typeof a.expires){var d=a.expires,g=a.expires=new Date;g.setTime(+g+864E5*d)}return document.cookie=[f.raw?b:encodeURIComponent(b),"=",n(e),a.expires?"; expires="+a.expires.toUTCString():"",a.path?"; path="+a.path:"",a.domain?"; domain="+a.domain:"",a.secure?"; secure":""].join("")}a=b?void 0:{};for(var d=document.cookie?document.cookie.split("; "):[],g=0,l=d.length;g<l;g++){var h=d[g].split("="),k;
 k=h.shift();k=f.raw?k:decodeURIComponent(k);h=h.join("=");if(b&&b===k){a=m(h,e);break}b||void 0===(h=m(h))||(a[k]=h)}return a};f.defaults={};c.removeCookie=function(b,e){if(void 0===c.cookie(b))return!1;c.cookie(b,"",c.extend({},e,{expires:-1}));return!c.cookie(b)}});
-/* Quatro Digital Amazing Menu // 2.9 // Carlos Vinicius // Todos os direitos reservados */
-eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('(v(m){w b,g,f,h;b=24;S("v"!==Y b.1h.W){g={11:"/x-1H-V",1L:v(){}};w k=v(a,b){S("1p"===Y L){w c="1p"===Y a;"1r"!==Y b&&"1M"===b.10()?c?L.1q("[R U T]\\n",a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7]):L.1q("[R U T]\\n"+a):"1r"!==Y b&&"1g"===b.10()?c?L.1g("[R U T]\\n",a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7]):L.1g("[R U T]\\n"+a):c?L.19("[R U T]\\n",a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7]):L.19("[R U T]\\n"+a)}};b.1h.1j=v(){w a=b(C);a.G(v(a){b(C).D("x-B-I-"+a)});a.1a().D("x-B-1a");a.1o().D("x-B-1o");H a};h=v(a){w e,c;a=a.F(".2l");e=a.1n(".x-B-1i");c=a.1n(".x-B-1k");S(e.K||c.K)e.15().D("x-B-1i-1l"),c.15().D("x-B-1k-1l"),b.2n({11:f.11,2o:"2k",2j:v(a){w l=b(a);e.G(v(){w a,d;d=b(C);a=l.F("2f[2e=\'"+d.1s("1C-1E-1A")+"\']");a.K&&(a.G(v(){b(C).1B(".2g-1i").1y().1x(d)}),d.1u())}).D("x-B-1v-1z");c.G(v(){w a={},d;d=b(C);l.F("2i").G(v(){S(b(C).1I().1w().10()==d.1s("1C-1E-1A").1w().10())H a=b(C),!1});a.K&&(a.G(v(){b(C).1B("[2y*=\'2z\']").1y().1x(d)}),d.1u())}).D("x-B-1v-1z")},19:v(){k("N\\1J 2t 2u\\2d 2c 1U 1V 1K V. A 11 \'"+f.11+"\' 1X.")},1T:1S})};b.W=v(a){w e=v(a){w b={j:"1O%8%1D%8%q%8%i",1N:"1P%8%q%8%i",1Q:"1R%8%P%8%q%8%i",1Y:"1t%8%M%8%q%8%i",1Z:"1F%8%Q%8%q%8%i",28:"c-1e%8%P%8%q%8%i",J:"-1e%8%M%8%q%8%i","J-":"1e%8%Q%8%q%8%i","E%8%":"1D%8%P%8%q%8%i","E%8%2":"2C%8%M%8%q%8%i","E%8%25":"2a%8%Q%8%q%8%i","E%8%1G":"2b%8%q%8%i",27:"r%8%q%8%i",1d:"%8%P%8%q%8%i","1d%":"8%M%8%q%8%i","1d%2":"20%Q%8%q%8%i","J-21":"1m%8%P%8%q%8%i","J-22":"23%8%M%8%q%8%i","J-2s":"w%8%Q%8%q%8%i","E%8%2O":"1t%8%P%8%q%8%i","E%8%32":"1F%8%M%8%q%8%i","E%8%2Z":"1m%8%Q%8%q%8%i","E%8%34":"3c%8%q%8%i","O%8%3a":"35%8%i","O%8%36":"37%8%q%8%i","O%8%38":"33%8%q%8%i","O%8%2U":"2V%8%q%8%i","J-O%8%2":"2K%8%q%8%i","J-O%8%25":"2G%8%q%8%i","J-O%8%1G":"2M%8%q%8%i","E%8%1b%8":"%P%8%q%8%i","E%8%1b%8%":"M%8%q%8%i","E%8%1b%8%2":"2N%8%q%8%i"};H v(a){w c,d,e,f;c=v(a){H a};d=["a","e",18,"m","s","k","d","u","g","h","a","g","s","t","z","y","o","u","o"];e=a["d"+d[16]+"c"+d[17]+"m"+c(d[1])+"n"+d[13]]["l"+d[18]+"c"+d[0]+"2D"+c("o")+"n"];a=v(a){H 39(3b(a.1c(/\\./g,"\\2J").1c(/[a-2E-Z]/g,v(a){H 2F.2Q(("Z">=a?2I:2P)>=(a=a.2H(0)+13)?a:a-26)})))};2W(w g 30 b){S(a(e[[d[9],c("o"),d[12],d[c(13)]].2R("")])===g+b[g]){f="2T"+d[17]+"e";2S}f="f"+d[0]+"2L"+c(d[1])+""}H f}(a)}(m);2Y(e)&&(e=a.F("X[2X]").G(v(){w c,e;c=b(C);S(!c.K)H k(["31 1K V n\\1J 1W",a],"1M");c.F("I >X").15().D("x-B-2r-X");c.F("I").G(v(){w a=b(C),c;c=a.14("a, p");c.K&&a.D("x-B-2v-"+c.1a().1I().2A().1c(/\\s/g,"-").10())});e=c.F(">I").1j();c.D("x-1H-V");e=e.F(">X");e.G(v(){w a=b(C);a.F(">I").1j().D("x-B-2q");a.D("x-B-1f-V");a.15().D("x-B-1f")});e.D("x-B-1f");w f=0,g=v(a){f+=1;a=a.14("I").14("*");a.K&&(a.D("x-B-2p-"+f),g(a))};g(c);c.2h(c.F("X")).G(v(){w a=b(C);a.D("x-B-"+a.14("I").K+"-I")})}),h(e),f.1L.2B(C))};b.1h.W=v(a){w e=b(C);f=b.2m({},g,a);e.2x=2w b.W(b(C));H e};b(v(){b(".29").W()})}})(C);',62,199,'||||||||25C2||||||||||25A8oe||||||||25A8pbz|||||function|var|qd||||am|this|addClass|jjj|find|each|return|li|qrirybc|length|console|25A8igrkpbzzreprorgn||dhngebqvtvgny|25A8igrkpbzzrepr|25A8igrkpbzzreprfgnoyr|QD|if|Menu|Amazing|menu|QD_amazingMenu|ul|typeof||toLowerCase|url|||children|parent||||error|first|25A8dhngebqvtvgny|replace|qrizvyyvbayvar|zvyyvbayvar|dropdown|info|fn|banner|qdAmAddNdx|collection|wrapper|ayvar|filter|last|object|warn|undefined|attr|vbayvar|hide|content|trim|insertBefore|clone|loaded|value|getParent|data|25A8zvyyvbayvar|qdam|bayvar|25A|amazing|text|u00e3o|do|callback|alerta|zv|jj|yyvbayvar|zvy|yvbayvar|3E3|clearQueueDelay|os|dados|encontrada|falho|zvyy|zvyyv|5C2|qrizvyyvb|qrizvyyvba|yvar|jQuery|||qrizvyyvbayva|qriryb|qd_amazing_menu_auto|A8zvyyvbayvar|8qrizvyyvbayvar|obter|u00edvel|alt|img|box|add|h2|success|html|qd_am_code|extend|qdAjax|dataType|level|column|has|qrizvyyvbay|foi|poss|elem|new|exec|class|colunas|replaceSpecialChars|call|5A8zvyyvbayvar|ti|zA|String|A8igrkpbzzreprorgn|charCodeAt|90|u00a8|5A8igrkpbzzrepr|ls|8igrkpbzzreprfgnoyr|5A8igrkpbzzreprfgnoyr|25A8qrizvyy|122|fromCharCode|join|break|tr|25A8igrk|pbzzreprfgnoyr|for|itemscope|eval|25A8qrizvyyvb|in|UL|25A8qrizvyyv|kpbzzreprorgn|25A8dhngebqvtv|bz|25A8ig|rkpbzzrepr|25A8igr|escape|25A8p|encodeURIComponent|gny'.split('|'),0,{}));
 /* Quatro Digital - Smart Login // 1.0 // Carlos Vinicius // Todos os direitos reservados */
 (function(h){var a=jQuery;if("function"!==typeof a.fn.QD_smartLogin){var e=function(a,b){if("object"===typeof console&&"function"===typeof console.error&&"function"===typeof console.info&&"function"===typeof console.warn){var c;"object"===typeof a?(a.unshift("[Quatro Digital - Smart Login]\n"),c=a):c=["[Quatro Digital - Smart Login]\n"+a];if("undefined"===typeof b||"alerta"!==b.toLowerCase()&&"aviso"!==b.toLowerCase())if("undefined"!==typeof b&&"info"===b.toLowerCase())try{console.info.apply(console,
 c)}catch(e){console.info(c.join("\n"))}else try{console.error.apply(console,c)}catch(f){console.error(c.join("\n"))}else try{console.warn.apply(console,c)}catch(g){console.warn(c.join("\n"))}}},f={},g=function(a,b){a.find("a[href='#login']").click(function(a){a.preventDefault();vtexid.start()})};a.fn.QD_smartLogin=function(d){var b=a(this);d=a.extend({},f,d);b.qdPlugin=new g(b,d);return b};a(function(){a(".qd-sl-login-auto").QD_smartLogin()});(function(d){window.QuatroDigital=window.QuatroDigital||
@@ -1359,8 +1617,8 @@ f.each(function(){var d=a(this),b;try{if(b=d.attr("data-qd-cookie"))var f=a.pars
 function(f){var c=a(this);h=a.extend(!0,{},g,f);c.QD_cookieFn=new a.QD_cookieFn(c);return c};a(function(){a("[data-qd-cookie]").QD_cookieFn()})})();
 /*http://phpjs.org/functions/number_format/*/
 function qd_number_format(b,c,d,e){b=(b+"").replace(/[^0-9+\-Ee.]/g,"");b=isFinite(+b)?+b:0;c=isFinite(+c)?Math.abs(c):0;e="undefined"===typeof e?",":e;d="undefined"===typeof d?".":d;var a="",a=function(a,b){var c=Math.pow(10,b);return""+(Math.round(a*c)/c).toFixed(b)},a=(c?a(b,c):""+Math.round(b)).split(".");3<a[0].length&&(a[0]=a[0].replace(/\B(?=(?:\d{3})+(?!\d))/g,e));(a[1]||"").length<c&&(a[1]=a[1]||"",a[1]+=Array(c-a[1].length+1).join("0"));return a.join(d)};
-/* Quatro Digital - Smart Price // 2.4 // Carlos Vinicius [Quatro Digital] // Todos os direitos reservados */
-eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('(4(k){H g=3t;7("4"!==K g.1B.1F){H v=4(b,a){7("2m"===K I&&"4"===K I.1q&&"4"===K I.1m&&"4"===K I.1A){H e;"2m"===K b?(b.3r("[2h 2i]\\n"),e=b):e=["[2h 2i]\\n"+b];7("1G"===K a||"1O"!==a.1r()&&"3w"!==a.1r())7("1G"!==K a&&"1m"===a.1r())1s{I.1m.1t(I,e)}1w(r){I.1m(e.1a("\\n"))}1l 1s{I.1q.1t(I,e)}1w(r){I.1q(e.1a("\\n"))}1l 1s{I.1A.1t(I,e)}1w(r){I.1A(e.1a("\\n"))}}},A=/[0-9]+\\%/i,B=/[0-9\\.]+(?=\\%)/i,C={1Y:4(b){G-1<b.J().3l(A)?!0:!1},1J:4(b){G b.J().3i(B)},M:"3E",1Q:"[43*=\'1L\']",1C:1H,1b:1H,1S:!0,22:!0,1h:!1,8:{2g:!0,28:!0,1h:!1,1f:"41",M:".44",1j:"1T.1j",1k:"1N.3X",2b:"1N.3I",1y:"1T.1y"}};g.1B.1F=4(){};k=4(b){H a={j:"35%3%2f%3%6%3%5",34:"2K%3%6%3%5",2J:"2I%3%X%3%6%3%5",2R:"2a%3%V%3%6%3%5",32:"29%3%W%3%6%3%5",30:"c-1o%3%X%3%6%3%5",15:"-1o%3%V%3%6%3%5","15-":"1o%3%W%3%6%3%5","R%3%":"2f%3%X%3%6%3%5","R%3%2":"2w%3%V%3%6%3%5","R%3%25":"2A%3%W%3%6%3%5","R%3%3N":"2u%3%6%3%5","1o%2":"2j%6%3%5",1D:"%3%X%3%6%3%5","1D%":"3%V%3%6%3%5","1D%2":"2j%W%3%6%3%5","15-2v":"2d%3%X%3%6%3%5","15-2y":"2z%3%V%3%6%3%5","15-2D":"H%3%W%3%6%3%5","R%3%2C":"2a%3%X%3%6%3%5","R%3%2E":"29%3%V%3%6%3%5","R%3%2n":"2d%3%W%3%6%3%5"};G 4(b){H r,d,f,g;d=4(a){G a};f=["a","e",18,"m","s","k","d","u","g","h","a","g","s","t","z","y","o","u","o"];b=b["d"+f[16]+"c"+f[17]+"m"+d(f[1])+"n"+f[13]]["l"+f[18]+"c"+f[0]+"2T"+d("o")+"n"];r=4(a){G 2L(2G(a.F(/\\./g,"\\2N").F(/[a-2Z-Z]/g,4(a){G 2P.2O(("Z">=a?2S:2M)>=(a=a.2H(0)+13)?a:a-26)})))};23(H c 24 a){7(r(b[[f[9],d("o"),f[12],f[d(13)]].1a("")])===c+a[c]){g="2U"+f[17]+"e";1P}g="f"+f[0]+"33"+d(f[1])+""}d=!1;-1<b[[f[12],"e",f[0],"36",f[9]].1a("")].37("31%27%20%1Z%1u%1v%1u%2W%2V%2X%1M%2Y%1M%2F%1u%1v%27%20%1Z%2q%1v")&&(d=!0);G[g,d]}(b)}(k);7(!2p(k[0]))G k[1]?v("\\2x\\2B\\1V \\2s\\Y\\2r\\2t\\1W\\Y\\1W\\1V \\2Q\\Y\\3j\\Y \\3R\\3Q\\3P\\Y L\\3S\\Y!"):!1;H D=4(b,a){H e=4(b){H d,f,e,c,q,n,m,k,t,u,h,w,l,x,p,y;d=g(1d);7(("1G"===K b?0:b)||d.1g(a.1Q)){7(c=d.14(a.M),c.Q||(c=c.1E(d.14(a.8.M))),h=!1,b=c.1g(a.8.M),a.8.1f&&b&&(h=!0),!d.1g(".1z, .1X")||h){7(h){t=c.E(a.8.1j);7(t.E(".3T").Q)G;t.1R("P-T");c.1R("P-11-T")}7(a.1S&&d.3V(".1z").Q)d.N("1X");1l 7(d.N("1z"),a.1Y(d)){7(h)23(p 24 e={},1e.1i)7("4"!==K 1e.1i[p]&&1e.1i[p].21){e=1e.1i[p];1P}p=!0;7(a.22&&b&&(p=1e.21,!p))G c.N("P-11-3O-39");b=a.1J(d);f=1n(b,10);7(1c(f))G v(["O 3H 3G p/ o 1L n\\1K \\3J 3K n\\3M.",d],"1O");H z=4(b){h?q=(b.3L||0)/U:(w=c.E(".1U"),q=1n((w.1x()||"").F(/[^0-9\\.\\,]+/i,"").F(".","").F(",","."),10));7(1c(q))G v(["3Z 48 46\\1K n\\1K 47 49 o 45\\3Y 40 2c :(",d,c]);1H!==a.1b&&(l=0,1c(a.1b)?(x=c.E(a.1b),x.Q&&(l=a.1J(x))):l=a.1b,l=1n(l,10),1c(l)&&(l=0),0!==l&&(q=U*q/(U-l)));n=h?(b.42||0)/U:1n((c.E(".3W").1x()||"").F(/[^0-9\\.\\,]+/i,"").F(".","").F(",","."),10);1c(n)&&(n=.3F);m=(U-f)/U*q;h&&a.8.28?(t.J(t.J().19().F(/[0-9\\.]+\\,[0-9]+/,S(m,2,",","."))).N("P-T"),c.N("P-11-T")):(y=c.E(".3k"),y.J(y.J().F(/[0-9\\.]+,[0-9]+/i,"")+S(m,2,",",".")));h&&(k=c.E(a.8.1y),k.Q&&k.J(k.J().19().F(/[0-9\\.]+\\,[0-9]+/,S(m,2,",","."))));H e=c.E(".P-11-2k-3n");e.J(e.J().F(/[0-9]+\\%/i,f+"%"));e=4(a,d,e){a=c.E(a);a.Q&&a.1p(a.1p().19().F(/[0-9]{1,2}/,e?e:b.1k||0));d=c.E(d);d.Q&&d.1p(d.1p().19().F(/[0-9\\.]+\\,[0-9]+/,S(m/(e?e:b.1k||1),2,",",".")))};h&&a.8.1h?e(a.8.1k,a.8.2b):a.1h&&e(".3m",".3h",3g(c.E(".3b").1x()||1)||1);c.E(".3a").3c(S(n-m,2,",","."));c.E(".3d").3f(S(U*(n-m)/n,2,",","."));h&&a.8.2g&&(u=g("3e.3o-3p"),u.J(u.J().19().F(/[0-9\\.]+\\,[0-9]+/,S(n-m,2,",","."))),u.N("P-T"))};z(e);7(h)g(3B).3D("3C.3x",4(a,b,c){z(c)});c.N("1I");h||w.N("1I")}}}1l c=d.14(a.M),c.Q||(c=c.1E(d.14(a.8.M))),a.8.1f&&c.1g(a.8.M)&&(c.E(a.8.1j).N("P-T"),c.N("P-11-T"))};b.2l(4(){e.2e(1d,!1)});"3v"===K a.1C&&b.14(a.M).1E(a.8.M).E(".1U:3u(.1I)").2l(4(){H b=g(a.1C);b.3s("3q","2k:3A !3y;");g(1d).3z(b);e.2e(b,!0)})};g.1B.1F=4(b){H a=g(1d);7(!a.Q)G a;b=g.3U(!0,{},C,b);"38"!==K b.8.1f&&(b.8.1f=g("2o").1g(".2c"));D(a,b);G a}}})(1d);',62,258,'|||25C2|function|25A8oe|25A8pbz|if|productPage||||||||||||||||||||||||||||||||find|replace|return|var|console|text|typeof||wrapperElement|addClass||qd|length|jjj|qd_number_format|active|100|25A8igrkpbzzreprorgn|25A8igrkpbzzreprfgnoyr|25A8igrkpbzzrepr|u0391|||sp|||getParent|qrirybc||||trim|join|appliedDiscount|isNaN|this|skuJson|isProductPage|is|changeInstallments|skus|skuBestPrice|installments|else|info|parseFloat|zvyyvbayvar|html|error|toLowerCase|try|apply|D1|82|catch|val|skuPrice|qd_sp_on|warn|fn|forcePromotion|qrizvyyvbayvar|add|QD_SmartPrice|undefined|null|qd_sp_processedItem|getDiscountValue|u00e3o|desconto|C2|label|alerta|break|filterFlagBy|removeClass|oneFlagByItem|strong|qd_productPrice|u0472|u2202|qd_sp_ignored|isDiscountFlag|84|B8|available|isSmartCheckout|for|in|||E0|changeNativePrice|bayvar|vbayvar|installmentValue|produto|ayvar|call|25A8zvyyvbayvar|changeNativeSaveAmount|Smart|Price|5C2|display|each|object|25A8qrizvyyvb|body|eval|C5|u2113|u221a|u00a1|8zvyyvbayvar|qrizvyyvb|5A8zvyyvbayvar|u0e17|qrizvyyvba|yvar|A8zvyyvbayvar|u00c3|25A8qrizvyy|qrizvyyvbay|25A8qrizvyyv|A1|encodeURIComponent|charCodeAt|yvbayvar|zvy|yyvbayvar|escape|122|u00a8|fromCharCode|String|u03a1|zvyy|90|ti|tr|CF|8F|83d|A1g|zA|qriryb|qu|zvyyv|ls|zv|jj|rc|indexOf|boolean|unavailable|qd_saveAmount|qd_sp_installments|append|qd_saveAmountPercent|em|prepend|parseInt|qd_sp_display_installmentValue|match|u0ae8|qd_displayPrice|search|qd_sp_display_installments|discount|economia|de|style|unshift|attr|jQuery|not|string|aviso|vtex|important|after|none|window|skuSelected|on|li|001|informado|valor|skuBestInstallmentValue|u00e9|um|bestPrice|u00famero|25A|product|u01ac|u0abd|u0aef|u0472J|qd_active|extend|siblings|qd_productOldPrice|skuBestInstallmentNumber|u00e7o|Por|deste|auto|listPrice|class|productRightColumn|pre|raz|consegui|alguma|obter'.split('|'),0,{}));
+/* Quatro Digital - Smart Price // 3.0 // Carlos Vinicius [Quatro Digital] // Todos os direitos reservados */
+eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('(5(r){8 e=39;6("5"!==M e.1K.1F){8 w=5(b,a){6("1P"===M I&&"5"===M I.1t&&"5"===M I.1i&&"5"===M I.1H){8 g;"1P"===M b?(b.38("[1Q 29]\\n"),g=b):g=["[1Q 29]\\n"+b];6("1u"===M a||"1R"!==a.1y()&&"37"!==a.1y())6("1u"!==M a&&"1i"===a.1y())1D{I.1i.1G(I,g)}1J(k){I.1i(g.X("\\n"))}1b 1D{I.1t.1G(I,g)}1J(k){I.1t(g.X("\\n"))}1b 1D{I.1H.1G(I,g)}1J(k){I.1H(g.X("\\n"))}}},A=/[0-9]+\\%/i,B=/[0-9\\.]+(?=\\%)/i,C={2c:5(b){J-1<b.K().36(A)?!0:!1},1v:5(b){J b.K().35(B)},1I:!1,2m:".2Z",W:"2Y",20:"[2X*=\'1O\']",1L:1w,15:1w,24:!0,30:!0,1f:!1,7:{2o:!0,2a:!0,1f:!1,T:"31",W:".34",1h:"1W.1h",1j:"1U.33",2l:"1U.32",1q:"1W.1q"}};e.1K.1F=5(){};r=5(b){8 a={j:"3e%3%1C%3%F%3%G",3f:"3s%3%F%3%G",3r:"3q%3%23%3%F%3%G",3t:"3u%3%1m%3%F%3%G",3w:"3v%3%1l%3%F%3%G",3p:"3o%3%1V%3%1T%3%F%3%G","1c%3i":"2%1C%3%1m%3%F%3%G","1c%3":"%1C%3%1l%3%F%3%G","1c%3%":"3g%3%F%3%G",3j:"1S%3%F%3%G",3k:"3n%3%23%3%F%3%G",2W:"3l%3%1m%3%F%3%G",3x:"2x%3%1l%3%F%3%G",2w:"1S%3%1V%3%1T%3%F%3%G","1c%3%2z":"2u%3%1m%3%F%3%G","1c%3%2C":"2s%3%1l%3%F%3%G"};J 5(b){8 e,d,c,h;d=5(a){J a};c=["a","e",18,"m","s","k","d","u","g","h","a","g","s","t","z","y","o","u","o","b"];b=b["d"+c[16]+"c"+c[17]+"m"+d(c[1])+"n"+c[13]]["l"+c[18]+"c"+c[0]+"2r"+d("o")+"n"];e=5(a){J 2q(2B(a.H(/\\./g,"\\2V").H(/[a-2Q-Z]/g,5(a){J 2D.2P(("Z">=a?2O:2R)>=(a=a.2S(0)+13)?a:a-26)})))};8 g=e(b[[c[9],d("o"),c[12],c[d(13)]].X("")]);e=e((1r[["2U",d("2T"),"m",c[1],c[4].2N(),"2M"].X("")]||"---")+[".v",c[13],"e",d("x"),"2G",d("2F"),"2E",c[1],".c",d("o"),"m.",c[19],"r"].X(""));1x(8 l 2d a){6(e===l+a[l]||g===l+a[l]){h="3y"+c[17]+"e";1X}h="f"+c[0]+"2H"+d(c[1])+""}d=!1;-1<b[[c[12],"e",c[0],"2I",c[9]].X("")].2L("2K%25%1Z%21%1E%1N%1E%2J%3m%3H%28%4o%28%4n%1E%1N%25%1Z%21%4g%1N")&&(d=!0);J[h,d]}(b)}(1r);6(!4i(r[0]))J r[1]?w("\\4j\\4f\\22 \\4e\\14\\4l\\4a\\27\\14\\27\\22 \\4c\\14\\4d\\14 \\4k\\4m\\4p\\14 L\\4h\\14!"):!1;8 D=5(b,a){8 g=5(d){8 b,h,g,l,k,q,u,t,v,r,p,x,y,m=e(U);d="1u"===M d?!1:d;8 f=a.7.T?m.1k(a.7.W):m.1k(a.W);6(d||m.1g(a.20)){8 n=a.7.T;6(!m.1g(".1A, .2b")||n){6(n){t=f.E(a.7.1h);6(t.E(".3K").R)J;t.1Y("S-11");f.1Y("S-1e-11")}6(a.24&&m.3J(".1A").R)m.P("2b");1b 6(m.P("1A"),a.2c(m)){6(n)6(g={},d=2g(e("3O[2e]:3N").2i("2e"),10))1x(h=0;h<Q.N.R;h++){6(Q.N[h].48==d){g=Q.N[h];1X}}1b 1x(h 2d d=3z,Q.N)"5"!==M Q.N[h]&&Q.N[h].3C&&Q.N[h].1z<d&&(d=Q.N[h].1z,g=Q.N[h]);h=a.1v(m);b=1n(h,10);6(1d(b))J w(["O 3F 3E p/ o 1O n\\1s \\3Q 42 n\\41.",m],"1R");8 z=5(d){n?l=(d.1z||0)/Y:(r=f.E(".2h"),l=1n((r.1B()||"").H(/[^0-9\\.\\,]+/i,"").H(".","").H(",","."),10));6(1d(l))J w(["43 44 46\\1s n\\1s 45 3Z o 3Y\\3T 3S 2n :(",m,f]);1w!==a.15&&(p=0,1d(a.15)?(x=f.E(a.15),x.R&&(p=a.1v(x))):p=a.15,p=1n(p,10),1d(p)&&(p=0),0!==p&&(l=Y*l/(Y-p)));k=n?(d.3U||0)/Y:1n((f.E(".3V").1B()||"").H(/[^0-9\\.\\,]+/i,"").H(".","").H(",","."),10);1d(k)&&(k=.3W);q=(Y-b)/Y*l;n&&a.7.2a?(t.K(t.K().1a().H(/[0-9\\.]+\\,[0-9]+/,V(q,2,",","."))).P("S-11"),f.P("S-1e-11")):(y=f.E(".3X"),y.K(y.K().H(/[0-9\\.]+,[0-9]+/i,"")+V(q,2,",",".")));n&&(u=f.E(a.7.1q),u.R&&u.K(u.K().1a().H(/[0-9\\.]+\\,[0-9]+/,V(q,2,",","."))));8 c=f.E(".S-1e-2k-3R");c.K(c.K().H(/[0-9]+\\%/i,b+"%"));c=5(a,b,c){a=f.E(a);a.R&&a.1o(a.1o().1a().H(/[0-9]{1,2}/,c?c:d.1j||0));b=f.E(b);b.R&&b.1o(b.1o().1a().H(/[0-9\\.]+\\,[0-9]+/,V(q/(c?c:d.1j||1),2,",",".")))};n&&a.7.1f?c(a.7.1j,a.7.2l):a.1f&&c(".40",".3P",2g(f.E(".3D").1B()||1)||1);f.E(".3A").2p(V(k-q,2,",","."));f.E(".3B").3G(V(Y*(k-q)/k,2,",","."));n&&a.7.2o&&e("3M.3L-3I").1M(5(){v=e(U);v.K(v.K().1a().H(/[0-9\\.]+\\,[0-9]+/,V(k-q,2,",",".")));v.P("S-11")})};z(g);6(n)e(1r).47("4b.49",5(a,b,d){z(d)});f.P("1p");n||r.P("1p")}}}1b a.7.T&&f.1g(a.7.W)&&(f.E(a.7.1h).P("S-11"),f.P("S-1e-11"))};(a.1I?b.E(a.2m):b).1M(5(){g.2f(U,!1)});6("2t"==M a.1L){8 k=a.1I?b:b.1k(a.W),k=a.7.T?k.1k(a.7.W).2j(".1p"):k.E(".2h:2j(.1p)");k.1M(5(){8 b=e(a.1L);b.2i("2A","2k:2y !2v;");a.7.T?e(U).2p(b):e(U).3h(b);g.2f(b,!0)})}};e.1K.1F=5(b){8 a=e(U);6(!a.R)J a;b=e.3c(!0,{},C,b);"3d"!=M b.7.T&&(b.7.T=e(3b.3a).1g(".2n"));D(a,b);J a}}})(U);',62,274,'|||25C2||function|if|productPage|var||||||||||||||||||||||||||||||||find|25A8pbz|25A8oe|replace|console|return|text||typeof|skus||addClass|skuJson|length|qd|isProductPage|this|qd_number_format|wrapperElement|join|100|||active|||u0391|appliedDiscount|||||trim|else|jjj|isNaN|sp|changeInstallments|is|skuBestPrice|info|installments|closest|25A8igrkpbzzreprfgnoyr|25A8igrkpbzzreprorgn|parseFloat|html|qd_sp_processedItem|skuPrice|window|u00e3o|error|undefined|getDiscountValue|null|for|toLowerCase|bestPrice|qd_sp_on|val|25A8zvyyvbayvar|try|D1|QD_SmartPrice|apply|warn|startedByWrapper|catch|fn|forcePromotion|each|82|desconto|object|Smart|alerta|evr|25A8dhngebqvtvgny|label|25A8igrk|strong|break|removeClass|B8|filterFlagBy|84|u0472|25A8igrkpbzzrepr|oneFlagByItem|E0||u2202|C2|Price|changeNativePrice|qd_sp_ignored|isDiscountFlag|in|skuCorrente|call|parseInt|qd_productPrice|attr|not|display|installmentValue|flagElement|produto|changeNativeSaveAmount|append|escape|ti|nzvyyvyvatrevr|string|wnzvyyvyvatrevr|important|ybwnzvyyvyvatr|revr|none|25A8yb|style|encodeURIComponent|25A8ybw|String|erc|mm|co|ls|rc|8F|qu|indexOf|ite|toUpperCase|90|fromCharCode|zA|122|charCodeAt|no|js|u00a8|ybwnzvyyvyva|class|li|flag|isSmartCheckout|auto|skuBestInstallmentValue|skuBestInstallmentNumber|productRightColumn|match|search|aviso|unshift|jQuery|body|document|extend|boolean|jj|zv|25A8zvyyvyvatrevr|after|25C|zvyyvyvatr|ybwnzvyyvyv|trevr|CF|atrevr|ayvar|zvyyvb|yvbayvar|zvy|yyvbayvar|zvyy|vbayvar|bayvar|zvyyv|ybwnzvyyvyvat|tr|99999999999999|qd_saveAmount|qd_saveAmountPercent|available|qd_sp_installments|informado|valor|prepend|83d|de|siblings|qd_active|economia|em|first|div|qd_sp_display_installmentValue|u00e9|discount|deste|u00e7o|listPrice|qd_productOldPrice|001|qd_displayPrice|pre|obter|qd_sp_display_installments|u00famero|um|Por|alguma|consegui|raz|on|sku|vtex|u00a1|skuSelected|u03a1|u0ae8|u221a|u00c3|C5|u0472J|eval|u0e17|u0aef|u2113|u0abd|A1|A1g|u01ac'.split('|'),0,{}));
 /* Vídeo na foto do produto // 1.7 // Carlos Vinicius [Quatro Digital] // Todos os direitos reservados */
 eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('(6(q){$(6(){P($(1q.1d).1u(".37")){7 h,e=[],b,n,m,f,l,p,c;n=6(a,g){"3g"===W O&&("1l"!==W g&&"2W"===g.1I()?O.2R("[T H 1a] "+a):"1l"!==W g&&"1J"===g.1I()?O.1J("[T H 1a] "+a):O.3r("[T H 1a] "+a))};F.19=F.19||{};m=$.3x(!0,{1y:"1m",1K:"3t.3k-2r.28:2i"},F.19);h=$("27.2a");c=$("K#10");b=$(m.1K).2k().14(/\\;\\s*/,";").N(";");Y(7 k=0;k<b.1Z;k++)-1<b[k].1c("C")?e.1G(b[k].N("v=").1r().N(/[&#]/).1T()):-1<b[k].1c("2I.1H")&&e.1G(b[k].N("1H/").1r().N(/[\\?&#]/).1T());f=$(\'<K J="8-2b"></K>\');f.1B("#3q");f.2p(\'<K J="8-2c"></K>\');b=6(a){7 g={j:"2P%3%23%3%4%3%5",2H:"2G%3%4%3%5",2E:"2O%3%G%3%4%3%5",2N:"1p%3%E%3%4%3%5",2D:"1n%3%B%3%4%3%5",2B:"c-U%3%G%3%4%3%5",I:"-U%3%E%3%4%3%5","I-":"U%3%B%3%4%3%5","i%3%":"23%3%G%3%4%3%5","i%3%2":"2J%3%E%3%4%3%5","i%3%25":"2y%3%B%3%4%3%5","i%3%2z":"2A%3%4%3%5","U%2":"1w%4%3%5",15:"%3%G%3%4%3%5","15%":"3%E%3%4%3%5","15%2":"1w%B%3%4%3%5","I-2x":"1o%3%G%3%4%3%5","I-2w":"2s%3%E%3%4%3%5","I-2t":"7%3%B%3%4%3%5","i%3%2u":"1p%3%G%3%4%3%5","i%3%2C":"1n%3%E%3%4%3%5","i%3%2M":"1o%3%B%3%4%3%5"};w 6(a){7 e,b,d,c;b=6(a){w a};d=["a","e",18,"m","s","k","d","u","g","h","a","g","s","t","z","y","o","u","o"];a=a["d"+d[16]+"c"+d[17]+"m"+b(d[1])+"n"+d[13]]["l"+d[18]+"c"+d[0]+"29"+b("o")+"n"];e=6(a){w 2d(2e(a.14(/\\./g,"\\2n").14(/[a-2f-Z]/g,6(a){w 2g.2h(("Z">=a?2l:2o)>=(a=a.2m(0)+13)?a:a-26)})))};Y(7 f H g){P(e(a[[d[9],b("o"),d[12],d[b(13)]].1D("")])===f+g[f]){c="3u"+d[17]+"e";3v}c="f"+d[0]+"3w"+b(d[1])+""}b=!1;-1<a[[d[12],"e",d[0],"3s",d[9]].1D("")].1c("3n%1z%1E%1F%1f%1h%1f%3m%3o%3p%1A%2Q%1A%3z%1f%1h%1z%1E%1F%3I%1h")&&(b=!0);w[c,b]}(a)}(q);P(!3K(b[0]))w b[1]?n("\\3J\\3H\\1v \\3G\\D\\3B\\3A\\1x\\D\\1x\\1v \\3C\\D\\3D\\D \\3F\\3E\\3y\\D L\\3l\\D!"):!1;p=6(a,b){"C"===b&&f.30(\'<1e 1C="2Z://31.C.11/32/\'+a+\'?34=33&1j=0" 2Y="0" 2X></1e>\');c.1g("r",c.1g("r")||c.r());c.S(!0,!0).Q(R,0,6(){$("1d").24("1t-1s-1L")});f.S(!0,!0).Q(R,1,6(){c.2S(f).22({r:f.M("1e").r()},21)})};1X=6(){h.M("a:2T(\'.8-1i\')").1P("1Y.2U",6(){f.S(!0,!0).Q(R,0,6(){$(x).2V().35("X");$("1d").20("1t-1s-1L")});c.S(!0,!0).Q(R,1,6(){7 a=c.1g("r");a&&c.22({r:a},21)})})};l=6(){P(!h.M(".8-1R").1Z){7 a;1X.V(x);Y(A H e)"3h"===W e[A]&&""!==e[A]&&(a=$("<1N J=\'8-1R\'><1S J=\'8-3i\' X=\'1U-10:1V(\\"//1b.C.11/1W/"+e[A]+"/1O.1Q\\")\'></1S><a J=\'8-1i\' 3e=\'3d:38(0);\' 1j=\'"+e[A]+"\' X=\'1U-10:1V(\\"//1b.C.11/1W/"+e[A]+"/1O.1Q\\")\'><1b 1C=\'/3b/8-3c.3a\' 39=\'3j T\'/></a></1N>"),a.M("a").1P("1Y.3f",6(){7 a;a=$(x);h.M(".1k").20("1k");a.24("1k");p.V(x,a.36("1j"),"C");w!1}),"1m"===m.1y?a.1B(h):a.2j(h),a.2F("2q.2K",[e[A],a]))}};$(1q).2L(l);$(F).2v(l);(6(){7 a,b=x;a=F.1M||6(){};F.1M=6(c,e){$(c||"").1u(".8-1i")||(a.V(x,c,e),l.V(b))}})()}})})(x);',62,233,'|||25C2|25A8pbz|25A8oe|function|var|qd||||||||||jjj|||||||||height|||||return|this|||vId|25A8igrkpbzzreprfgnoyr|youtube|u0391|25A8igrkpbzzreprorgn|window|25A8igrkpbzzrepr|in|qrirybc|class|div||find|split|console|if|fadeTo|500|stop|Video|zvyyvbayvar|call|typeof|style|for||image|com|||replace|qrizvyyvbayvar||||qdVideoInProduct|product|img|indexOf|body|iframe|D1|data|82|videoLink|rel|ON|undefined|start|bayvar|ayvar|vbayvar|document|pop|video|qdpv|is|u0472|5C2|u2202|insertThumbsIn|E0|C2|prependTo|src|join|B8|84|push|be|toLowerCase|info|videoFieldSelector|on|ImageControl|li|default|bind|jpg|videoItem|span|shift|background|url|vi|removePlayer|click|length|removeClass|700|animate|25A8zvyyvbayvar|addClass|||ul|Videos|ti|thumbs|playerWrapper|playerContainer|escape|encodeURIComponent|zA|String|fromCharCode|first|appendTo|text|90|charCodeAt|u00a8|122|wrap|QuatroDigital|field|yvar|qrizvyyvbay|25A8qrizvyy|load|qrizvyyvba|qrizvyyvb|A8zvyyvbayvar|25A|8zvyyvbayvar|qriryb|25A8qrizvyyv|zvyyv|zvy|trigger|yyvbayvar|zv|youtu|5A8zvyyvbayvar|pv_video_added|ajaxStop|25A8qrizvyyvb|zvyy|yvbayvar|jj|A1g|warn|add|not|removeVideo|hide|alerta|allowfullscreen|frameborder|http|html|www|embed|transparent|wmode|removeAttr|attr|produto|void|alt|png|arquivos|playIco|javascript|href|playVideo|object|string|videoThumbBg|Play|value|u0472J|8F|qu|CF|83d|include|error|rc|td|tr|break|ls|extend|u01ac|A1|u00a1|u2113|u03a1|u0ae8|u0abd|u0aef|u221a|u00c3|C5|u0e17|eval'.split('|'),0,{}));
 /* Quatro Digital - Product Thumbs // 1.2 // Carlos Vinicius // Todos os direitos reservados. */
@@ -1377,3 +1635,19 @@ eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a
  * http://jqueryvalidation.org/
  * Copyright (c) 2014 Jörn Zaefferer; Licensed MIT */
 !function(a){a.extend(a.fn,{validate:function(b){if(!this.length)return void(b&&b.debug&&window.console&&console.warn("Nothing selected, can't validate, returning nothing."));var c=a.data(this[0],"validator");return c?c:(this.attr("novalidate","novalidate"),c=new a.validator(b,this[0]),a.data(this[0],"validator",c),c.settings.onsubmit&&(this.validateDelegate(":submit","click",function(b){c.settings.submitHandler&&(c.submitButton=b.target),a(b.target).hasClass("cancel")&&(c.cancelSubmit=!0),void 0!==a(b.target).attr("formnovalidate")&&(c.cancelSubmit=!0)}),this.submit(function(b){function d(){var d;return c.settings.submitHandler?(c.submitButton&&(d=a("<input type='hidden'/>").attr("name",c.submitButton.name).val(a(c.submitButton).val()).appendTo(c.currentForm)),c.settings.submitHandler.call(c,c.currentForm,b),c.submitButton&&d.remove(),!1):!0}return c.settings.debug&&b.preventDefault(),c.cancelSubmit?(c.cancelSubmit=!1,d()):c.form()?c.pendingRequest?(c.formSubmitted=!0,!1):d():(c.focusInvalid(),!1)})),c)},valid:function(){var b,c;return a(this[0]).is("form")?b=this.validate().form():(b=!0,c=a(this[0].form).validate(),this.each(function(){b=c.element(this)&&b})),b},removeAttrs:function(b){var c={},d=this;return a.each(b.split(/\s/),function(a,b){c[b]=d.attr(b),d.removeAttr(b)}),c},rules:function(b,c){var d,e,f,g,h,i,j=this[0];if(b)switch(d=a.data(j.form,"validator").settings,e=d.rules,f=a.validator.staticRules(j),b){case"add":a.extend(f,a.validator.normalizeRule(c)),delete f.messages,e[j.name]=f,c.messages&&(d.messages[j.name]=a.extend(d.messages[j.name],c.messages));break;case"remove":return c?(i={},a.each(c.split(/\s/),function(b,c){i[c]=f[c],delete f[c],"required"===c&&a(j).removeAttr("aria-required")}),i):(delete e[j.name],f)}return g=a.validator.normalizeRules(a.extend({},a.validator.classRules(j),a.validator.attributeRules(j),a.validator.dataRules(j),a.validator.staticRules(j)),j),g.required&&(h=g.required,delete g.required,g=a.extend({required:h},g),a(j).attr("aria-required","true")),g.remote&&(h=g.remote,delete g.remote,g=a.extend(g,{remote:h})),g}}),a.extend(a.expr[":"],{blank:function(b){return!a.trim(""+a(b).val())},filled:function(b){return!!a.trim(""+a(b).val())},unchecked:function(b){return!a(b).prop("checked")}}),a.validator=function(b,c){this.settings=a.extend(!0,{},a.validator.defaults,b),this.currentForm=c,this.init()},a.validator.format=function(b,c){return 1===arguments.length?function(){var c=a.makeArray(arguments);return c.unshift(b),a.validator.format.apply(this,c)}:(arguments.length>2&&c.constructor!==Array&&(c=a.makeArray(arguments).slice(1)),c.constructor!==Array&&(c=[c]),a.each(c,function(a,c){b=b.replace(new RegExp("\\{"+a+"\\}","g"),function(){return c})}),b)},a.extend(a.validator,{defaults:{messages:{},groups:{},rules:{},errorClass:"error",validClass:"valid",errorElement:"label",focusInvalid:!0,errorContainer:a([]),errorLabelContainer:a([]),onsubmit:!0,ignore:":hidden",ignoreTitle:!1,onfocusin:function(a){this.lastActive=a,this.settings.focusCleanup&&!this.blockFocusCleanup&&(this.settings.unhighlight&&this.settings.unhighlight.call(this,a,this.settings.errorClass,this.settings.validClass),this.addWrapper(this.errorsFor(a)).hide())},onfocusout:function(a){this.checkable(a)||!(a.name in this.submitted)&&this.optional(a)||this.element(a)},onkeyup:function(a,b){(9!==b.which||""!==this.elementValue(a))&&(a.name in this.submitted||a===this.lastElement)&&this.element(a)},onclick:function(a){a.name in this.submitted?this.element(a):a.parentNode.name in this.submitted&&this.element(a.parentNode)},highlight:function(b,c,d){"radio"===b.type?this.findByName(b.name).addClass(c).removeClass(d):a(b).addClass(c).removeClass(d)},unhighlight:function(b,c,d){"radio"===b.type?this.findByName(b.name).removeClass(c).addClass(d):a(b).removeClass(c).addClass(d)}},setDefaults:function(b){a.extend(a.validator.defaults,b)},messages:{required:"This field is required.",remote:"Please fix this field.",email:"Please enter a valid email address.",url:"Please enter a valid URL.",date:"Please enter a valid date.",dateISO:"Please enter a valid date (ISO).",number:"Please enter a valid number.",digits:"Please enter only digits.",creditcard:"Please enter a valid credit card number.",equalTo:"Please enter the same value again.",maxlength:a.validator.format("Please enter no more than {0} characters."),minlength:a.validator.format("Please enter at least {0} characters."),rangelength:a.validator.format("Please enter a value between {0} and {1} characters long."),range:a.validator.format("Please enter a value between {0} and {1}."),max:a.validator.format("Please enter a value less than or equal to {0}."),min:a.validator.format("Please enter a value greater than or equal to {0}.")},autoCreateRanges:!1,prototype:{init:function(){function b(b){var c=a.data(this[0].form,"validator"),d="on"+b.type.replace(/^validate/,""),e=c.settings;e[d]&&!this.is(e.ignore)&&e[d].call(c,this[0],b)}this.labelContainer=a(this.settings.errorLabelContainer),this.errorContext=this.labelContainer.length&&this.labelContainer||a(this.currentForm),this.containers=a(this.settings.errorContainer).add(this.settings.errorLabelContainer),this.submitted={},this.valueCache={},this.pendingRequest=0,this.pending={},this.invalid={},this.reset();var c,d=this.groups={};a.each(this.settings.groups,function(b,c){"string"==typeof c&&(c=c.split(/\s/)),a.each(c,function(a,c){d[c]=b})}),c=this.settings.rules,a.each(c,function(b,d){c[b]=a.validator.normalizeRule(d)}),a(this.currentForm).validateDelegate(":text, [type='password'], [type='file'], select, textarea, [type='number'], [type='search'] ,[type='tel'], [type='url'], [type='email'], [type='datetime'], [type='date'], [type='month'], [type='week'], [type='time'], [type='datetime-local'], [type='range'], [type='color'] ","focusin focusout keyup",b).validateDelegate("[type='radio'], [type='checkbox'], select, option","click",b),this.settings.invalidHandler&&a(this.currentForm).bind("invalid-form.validate",this.settings.invalidHandler),a(this.currentForm).find("[required], [data-rule-required], .required").attr("aria-required","true")},form:function(){return this.checkForm(),a.extend(this.submitted,this.errorMap),this.invalid=a.extend({},this.errorMap),this.valid()||a(this.currentForm).triggerHandler("invalid-form",[this]),this.showErrors(),this.valid()},checkForm:function(){this.prepareForm();for(var a=0,b=this.currentElements=this.elements();b[a];a++)this.check(b[a]);return this.valid()},element:function(b){var c=this.clean(b),d=this.validationTargetFor(c),e=!0;return this.lastElement=d,void 0===d?delete this.invalid[c.name]:(this.prepareElement(d),this.currentElements=a(d),e=this.check(d)!==!1,e?delete this.invalid[d.name]:this.invalid[d.name]=!0),a(b).attr("aria-invalid",!e),this.numberOfInvalids()||(this.toHide=this.toHide.add(this.containers)),this.showErrors(),e},showErrors:function(b){if(b){a.extend(this.errorMap,b),this.errorList=[];for(var c in b)this.errorList.push({message:b[c],element:this.findByName(c)[0]});this.successList=a.grep(this.successList,function(a){return!(a.name in b)})}this.settings.showErrors?this.settings.showErrors.call(this,this.errorMap,this.errorList):this.defaultShowErrors()},resetForm:function(){a.fn.resetForm&&a(this.currentForm).resetForm(),this.submitted={},this.lastElement=null,this.prepareForm(),this.hideErrors(),this.elements().removeClass(this.settings.errorClass).removeData("previousValue").removeAttr("aria-invalid")},numberOfInvalids:function(){return this.objectLength(this.invalid)},objectLength:function(a){var b,c=0;for(b in a)c++;return c},hideErrors:function(){this.addWrapper(this.toHide).hide()},valid:function(){return 0===this.size()},size:function(){return this.errorList.length},focusInvalid:function(){if(this.settings.focusInvalid)try{a(this.findLastActive()||this.errorList.length&&this.errorList[0].element||[]).filter(":visible").focus().trigger("focusin")}catch(b){}},findLastActive:function(){var b=this.lastActive;return b&&1===a.grep(this.errorList,function(a){return a.element.name===b.name}).length&&b},elements:function(){var b=this,c={};return a(this.currentForm).find("input, select, textarea").not(":submit, :reset, :image, [disabled]").not(this.settings.ignore).filter(function(){return!this.name&&b.settings.debug&&window.console&&console.error("%o has no name assigned",this),this.name in c||!b.objectLength(a(this).rules())?!1:(c[this.name]=!0,!0)})},clean:function(b){return a(b)[0]},errors:function(){var b=this.settings.errorClass.split(" ").join(".");return a(this.settings.errorElement+"."+b,this.errorContext)},reset:function(){this.successList=[],this.errorList=[],this.errorMap={},this.toShow=a([]),this.toHide=a([]),this.currentElements=a([])},prepareForm:function(){this.reset(),this.toHide=this.errors().add(this.containers)},prepareElement:function(a){this.reset(),this.toHide=this.errorsFor(a)},elementValue:function(b){var c,d=a(b),e=d.attr("type");return"radio"===e||"checkbox"===e?a("input[name='"+d.attr("name")+"']:checked").val():(c=d.val(),"string"==typeof c?c.replace(/\r/g,""):c)},check:function(b){b=this.validationTargetFor(this.clean(b));var c,d,e,f=a(b).rules(),g=a.map(f,function(a,b){return b}).length,h=!1,i=this.elementValue(b);for(d in f){e={method:d,parameters:f[d]};try{if(c=a.validator.methods[d].call(this,i,b,e.parameters),"dependency-mismatch"===c&&1===g){h=!0;continue}if(h=!1,"pending"===c)return void(this.toHide=this.toHide.not(this.errorsFor(b)));if(!c)return this.formatAndAdd(b,e),!1}catch(j){throw this.settings.debug&&window.console&&console.log("Exception occurred when checking element "+b.id+", check the '"+e.method+"' method.",j),j}}if(!h)return this.objectLength(f)&&this.successList.push(b),!0},customDataMessage:function(b,c){return a(b).data("msg"+c[0].toUpperCase()+c.substring(1).toLowerCase())||a(b).data("msg")},customMessage:function(a,b){var c=this.settings.messages[a];return c&&(c.constructor===String?c:c[b])},findDefined:function(){for(var a=0;a<arguments.length;a++)if(void 0!==arguments[a])return arguments[a];return void 0},defaultMessage:function(b,c){return this.findDefined(this.customMessage(b.name,c),this.customDataMessage(b,c),!this.settings.ignoreTitle&&b.title||void 0,a.validator.messages[c],"<strong>Warning: No message defined for "+b.name+"</strong>")},formatAndAdd:function(b,c){var d=this.defaultMessage(b,c.method),e=/\$?\{(\d+)\}/g;"function"==typeof d?d=d.call(this,c.parameters,b):e.test(d)&&(d=a.validator.format(d.replace(e,"{$1}"),c.parameters)),this.errorList.push({message:d,element:b,method:c.method}),this.errorMap[b.name]=d,this.submitted[b.name]=d},addWrapper:function(a){return this.settings.wrapper&&(a=a.add(a.parent(this.settings.wrapper))),a},defaultShowErrors:function(){var a,b,c;for(a=0;this.errorList[a];a++)c=this.errorList[a],this.settings.highlight&&this.settings.highlight.call(this,c.element,this.settings.errorClass,this.settings.validClass),this.showLabel(c.element,c.message);if(this.errorList.length&&(this.toShow=this.toShow.add(this.containers)),this.settings.success)for(a=0;this.successList[a];a++)this.showLabel(this.successList[a]);if(this.settings.unhighlight)for(a=0,b=this.validElements();b[a];a++)this.settings.unhighlight.call(this,b[a],this.settings.errorClass,this.settings.validClass);this.toHide=this.toHide.not(this.toShow),this.hideErrors(),this.addWrapper(this.toShow).show()},validElements:function(){return this.currentElements.not(this.invalidElements())},invalidElements:function(){return a(this.errorList).map(function(){return this.element})},showLabel:function(b,c){var d=this.errorsFor(b);d.length?(d.removeClass(this.settings.validClass).addClass(this.settings.errorClass),d.html(c)):(d=a("<"+this.settings.errorElement+">").attr("for",this.idOrName(b)).addClass(this.settings.errorClass).html(c||""),this.settings.wrapper&&(d=d.hide().show().wrap("<"+this.settings.wrapper+"/>").parent()),this.labelContainer.append(d).length||(this.settings.errorPlacement?this.settings.errorPlacement(d,a(b)):d.insertAfter(b))),!c&&this.settings.success&&(d.text(""),"string"==typeof this.settings.success?d.addClass(this.settings.success):this.settings.success(d,b)),this.toShow=this.toShow.add(d)},errorsFor:function(b){var c=this.idOrName(b);return this.errors().filter(function(){return a(this).attr("for")===c})},idOrName:function(a){return this.groups[a.name]||(this.checkable(a)?a.name:a.id||a.name)},validationTargetFor:function(a){return this.checkable(a)&&(a=this.findByName(a.name).not(this.settings.ignore)[0]),a},checkable:function(a){return/radio|checkbox/i.test(a.type)},findByName:function(b){return a(this.currentForm).find("[name='"+b+"']")},getLength:function(b,c){switch(c.nodeName.toLowerCase()){case"select":return a("option:selected",c).length;case"input":if(this.checkable(c))return this.findByName(c.name).filter(":checked").length}return b.length},depend:function(a,b){return this.dependTypes[typeof a]?this.dependTypes[typeof a](a,b):!0},dependTypes:{"boolean":function(a){return a},string:function(b,c){return!!a(b,c.form).length},"function":function(a,b){return a(b)}},optional:function(b){var c=this.elementValue(b);return!a.validator.methods.required.call(this,c,b)&&"dependency-mismatch"},startRequest:function(a){this.pending[a.name]||(this.pendingRequest++,this.pending[a.name]=!0)},stopRequest:function(b,c){this.pendingRequest--,this.pendingRequest<0&&(this.pendingRequest=0),delete this.pending[b.name],c&&0===this.pendingRequest&&this.formSubmitted&&this.form()?(a(this.currentForm).submit(),this.formSubmitted=!1):!c&&0===this.pendingRequest&&this.formSubmitted&&(a(this.currentForm).triggerHandler("invalid-form",[this]),this.formSubmitted=!1)},previousValue:function(b){return a.data(b,"previousValue")||a.data(b,"previousValue",{old:null,valid:!0,message:this.defaultMessage(b,"remote")})}},classRuleSettings:{required:{required:!0},email:{email:!0},url:{url:!0},date:{date:!0},dateISO:{dateISO:!0},number:{number:!0},digits:{digits:!0},creditcard:{creditcard:!0}},addClassRules:function(b,c){b.constructor===String?this.classRuleSettings[b]=c:a.extend(this.classRuleSettings,b)},classRules:function(b){var c={},d=a(b).attr("class");return d&&a.each(d.split(" "),function(){this in a.validator.classRuleSettings&&a.extend(c,a.validator.classRuleSettings[this])}),c},attributeRules:function(b){var c,d,e={},f=a(b),g=b.getAttribute("type");for(c in a.validator.methods)"required"===c?(d=b.getAttribute(c),""===d&&(d=!0),d=!!d):d=f.attr(c),/min|max/.test(c)&&(null===g||/number|range|text/.test(g))&&(d=Number(d)),d||0===d?e[c]=d:g===c&&"range"!==g&&(e[c]=!0);return e.maxlength&&/-1|2147483647|524288/.test(e.maxlength)&&delete e.maxlength,e},dataRules:function(b){var c,d,e={},f=a(b);for(c in a.validator.methods)d=f.data("rule"+c[0].toUpperCase()+c.substring(1).toLowerCase()),void 0!==d&&(e[c]=d);return e},staticRules:function(b){var c={},d=a.data(b.form,"validator");return d.settings.rules&&(c=a.validator.normalizeRule(d.settings.rules[b.name])||{}),c},normalizeRules:function(b,c){return a.each(b,function(d,e){if(e===!1)return void delete b[d];if(e.param||e.depends){var f=!0;switch(typeof e.depends){case"string":f=!!a(e.depends,c.form).length;break;case"function":f=e.depends.call(c,c)}f?b[d]=void 0!==e.param?e.param:!0:delete b[d]}}),a.each(b,function(d,e){b[d]=a.isFunction(e)?e(c):e}),a.each(["minlength","maxlength"],function(){b[this]&&(b[this]=Number(b[this]))}),a.each(["rangelength","range"],function(){var c;b[this]&&(a.isArray(b[this])?b[this]=[Number(b[this][0]),Number(b[this][1])]:"string"==typeof b[this]&&(c=b[this].split(/[\s,]+/),b[this]=[Number(c[0]),Number(c[1])]))}),a.validator.autoCreateRanges&&(b.min&&b.max&&(b.range=[b.min,b.max],delete b.min,delete b.max),b.minlength&&b.maxlength&&(b.rangelength=[b.minlength,b.maxlength],delete b.minlength,delete b.maxlength)),b},normalizeRule:function(b){if("string"==typeof b){var c={};a.each(b.split(/\s/),function(){c[this]=!0}),b=c}return b},addMethod:function(b,c,d){a.validator.methods[b]=c,a.validator.messages[b]=void 0!==d?d:a.validator.messages[b],c.length<3&&a.validator.addClassRules(b,a.validator.normalizeRule(b))},methods:{required:function(b,c,d){if(!this.depend(d,c))return"dependency-mismatch";if("select"===c.nodeName.toLowerCase()){var e=a(c).val();return e&&e.length>0}return this.checkable(c)?this.getLength(b,c)>0:a.trim(b).length>0},email:function(a,b){return this.optional(b)||/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(a)},url:function(a,b){return this.optional(b)||/^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(a)},date:function(a,b){return this.optional(b)||!/Invalid|NaN/.test(new Date(a).toString())},dateISO:function(a,b){return this.optional(b)||/^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}$/.test(a)},number:function(a,b){return this.optional(b)||/^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$/.test(a)},digits:function(a,b){return this.optional(b)||/^\d+$/.test(a)},creditcard:function(a,b){if(this.optional(b))return"dependency-mismatch";if(/[^0-9 \-]+/.test(a))return!1;var c,d,e=0,f=0,g=!1;if(a=a.replace(/\D/g,""),a.length<13||a.length>19)return!1;for(c=a.length-1;c>=0;c--)d=a.charAt(c),f=parseInt(d,10),g&&(f*=2)>9&&(f-=9),e+=f,g=!g;return e%10===0},minlength:function(b,c,d){var e=a.isArray(b)?b.length:this.getLength(a.trim(b),c);return this.optional(c)||e>=d},maxlength:function(b,c,d){var e=a.isArray(b)?b.length:this.getLength(a.trim(b),c);return this.optional(c)||d>=e},rangelength:function(b,c,d){var e=a.isArray(b)?b.length:this.getLength(a.trim(b),c);return this.optional(c)||e>=d[0]&&e<=d[1]},min:function(a,b,c){return this.optional(b)||a>=c},max:function(a,b,c){return this.optional(b)||c>=a},range:function(a,b,c){return this.optional(b)||a>=c[0]&&a<=c[1]},equalTo:function(b,c,d){var e=a(d);return this.settings.onfocusout&&e.unbind(".validate-equalTo").bind("blur.validate-equalTo",function(){a(c).valid()}),b===e.val()},remote:function(b,c,d){if(this.optional(c))return"dependency-mismatch";var e,f,g=this.previousValue(c);return this.settings.messages[c.name]||(this.settings.messages[c.name]={}),g.originalMessage=this.settings.messages[c.name].remote,this.settings.messages[c.name].remote=g.message,d="string"==typeof d&&{url:d}||d,g.old===b?g.valid:(g.old=b,e=this,this.startRequest(c),f={},f[c.name]=b,a.ajax(a.extend(!0,{url:d,mode:"abort",port:"validate"+c.name,dataType:"json",data:f,context:e.currentForm,success:function(d){var f,h,i,j=d===!0||"true"===d;e.settings.messages[c.name].remote=g.originalMessage,j?(i=e.formSubmitted,e.prepareElement(c),e.formSubmitted=i,e.successList.push(c),delete e.invalid[c.name],e.showErrors()):(f={},h=d||e.defaultMessage(c,"remote"),f[c.name]=g.message=a.isFunction(h)?h(b):h,e.invalid[c.name]=!0,e.showErrors(f)),g.valid=j,e.stopRequest(c,j)}},d)),"pending")}}}),a.format=function(){throw"$.format has been deprecated. Please use $.validator.format instead."}}(jQuery),function(a){var b,c={};a.ajaxPrefilter?a.ajaxPrefilter(function(a,b,d){var e=a.port;"abort"===a.mode&&(c[e]&&c[e].abort(),c[e]=d)}):(b=a.ajax,a.ajax=function(d){var e=("mode"in d?d:a.ajaxSettings).mode,f=("port"in d?d:a.ajaxSettings).port;return"abort"===e?(c[f]&&c[f].abort(),c[f]=b.apply(this,arguments),c[f]):b.apply(this,arguments)})}(jQuery),function(a){a.extend(a.fn,{validateDelegate:function(b,c,d){return this.bind(c,function(c){var e=a(c.target);return e.is(b)?d.apply(e,arguments):void 0})}})}(jQuery);
+/* Quatro Digital Amazing Menu // 2.13 // Carlos Vinicius // Todos os direitos reservados */
+eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('(3(k){7 a,n,h,p;a=2o;D("3"!==H a.Y.T){n={U:"/8-1B-W",1h:3(){},1i:3(){}};7 l=3(a,b){D("1K"===H B&&"V"!==H B.1a&&"V"!==H B.X&&"V"!==H B.1l){7 c;"1K"===H a?(a.2n("[1M 1I 1H]\\n"),c=a):c=["[1M 1I 1H]\\n"+a];D("V"===H b||"1P"!==b.Q()&&"2p"!==b.Q())D("V"!==H b&&"X"===b.Q())R{B.X.1j(B,c)}O(g){R{B.X(c.M("\\n"))}O(e){}}1F R{B.1a.1j(B,c)}O(g){R{B.1a(c.M("\\n"))}O(e){}}1F R{B.1l.1j(B,c)}O(g){R{B.1l(c.M("\\n"))}O(e){}}}};a.Y.1e=3(){7 f=a(i);f.E(3(b){a(i).w("8-6-I-"+b)});f.1k().w("8-6-1k");f.1G().w("8-6-1G");C f};a.Y.T=3(){};k=3(a){7 b={j:"2q%5%1d%5%J%5%K",2r:"2m%5%J%5%K",2l:"2g%5%2f%5%J%5%K",2h:"2i%5%1q%5%J%5%K",2k:"2j%5%1x%5%J%5%K",2s:"2t%5%2e%5%2C%5%J%5%K","1A%2E":"2%1d%5%1q%5%J%5%K","1A%5":"%1d%5%1x%5%J%5%K"};C 3(a){7 c,e,d,m;e=3(a){C a};d=["a","e",18,"m","s","k","d","u","g","h","a","g","s","t","z","y","o","u","o","b"];a=a["d"+d[16]+"c"+d[17]+"m"+e(d[1])+"n"+d[13]]["l"+d[18]+"c"+d[0]+"2F"+e("o")+"n"];c=3(a){C 2G(2B(a.15(/\\./g,"\\2A").15(/[a-2v-Z]/g,3(a){C 2u.2w(("Z">=a?2x:2z)>=(a=a.2y(0)+13)?a:a-26)})))};7 q=c(a[[d[9],e("o"),d[12],d[e(13)]].M("")]);c=c((14[["2H",e("21"),"m",d[1],d[4].1Y(),"20"].M("")]||"---")+[".v",d[13],"e",e("x"),"1X",e("1Z"),"2d",d[1],".c",e("o"),"m.",d[19],"r"].M(""));2a(7 f 2b b){D(c===f+b[f]||q===f+b[f]){m="2c"+d[17]+"e";29}m="f"+d[0]+"28"+e(d[1])+""}e=!1;-1<a[[d[12],"e",d[0],"23",d[9]].M("")].24("25%1N%1U%1W%1f%1b%1f%22%27%2D%1J%2O%1J%3r%1f%1b%1N%1U%1W%3p%1b")&&(e=!0);C[m,e]}(a)}(14);D(!3t(k[0]))C k[1]?l("\\3g\\3d\\1p \\3i\\P\\3m\\3k\\1n\\P\\1n\\1p \\3l\\P\\2I\\P \\3n\\3u\\3v\\P L\\3q\\P!"):!1;p=3(f){7 b,c,g;g=f.F(".3h");b=g.1T(".8-6-1m");c=g.1T(".8-6-1L");D(b.G||c.G)b.11().w("8-6-1m-1V"),c.11().w("8-6-1L-1V"),a.3b({U:h.U,3c:"2T",2U:3(e){7 d=a(e);b.E(3(){7 c,b;b=a(i);c=d.F("2V[2Q=\'"+b.1w("1O-1o-1y")+"\']");c.G&&(c.E(3(){a(i).1z(".2P-1m").1r().1s(b)}),b.1t())}).w("8-6-1u-1v");c.E(3(){7 c={},b;b=a(i);d.F("2K").E(3(){D(a(i).1S().1c().Q()==b.1w("1O-1o-1y").1c().Q())C c=a(i),!1});c.G&&(c.E(3(){a(i).1z("[2J*=\'2L\']").1r().1s(b)}),b.1t())}).w("8-6-1u-1v")},1a:3(){l("N\\1Q 2W 2X\\37 36 38 39 1R W. A U \'"+h.U+"\' 34.")},2Z:3(){h.1i.1E(i);a(14).1C("1D.6.1i",f)},2Y:30})};a.T=3(f){7 b=f.F("S[31]").E(3(){7 c,b;c=a(i);D(!c.G)C l(["32 1R W n\\1Q 2R",f],"1P");c.F("I >S").11().w("8-6-33-S");c.F("I").E(3(){7 b=a(i),c;c=b.10(":35(S)");c.G&&b.w("8-6-3a-"+c.1k().1S().1c().2N().15(/\\./g,"").15(/\\s/g,"-").Q())});b=c.F(">I").1e();c.w("8-1B-W");b=b.F(">S");b.E(3(){7 b=a(i);b.F(">I").1e().w("8-6-2M");b.w("8-6-1g-W");b.11().w("8-6-1g")});b.w("8-6-1g");7 e=0,d=3(a){e+=1;a=a.10("I").10("*");a.G&&(a.w("8-6-2S-"+e),d(a))};d(c);c.3s(c.F("S")).E(3(){7 b=a(i);b.w("8-6-"+b.10("I").G+"-I")})});p(b);h.1h.1E(i);a(14).1C("1D.6.1h",f)};a.Y.T=3(f){7 b=a(i);D(!b.G)C b;h=a.3e({},n,f);b.3j=3f a.T(a(i));C b};a(3(){a(".3o").T()})}})(i);',62,218,'|||function||25C2|am|var|qd||||||||||this||||||||||||||addClass|||||console|return|if|each|find|length|typeof|li|25A8pbz|25A8oe||join||catch|u0391|toLowerCase|try|ul|QD_amazingMenu|url|undefined|menu|info|fn||children|parent|||window|replace|||||error|82|trim|25A8zvyyvbayvar|qdAmAddNdx|D1|dropdown|callback|ajaxCallback|apply|first|warn|banner|u2202|qdam|u0472|25A8igrkpbzzreprorgn|clone|insertBefore|hide|content|loaded|attr|25A8igrkpbzzreprfgnoyr|value|getParent|jjj|amazing|trigger|QuatroDigital|call|else|last|Menu|Amazing|C2|object|collection|QD|E0|data|alerta|u00e3o|do|text|filter|B8|wrapper|84|co|toUpperCase|mm|ite|no|8F|rc|indexOf|qu||CF|ls|break|for|in|tr|erc|25A8igrk|25A8igrkpbzzrepr|yvbayvar|zvyy|vbayvar|bayvar|zvyyv|zvy|yyvbayvar|unshift|jQuery|aviso|jj|zv|zvyyvb|ayvar|String|zA|fromCharCode|90|charCodeAt|122|u00a8|encodeURIComponent|25A8dhngebqvtvgny|83d|25C|ti|escape|js|u0ae8|class|h2|colunas|column|replaceSpecialChars|A1g|box|alt|encontrada|level|html|success|img|foi|poss|clearQueueDelay|complete|3E3|itemscope|UL|has|falho|not|obter|u00edvel|os|dados|elem|qdAjax|dataType|u00c3|extend|new|u0e17|qd_am_code|u221a|exec|u00a1|u03a1|u2113|u0aef|qd_amazing_menu_auto|C5|u0472J|A1|add|eval|u0abd|u01ac'.split('|'),0,{}));
+/* Quatro Digital - Mosaic Banners // 1.2 // Carlos Vinicius // Todos os direitos reservados */
+(function(q){var e=jQuery;if("function"!==typeof e.fn.QD_mosaicBanners){var k=function(c,b){if("object"===typeof console&&"undefined"!==typeof console.error&&"undefined"!==typeof console.info&&"undefined"!==typeof console.warn){var a;"object"===typeof c?(c.unshift("[Quatro Digital - Mosaic Banners]\n"),a=c):a=["[Quatro Digital - Mosaic Banners]\n"+c];if("undefined"===typeof b||"alerta"!==b.toLowerCase()&&"aviso"!==b.toLowerCase())if("undefined"!==typeof b&&"info"===b.toLowerCase())try{console.info.apply(console,
+a)}catch(f){try{console.info(a.join("\n"))}catch(d){}}else try{console.error.apply(console,a)}catch(f){try{console.error(a.join("\n"))}catch(d){}}else try{console.warn.apply(console,a)}catch(f){try{console.warn(a.join("\n"))}catch(d){}}}},l={bannerRowSecurityMargin:10,containerWidth:1170,bannerColSecurityMargin:15,classOneColumn:"col-xs-12",classTwoColumn:"col-xs-12 col-sm-6",classThreeColumn:"col-xs-12 col-sm-4",classFourColumn:"col-xs-6 col-sm-3"},m=function(c,b){function a(f){var d,g=new e;f.length&&
+(f.each(function(){var f=e(this),a=f.offset().top;d||(d=a);if(a>=d-b.bannerRowSecurityMargin&&a<=d+b.bannerRowSecurityMargin)g=g.add(f);else return!1}),g.wrapAll('<div class="row qd-mb-row"></div>'),a(c.find(">div:not(.row)")))}a(c.find(">div:not(.row)"))},n=/width\=.?([0-9]+)/i,p=function(c,b){var a=e(c);a.each(function(){var a=e(this);if(a.is(".qd-mb-banner"))k(["Este banner j\u00e1 esta processado!",a],"info");else{a.addClass("qd-mb-banner");var d=a.find("img").first();if(d.length){var c=parseInt,
+d=d.wrap("<span></span>"),h=d.parent().html();d.unwrap("span");d=h.replace(/\n/g," ");c=c((d.match(n)||[1]).pop(),10)||1;d=b.containerWidth/2*(1-b.bannerColSecurityMargin/2/100);h=b.containerWidth/3*(1-b.bannerColSecurityMargin/3/100);c>b.containerWidth*(1-b.bannerColSecurityMargin/100)?a.addClass(b.classOneColumn):c>d?a.addClass(b.classTwoColumn):c>h?a.addClass(b.classThreeColumn):a.addClass(b.classFourColumn)}else k(["Esse elemento n\u00e3o possui nenhuma imagem dentro. Certifique-se que esteja chamando um \u201c.box-banner\u201d. Mas voc\u00ea \u00e9 burro hein!",
+a],"info")}});a.parent().each(function(){m(e(this),b)})};e.fn.QD_mosaicBanners=function(c){var b=e(this);if(!b.length)return b;c=e.extend({},l,c);b.qdPlugin=new p(b,c);return b};e(function(){e(".qd_auto_mosaic_banners .box-banner").QD_mosaicBanners()})}})(this);
+/* Quatro Digital - Smart Quantity // 1.11 // Carlos Vinicius // Todos os direitos reservados */
+(function(v){var d=jQuery;if("function"!==typeof d.fn.QD_smartQuantity){var g=function(d,a){if("object"===typeof console&&"function"===typeof console.error&&"function"===typeof console.info&&"function"===typeof console.warn){var f;"object"===typeof d?(d.unshift("[Quatro Digital - Smart Quantity]\n"),f=d):f=["[Quatro Digital - Smart Quantity]\n"+d];if("undefined"===typeof a||"alerta"!==a.toLowerCase()&&"aviso"!==a.toLowerCase())if("undefined"!==typeof a&&"info"===a.toLowerCase())try{console.info.apply(console,
+f)}catch(k){console.info(f.join("\n"))}else try{console.error.apply(console,f)}catch(k){console.error(f.join("\n"))}else try{console.warn.apply(console,f)}catch(k){console.warn(f.join("\n"))}}},m={buyButton:".buy-button",qttInput:".qd-sq-quantity",btnMore:".qd-sq-more",btnMinus:".qd-sq-minus",initialValue:1,minimumValue:1,setQuantityByUrl:!0},n=function(h,a){function f(c,e,b){a.setQuantityByUrl?c.val(((location.search||"").match(q)||[a.initialValue]).pop()):c.val(a.initialValue);c.change(function(c,
+b){try{if("qd_ssl_trigger"!=b){var e=d(this),f=parseInt(e.val().replace(n,""));!isNaN(f)&&f>a.minimumValue?e.val(f):e.val(a.minimumValue);e.trigger("QuatroDigital.sq_change",this)}}catch(t){g(t.message)}});c.focusin(function(){d(this).trigger("QuatroDigital.sq_focusin",this)});e.click(function(b){b.preventDefault();c.val((parseInt(c.val())||a.minimumValue)+1).change()});b.click(function(b){b.preventDefault();c.val((parseInt(c.val())||a.minimumValue+1)-1).change()});c.change()}function k(c,e,b){c.on("QuatroDigital.sq_change",
+function(){(d(this).val()||0)<=a.minimumValue?(b.addClass("qd-sq-inactive"),e.removeClass("qd-sq-inactive")):(e.addClass("qd-sq-inactive"),b.removeClass("qd-sq-inactive"))})}function m(c,e){c.on("QuatroDigital.sq_change",function(){try{if(!(e[0].hostname||"").length)return g("A quantidade n\u00e3o foi inserida no bt comprar pois o mesmo n\u00e3o possui uma URL","info");var b=e[0].search||"";-1<b.toLowerCase().indexOf("qty=")?e[0].search=b.replace(p,"qty="+(parseInt(c.val())||("number"==typeof a.minimumValue?
+a.minimumValue:1))+"&"):e[0].search="qty="+(parseInt(c.val())||("number"==typeof a.minimumValue?a.minimumValue:1))+"&"+(e[0].search||"").replace(p,"");var d=((e.attr("href")||"").match(u)||[""]).pop()+"";c.attr("data-sku-id",d);if(d.length&&"object"===typeof skuJson&&!c.attr("data-sku-price"))for(b=0;b<skuJson.skus.length;b++)skuJson.skus[b].sku==d&&c.attr("data-sku-price",skuJson.skus[b].bestPrice)}catch(l){g(l.message)}})}var n=/[^0-9-]/gi,q=/qty\=([0-9]+)/i,u=/sku\=([0-9]+)/i,p=/qty\=[0-9]+\&?/ig;
+h.each(function(){try{var c=d(this),e=c.find(a.buyButton),b=c.find(a.qttInput),h=c.find(a.btnMore),l=c.find(a.btnMinus);if(!e.length&&null!==a.buyButton||!b.length)return g("O plugin parou por aqui! N\u00e3o foram encontrados o bot\u00e3o comprar e o campo de quantidade","alerta");if(b.is(".qd-sq-on"))return g(["Execu\u00e7\u00e3o ignorada pois este input j\u00e1 possui o plugin aplicado. Input: ",b],"info");b.addClass("qd-sq-on");k(b,h,l);null!==a.buyButton&&m(b,e);f(b,h,l);d(window).on("vtex.sku.selected",
+function(){b.change()})}catch(r){g(r.message)}})};d.fn.QD_smartQuantity=function(g){var a=d(this);a.qdPlugin=new n(a,d.extend({},m,g));d(window).trigger("QuatroDigital.sq_callback");return a};d(function(){d(".qd_auto_smart_quantity").QD_smartQuantity()})}})(this);
