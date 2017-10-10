@@ -320,6 +320,11 @@ body.institucional .phone-number-wrapper .fa-phone + span .time {
   border-radius: 5px;
   text-align: center;
 }
+.qd-v2-401 .qd-v2-401-choose-store .catalogo-wrapper span:hover,
+.qd-v2-401 .qd-v2-401-choose-store .loja-wrapper span:hover {
+  color: #a38734;
+  text-decoration: none;
+}
 .qd-v2-401 .qd-v2-401-choose-store .catalogo-wrapper span:after,
 .qd-v2-401 .qd-v2-401-choose-store .loja-wrapper span:after {
   content: '\f054';
@@ -420,4 +425,113 @@ body.institucional .phone-number-wrapper .fa-phone + span .time {
 .qd-v2-401 .qd-v2-401-testmonials .qd-v2-401-testimonial p {
   font-size: 14px;
   padding: 15px 36px 30px;
+}
+.qd-v2-403 {
+  background: url('https://centerparts.vteximg.com.br/arquivos/bg6.jpg');
+  background-position: 50%;
+  padding: 25px 0;
+  color: #FFF;
+}
+.qd-v2-403 h1 {
+  font-size: 14px;
+}
+.qd-v2-403 h2 {
+  font-weight: bold;
+  margin: 25px 0;
+}
+.qd-v2-403 p {
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+.qd-v2-403 a.change-user {
+  text-decoration: underline;
+  display: block;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+.qd-v2-403 a.change-user:before {
+  content: "\f007";
+  display: inline-block;
+  font-size: 1em;
+  font-style: normal;
+  font-weight: normal;
+  height: 1em;
+  text-align: center;
+  text-decoration: inherit;
+  text-rendering: optimizelegibility;
+  width: 1em;
+  font-family: 'FontAwesome';
+  margin-right: 8px;
+}
+.qd-v2-403 a.change-user:hover {
+  color: #4DA1BD;
+}
+.qd-v2-403 a.btn-register {
+  width: 90%;
+  height: 42px;
+  background: #b6973a;
+  color: #FFF !important;
+  display: block;
+  line-height: 40px;
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 4px;
+  transition: all 0.2s ease-out;
+  margin: 15px auto 0 0;
+  font-size: 16px;
+  border-radius: 5px;
+  text-align: center;
+  width: 80%;
+}
+.qd-v2-403 a.btn-register:hover {
+  color: #a38734;
+  text-decoration: none;
+}
+.qd-v2-403 a.btn-register:after {
+  content: '\f054';
+  display: inline-block;
+  font-size: 1em;
+  font-style: normal;
+  font-weight: normal;
+  height: 1em;
+  text-align: center;
+  text-decoration: inherit;
+  text-rendering: optimizelegibility;
+  width: 1em;
+  font-family: 'FontAwesome';
+  margin-left: 11px;
+}
+.qd-v2-403 a.btn-register:after {
+  display: none;
+}
+.qd-v2-403 a.btn-register:before {
+  content: "\f067";
+  display: inline-block;
+  font-size: 1em;
+  font-style: normal;
+  font-weight: normal;
+  height: 1em;
+  text-align: center;
+  text-decoration: inherit;
+  text-rendering: optimizelegibility;
+  width: 1em;
+  font-family: 'FontAwesome';
+  margin-right: 8px;
+}
+.qd-v2-403 span {
+  max-width: 79%;
+  display: block;
+}
+.qd-v2-403 .video-wrapper-qd-v1 {
+  background: transparent;
+  margin: 0;
+  padding: 0;
+}
+.qd-v2-403 .video-wrapper-qd-v1 .box-banner {
+  float: none;
+  margin-bottom: 20px;
+}
+.qd-v2-403 .video-wrapper-qd-v1 .box-banner img {
+  max-width: 330px;
+  height: auto;
 }
