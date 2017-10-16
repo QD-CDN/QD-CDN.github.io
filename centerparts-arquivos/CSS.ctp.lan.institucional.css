@@ -440,8 +440,8 @@ body.institucional .phone-number-wrapper .fa-phone + span .time {
   margin: 25px 0;
 }
 .qd-v2-403 p {
-  font-size: 16px;
-  margin-bottom: 30px;
+  font-size: 15px;
+  margin-bottom: 15px;
 }
 .qd-v2-403 a.change-user {
   text-decoration: underline;
@@ -481,7 +481,7 @@ body.institucional .phone-number-wrapper .fa-phone + span .time {
   font-size: 16px;
   border-radius: 5px;
   text-align: center;
-  width: 80%;
+  width: 65%;
 }
 .qd-v2-403 a.btn-register:hover {
   color: #a38734;
