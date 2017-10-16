@@ -20,9 +20,21 @@ try {
 	};
 
 	var Search = {
-		init: function() {},
+		init: function() {
+			Search.newTabBanners();
+		},
 		ajaxStop: function() {},
-		windowOnload: function() {}
+		windowOnload: function() {},
+		newTabBanners: function() {
+			// Array dos Alts das imagens
+			var alt = ['Topo'];
+
+			$('.departamentTop img').each(function() {
+				$t = $(this);
+				if(alt.indexOf($t.attr('alt')) > -1)
+					$t.closest('a').attr('target', '_blank');
+			});
+		},
 	};
 
 	var Product = {
