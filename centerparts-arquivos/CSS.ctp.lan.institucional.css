@@ -404,6 +404,7 @@ body.institucional .phone-number-wrapper .fa-phone + span .time {
 }
 .qd-v2-401 .qd-v2-401-testmonials {
   text-align: center;
+  display: none;
 }
 .qd-v2-401 .qd-v2-401-testmonials .qd-v2-401-testimonial {
   background: #f9f9f9;
