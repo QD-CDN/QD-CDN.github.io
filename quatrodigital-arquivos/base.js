@@ -49,7 +49,7 @@ try {
 				$('.container').removeClass('container').addClass('generic-container').css('width', containerWidth + 'px');
 			}
 
-            $('[class*="col-"]').each(function () {
+            $('.mosaic-banners [class*="col-"]').each(function () {
                 $(this).empty().append($(this).width() + 'px');
             });
         }
