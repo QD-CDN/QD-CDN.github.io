@@ -39,19 +39,19 @@ try {
 				miniCart.not(this).mouseover();
 			});
 		},
-		amazingMenu: function() {
+		amazingMenu: function () {
 			$(".header-qd-v2-main-amazing-menu").QD_amazingMenu();
 
 			// Amazing Menu Responsivo
-			$(".header-qd-v2-amazing-menu-toggle").click(function(){
+			$(".header-qd-v2-amazing-menu-toggle").click(function () {
 				$("body").toggleClass('qd-am-on');
 			});
 
-			$(".qd-am-overlay").click(function(){
+			$(".qd-am-overlay").click(function () {
 				$("body").removeClass('qd-am-on');
 			});
 
-			$('.header-qd-v2-main-amazing-menu-mobile > ul > li > a, .header-qd-v2-main-amazing-menu-mobile > ul > li > p').click(function(evt){
+			$('.header-qd-v2-main-amazing-menu-mobile > ul > li > a, .header-qd-v2-main-amazing-menu-mobile > ul > li > p').click(function (evt) {
 				evt.preventDefault();
 
 				var $t = $(this);
@@ -467,7 +467,7 @@ try {
 			Product.currentColorThumb();
 			Product.paymentFix();
 			Product.openPaymentMethods();
-			Home.homeShelfCarousel();
+			Product.homeShelfCarousel();
 			// Product.qdProductCollectionsWrapCarousel(); // Chamar este metodo sempre por último
 		},
 
