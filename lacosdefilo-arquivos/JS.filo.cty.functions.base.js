@@ -426,12 +426,12 @@ try {
 		init: function() {
 			Product.seeDescription();
 			Product.openShipping();
+			Home.homeShelfCarousel();
 			Product.checkBuyTogether();
 			Product.checkSpecification();
 			Product.currentColorThumb();
 			Product.paymentFix();
 			Product.openPaymentMethods();
-			Home.homeShelfCarousel();
 			// Product.qdProductCollectionsWrapCarousel(); // Chamar este metodo sempre por último
 		},
 
