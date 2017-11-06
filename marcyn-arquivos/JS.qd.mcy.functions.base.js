@@ -9,31 +9,13 @@ Array.prototype.indexOf||(Array.prototype.indexOf=function(d,e){var a;if(null==t
 try {
 	var Common = {
 		run: function() {},
-		init: function() {
-			Common.vtexBindQuickViewDestroy();
-			Common.inactiveFunctions();
-		},
+		init: function() {},
 		ajaxStop: function() {},
 		windowOnload: function() {},
 		vtexBindQuickViewDestroy: function() {
 			window.bindQuickView = function() {};
 		},
-		inactiveFunctions: function() {
-			if (_Product.guiaMedidasChooser)
-				_Product.guiaMedidasChooser = function () {  };
-			
-			if (_Product.setColors)
-				_Product.setColors = function () {  };
-			
-			if (_Product.openGuide)
-				_Product.openGuide = function () {  };
-			
-			if (_Product.addToQuickCart)
-				_Product.addToQuickCart = function () {  };
-			
-			if (_Product.tabelaMedidas)
-				_Product.tabelaMedidas = function () {  };
-		}
+
 	};
 
 	var Home = {
@@ -54,6 +36,8 @@ try {
 			// Product.forceImageZoom();
 			// Product.setAvailableBodyClass();
 			Product.applySmartSkuGrid();
+			Product.vtexBindQuickViewDestroy();
+			Product.inactiveFunctions();			
 		},
 		ajaxStop: function() {},
 		windowOnload: function() {},
@@ -100,7 +84,23 @@ try {
 				}
 			}
 			catch (e) {(typeof console !== "undefined" && typeof console.error === "function" && console.error("Ops, algo saiu errado como zoom :( . Detalhes: " + e.message)); }
-		}
+		},
+		inactiveFunctions: function () {
+			if (_Product.guiaMedidasChooser)
+				_Product.guiaMedidasChooser = function () { };
+
+			if (_Product.setColors)
+				_Product.setColors = function () { };
+
+			if (_Product.openGuide)
+				_Product.openGuide = function () { };
+
+			if (_Product.addToQuickCart)
+				_Product.addToQuickCart = function () { };
+
+			if (_Product.tabelaMedidas)
+				_Product.tabelaMedidas = function () { };
+		}		
 	};
 
 	var List = {
@@ -111,9 +111,219 @@ try {
 	};
 
 	var Institutional = {
-		init: function() {},
+		init: function() {
+			Institutional.sendAccessForm();
+		},
 		ajaxStop: function() {},
-		windowOnload: function() {}
+		windowOnload: function() {},
+		formCadastreMask: function () {
+			var form = $(".form-qd-v1");
+
+			if (!form.length || typeof $.fn.mask !== "function")
+				return;
+
+			form.find('[name=qd_form_cpnj]').mask('00.000.000/0000-00');
+			form.find('[name=qd_form_cpf]').mask('000.000.000-00');
+			form.find('[name=qd_form_phone]').mask('(00) 0000-00009');
+			form.find('[name=qd_form_celphone]').mask('(00) 0000-00009');
+			form.find('[name=qd_form_zipcode]').mask('00000-000');
+			form.find('[name=qd_form_ie]').mask('###.###.###.###.###');
+			form.find('[name=qd_form_birthdate]').mask('00/00/0000');
+		},
+		checkEmailExist: function (email) {
+			window.QD_checkEmailExist_request = window.QD_checkEmailExist_request || $.ajax({
+				url: "//api.vtexcrm.com.br/" + jsnomeLoja + "/dataentities/CL/search",
+				data: { "_fields": "id", "email": email },
+				type: "GET",
+				dataType: "json",
+				headers: { Accept: "application/vnd.vtex.ds.v10+json" },
+				success: function (data) {
+					if (data.length)
+						alert("Este e-mail já existe em nosso cadastro. Para maiores informações por favor entre em contato com o Atendimento ao Cliente.");
+				},
+				complete: function () {
+					window.QD_checkEmailExist_request = undefined;
+				}
+			});
+
+			return window.QD_checkEmailExist_request;
+		},
+		checkCnpjExist: function (cnpj) {
+			window.QD_checkCnpjExist_request = window.QD_checkCnpjExist_request || $.ajax({
+				url: "//api.vtexcrm.com.br/" + jsnomeLoja + "/dataentities/CL/search",
+				data: { "_fields": "id", "corporateDocument": cnpj.replace(/[^0-9]/ig, "") },
+				type: "GET",
+				dataType: "json",
+				headers: { Accept: "application/vnd.vtex.ds.v10+json" },
+				success: function (data) {
+					if (data.length)
+						alert("Este CNPJ já existe em nosso cadastro. Para maiores informações por favor entre em contato com o Atendimento ao Cliente.");
+				},
+				complete: function () {
+					window.QD_checkCnpjExist_request = undefined;
+				}
+			});
+
+			return window.QD_checkCnpjExist_request;
+		},
+		sendAccessForm: function () {
+			Institutional.formCadastreMask();
+
+			var $form = $(".form-qd-v1");
+			var loading = $('form-qd-v1-loading').hide();
+			// $form.find(".form-qd-v1-submit").after(loading);
+
+			var cnpj = $form.find("[name='qd_form_cpnj']");
+			cnpj.keyup(function (e) {
+				if ((cnpj.val() || "").length > 17)
+					Institutional.checkCnpjExist(cnpj.val() || "");
+			});
+
+			var email = $form.find("[name='qd_form_email']");
+			email.focusout(function (e) {
+				if ((email.val() || "").length > 0)
+					Institutional.checkEmailExist(email.val() || "");
+			});
+
+			// Preenchendo o endereço a partir do CEP
+			var cepInputs = $form.find("input[name=qd_form_street], input[name=qd_form_complement], input[name=qd_form_neighboor], input[name=qd_form_city], input[name=qd_form_state]").attr("disabled", "disabled");
+			var cep = $form.find("input[name=qd_form_zipcode]");
+			cep.keyup(function (e) {
+				if ((cep.val() || "").length < 9)
+					return;
+
+				// $form.find(".btn-continue").slideUp();
+				loading.slideDown();
+
+				$.ajax({
+					url: "/api/checkout/pub/postal-code/BRA/" + cep.val(),
+					dataType: "json",
+					success: function (data) {
+						// $form.find(".btn-continue").slideUp();
+						loading.slideDown();
+						$form.find("input[name=qd_form_street]").val(data.street || "");
+						$form.find("input[name=qd_form_neighboor]").val(data.neighborhood || "");
+						$form.find("input[name=qd_form_city]").val(data.city || "");
+						$form.find("input[name=qd_form_state]").val(data.state || "");
+					},
+					complete: function () {
+						cepInputs.removeAttr('disabled');
+						loading.slideUp();
+						// $form.find(".form-qd-v1-submit").slideDown();
+					}
+				});
+			});
+
+			if (typeof $.fn.validate !== "function")
+				return;
+
+			$form.validate({
+				rules: {
+					email: {
+						email: true
+					}
+				},
+				submitHandler: function (form) {
+					var $form = $(form);
+					var idRegister = '';
+
+					if (!$form.valid())
+						return;
+
+					loading.slideDown();
+					var inputs = $form.find("input, textarea");
+
+					Institutional.checkEmailExist(inputs.filter("[name='qd_form_email']").val() || "").always(function () {
+						loading.slideUp();
+					}).done(function (data) {
+						if (data.length)
+							return;
+
+						loading.slideDown();
+						Institutional.checkCnpjExist(inputs.filter("[name='qd_form_cpnj']").val() || "").always(function () {
+							loading.slideUp();
+						}).done(function (data) {
+							if (data.length)
+								return;
+
+							loading.slideDown();
+
+							var stateRegistration = (inputs.filter("[name='qd_form_ie']").val() || "Isento").trim();
+							stateRegistration = stateRegistration.length ? stateRegistration : "Isento";
+							stateRegistration = stateRegistration.replace(/i.+ento/g, "Isento");
+
+							$.ajax({
+								url: "//api.vtexcrm.com.br/" + jsnomeLoja + "/dataentities/CL/documents",
+								type: "PATCH",
+								dataType: "json",
+								headers: { "Accept": "application/vnd.vtex.ds.v10+json", "Content-Type": "application/json; charset=utf-8" },
+								data: JSON.stringify({
+									firstName: inputs.filter("[name='qd_form_name']").val() || "",
+									lastName: inputs.filter("[name='qd_form_lastname']").val() || "",
+									email: inputs.filter("[name='qd_form_email']").val() || "",
+									birthDate: (inputs.filter("[name='qd_form_birthdate']").val() || '').split('/').reverse().join('-'),
+									gender: inputs.filter("[name='qd_form_sex']:checked").val() || "",
+									documentType: "cpf",
+									"document": (inputs.filter("[name='qd_form_cpf']").val() || "").replace(/[^0-9]/ig, ""),
+									homePhone: "+55" + (inputs.filter("[name='qd_form_phone']").val() || "").replace(/[^0-9]/ig, ""),
+									cellPhone: "+55" + (inputs.filter("[name='qd_form_celphone']").val() || "").replace(/[^0-9]/ig, ""),
+									isSMSNewsletterOptIn: false,
+									tradeName: inputs.filter("[name='qd_form_trading_name']").val() || "",
+									corporateName: inputs.filter("[name='qd_form_company_name']").val() || "",
+									corporateDocument: (inputs.filter("[name='qd_form_cpnj']").val() || "").replace(/[^0-9]/ig, ""),
+									stateRegistration: stateRegistration,
+									site: inputs.filter("[name='qd_form_site']").val() || "",
+									facebook: inputs.filter("[name='qd_form_facebook']").val() || "",
+									instagram: inputs.filter("[name='qd_form_instagram']").val() || "",
+									workingBrands: inputs.filter("[name='qd_form_working_brands']").val() || "",
+									interestingBrands: inputs.filter("[name='qd_form_interesting_brands']").val() || "",
+									isCorporate: true,
+									localeDefault: "pt-BR"
+								}),
+								success: function (data) {
+									$.ajax({
+										url: "//api.vtexcrm.com.br/" + jsnomeLoja + "/dataentities/AD/documents",
+										type: "PATCH",
+										dataType: "json",
+										headers: { "Accept": "application/vnd.vtex.ds.v10+json", "Content-Type": "application/json; charset=utf-8" },
+										data: JSON.stringify({
+											addressName: "Principal",
+											userId: (data.Id || "").replace(/^[a-z]{2}\-/i, ""),
+											street: inputs.filter("[name='qd_form_street']").val() || "",
+											number: inputs.filter("[name='qd_form_number']").val() || "",
+											complement: inputs.filter("[name='qd_form_complement']").val() || "",
+											neighborhood: inputs.filter("[name='qd_form_neighboor']").val() || "",
+											city: inputs.filter("[name='qd_form_city']").val() || "",
+											state: inputs.filter("[name='qd_form_state']").val() || "",
+											postalCode: inputs.filter("[name='qd_form_zipcode']").val() || "",
+											addressType: "residential",
+											receiverName: inputs.filter("[name='qd_form_name']").val() || "",
+											geoCoordinate: []
+										}),
+										success: function () {
+											$('.form-qd-v1-sucess').removeClass('hide');
+											$('.register-content-qd-v1').addClass('hide');
+											$(document).scrollTop(0);
+										},
+										error: function (data) {
+											alert("Não foi possível enviar seu formulário, por favor tente novamente ou entre em contato por telefone.");
+										},
+										complete: function () {
+											loading.slideUp(function () { $(this).remove(); });
+										}
+									});
+								},
+								error: function () {
+									alert("Não foi possível enviar seu formulário, por favor tente novamente ou entre em contato por telefone.");
+									loading.slideUp(function () { $(this).remove(); });
+								}
+							});
+						});
+					});
+				},
+				errorPlacement: function (error, element) { }
+			});
+		}	
 	};
 
 	var Orders = {
