@@ -14,7 +14,7 @@ try {
 		windowOnload: function() {},
 		vtexBindQuickViewDestroy: function() {
 			window.bindQuickView = function() {};
-		},
+		}
 
 	};
 
@@ -36,7 +36,7 @@ try {
 			// Product.forceImageZoom();
 			// Product.setAvailableBodyClass();
 			Product.applySmartSkuGrid();
-			Product.vtexBindQuickViewDestroy();
+			// Product.vtexBindQuickViewDestroy();
 			Product.inactiveFunctions();			
 		},
 		ajaxStop: function() {},
