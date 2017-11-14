@@ -561,6 +561,7 @@ try {
 			Product.seeDescription();
 			Product.skuListSelection();
 			Product.qdNotifymeShow();
+			Product.hideUniqueSkuOption();
 		},
 		ajaxStop: function () {
 			Product.addCloseBtnFreightTable();
@@ -575,7 +576,7 @@ try {
 					$(document.body).removeClass('notify-active');
 				}
 				else {
-					notifyWrapper.parent().parent().attr('class', "").addClass('col-xs-12');
+					notifyWrapper.parent().parent().attr('class', "").addClass('col-xs-12 col-lg-6');
 					$(document.body).addClass('notify-active');
 				}
 			}
@@ -610,8 +611,8 @@ try {
 		openShipping: function() {
 			ShippingValue();
 		},
-		hideUniqueSkuOption : function(){
-			$(".sku-selector-container [class*='group_']").each(function(){
+		hideUniqueSkuOption: function(){
+			$(".product-qd-v1-sku-selection [class*='group_']").each(function(){
 				var $t = $(this);
 				var input =  $t.find("input");
 
@@ -696,7 +697,7 @@ try {
 			$(".header-qd-v1-cart-link").QD_buyButton({
 				buyButton: ".product-qd-v1-sku-selection-box .buy-button"
 			});
-		}
+		},
 	};
 
 	var List = {
