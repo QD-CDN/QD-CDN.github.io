@@ -1079,19 +1079,6 @@ try {
 }
 catch (e) {(typeof console !== "undefined" && typeof console.error === "function" && $("body").addClass('jsFullLoaded jsFullLoadedError') && console.error("Houve um erro ao iniciar os objetos. Detalhes: " + e.message)); }
 
-/* Quatro Digital Newsletter // 5.1 // Carlos Vinicius [ QUATRO DIGITAL ] // Todos os Direitos Reservados */
-(function(){var f=jQuery;if("function"!==typeof f.fn.QD_news){var t={defaultName:"Digite seu nome...",defaultEmail:"Digite seu e-mail...",nameField:".qd_news_name",checkNameFieldIsVisible:!0,emailField:".qd_news_email",btn:".qd_news_button",elementError:".nv2_messageError",elementSuccess:".nv2_messageSuccess",validationMethod:"popup",getAttr:"alt",setDefaultName:!0,checkNameExist:!0,validateName:!0,showInPopup:!0,animation:"blink",animateSpeed:100,animateDistance:15,animateRepeat:3,animateFieldSuccess:".qd_news_animate_field_success",
-timeHideSuccessMsg:3E3,platform:"VTEX",allowSubmit:function(){return!0},successCallback:function(){},submitCallback:function(f,l){}};f.fn.QD_news=function(r){var l=function(a,d){if("object"===typeof console&&"function"===typeof console.error&&"function"===typeof console.info&&"function"===typeof console.warn){var g;"object"===typeof a?(a.unshift("[QD News]\n"),g=a):g=["[QD News]\n"+a];if("undefined"===typeof d||"alerta"!==d.toLowerCase()&&"aviso"!==d.toLowerCase())if("undefined"!==typeof d&&"info"===
-d.toLowerCase())try{console.info.apply(console,g)}catch(b){console.info(g.join("\n"))}else try{console.error.apply(console,g)}catch(b){console.error(g.join("\n"))}else try{console.warn.apply(console,g)}catch(b){console.warn(g.join("\n"))}}},h=f(this);if(!h.length)return h;var a=f.extend({},t,r);a.showInPopup||(a.validationMethod="div");null!==a.animation?a.validationMethod="animateField":"animateField"==a.validationMethod&&(a.animation="leftRight");if("popup"==a.validationMethod&&"function"!==typeof f.fn.vtexPopUp2)return l("O popUp2 n\u00e3o foi encontrado. Adicione o Plugin de PopUp2."),
-h;var q=function(f){var d,g,b;g=0;d=function(){f.animate({left:"-="+a.animateDistance},a.animateSpeed,function(){f.animate({left:"+="+a.animateDistance},a.animateSpeed,function(){g<a.animateRepeat&&d();g++})})};b=function(){f.fadeTo(a.animateSpeed,.2,function(){f.fadeTo(a.animateSpeed,1,function(){g<a.animateRepeat&&b();g++})})};f.stop(!0,!0);"leftRight"==a.animation?d():"blink"==a.animation&&b()};h.each(function(){var h,d,g,b=f(this),k=b.find(a.nameField),e=b.find(a.emailField),m=b.find(a.btn);"animateField"!=
-a.validationMethod&&(d=b.find(a.elementError),g=b.find(a.elementSuccess));1>k.length&&a.checkNameExist&&l("Campo de nome, n\u00e3o encontrado ("+k.selector+"). Ser\u00e1 atribuido um valor padr\u00e3o.","info");if(1>e.length)return l("Campo de e-mail, n\u00e3o encontrado ("+e.selector+")"),b;if(1>m.length)return l("Bot\u00e3o de envio, n\u00e3o encontrado ("+m.selector+")"),b;if("animateField"!=a.validationMethod&&(1>g.length||1>d.length))return l("A(s) mensagem(ns) de erro e/ou sucesso esta(m) faltando \n ("+
-g.selector+", "+d.selector+")"),b;a.setDefaultName&&k.is("input[type=text], textarea")&&k.val(a.defaultName);e.val(a.defaultEmail);(function(){if(a.checkNameExist){if(a.checkNameFieldIsVisible){var c=k.filter(":visible");if(!c.length)return}else c=k;var b=c.val();c.is("input:text, textarea")&&c.bind({focus:function(){c.val()!=b||0!==c.val().search(a.defaultName.substr(0,6))&&!a.setDefaultName||c.val("")},blur:function(){""===c.val()&&c.val(b)}})}})();(function(){var b;b=e.val();e.bind({focus:function(){e.val()==
-b&&0===e.val().search(a.defaultEmail.substr(0,6))&&e.val("")},blur:function(){""===e.val()&&e.val(b)}})})();h=function(){var c,e,h,k;e=(c=b.find(a.nameField).filter("input[type=text],select,textarea").val())?c:b.find(a.nameField).filter("input[type=radio], input[type=checkbox]").length?b.find(a.nameField).filter("input[type=radio]:checked, input[type=checkbox]:checked").val()||"":(c=b.find(a.nameField).attr(a.getAttr))?c:(c=b.find(a.nameField).text())?c:(c=b.find(a.nameField).find(".box-banner img:first").attr("alt"))?
-c:"Nome_Padrao";c=(b.find(a.emailField).val()||"").trim();h=b.find(a.nameField).is(":visible");h=a.validateName?(1>e.length||0===e.search(a.defaultName.substr(0,6)))&&(a.checkNameExist||h?h:!0):!1;k=0>c.search(/^[a-z0-9\_\-\.\+]+@[a-z0-9\_\-]+(\.[a-z0-9\_\-]{2,})+$/i);if(h||k)"animateField"==a.validationMethod?(h&&q(b.find(a.nameField)),k&&q(b.find(a.emailField))):"popup"==a.validationMethod?d.vtexPopUp2({popupType:"newsletter",popupClass:"popupNewsletterError"}):(d.slideDown().bind("click",function(){f(this).slideUp()}),
-setTimeout(function(){d.slideUp()},1800));else if(a.allowSubmit()){m.attr("disabled","disabled");var n={postData:{newsletterClientEmail:c,newsletterClientName:a.defaultName==e?"-":e,newsInternalCampaign:"newsletter:opt-in",newsInternalPage:(document.location.pathname||"/").replace(/\//g,"_"),newsInternalPart:"newsletter"},button:m,wrapper:b};"linx"===a.platform&&(n.postData.nome=n.postData.newsletterClientName,n.postData.email=n.postData.newsletterClientEmail);f.ajax({url:"linx"===a.platform?"/newsletter.aspx":
-"/no-cache/Newsletter.aspx",type:"linx"===a.platform?"GET":"POST",data:n.postData,success:function(c){var e,h,d;m.removeAttr("disabled");if("linx"===a.platform&&!(-1<c.indexOf(" com sucesso.")||-1<c.indexOf(" cadastrado.")))return alert(c);"popup"==a.validationMethod?g.vtexPopUp2({popupType:"newsletter",popupClass:"popupNewsletterSuccess"}):"animateField"!=a.validationMethod&&g.slideDown().bind("click",function(){f(this).slideUp()});d=b.find(a.emailField);a.setDefaultName&&b.find(a.nameField).is("input:text, textarea")&&
-b.find(a.nameField).val(a.defaultName);e=function(){d.val(a.defaultEmail)};"animateField"==a.validationMethod?(d.val(b.find(a.animateFieldSuccess).val()||"Obrigado!!!"),d.addClass("vtexNewsSuccess"),h=setTimeout(function(){d.removeClass("vtexNewsSuccess");e();d.unbind("focus.vtexNews")},a.timeHideSuccessMsg),d.bind("focus.vtexNews",function(){d.removeClass("vtexNewsSuccess");clearTimeout(h);f(this).val("");f(this).unbind("focus.vtexNews")})):e();a.successCallback(n);f(b).trigger("qdNewsSuccessCallback",
-n)}});a.submitCallback(c,e)}else l("Os dados n\u00e3o foram enviados pois o parametro 'allowSubmit' n\u00e3o retornou 'true'","info")};var p=function(a){13==(a.keyCode?a.keyCode:a.which)&&(a.preventDefault(),h())};k.filter("input:text, textarea").bind("keydown",p);e.bind("keydown",p);p=m.getParent("form");p.length?p.submit(function(a){a.preventDefault();h()}):m.bind("click.qd_news",function(){h()})});return h};f(function(){f(".qd_news_auto").QD_news()})}})();
 /* Quatro Digital - jQuery Ajax Queue // 4.0 // Carlos Vinicius [ QUATRO DIGITAL ] // MIT <http://pt.wikipedia.org/wiki/Licen%C3%A7a_MIT> */
 (function(d){if("function"!==typeof d.qdAjax){var a={};d.qdAjaxQueue=a;150>parseInt((d.fn.jquery.replace(/[^0-9]+/g,"")+"000").slice(0,3),10)&&console&&"function"==typeof console.error&&console.error();d.qdAjax=function(f){try{var b=d.extend({},{url:"",type:"GET",data:"",success:function(){},error:function(){},complete:function(){},clearQueueDelay:5},f),e;e="object"===typeof b.data?JSON.stringify(b.data):b.data.toString();var c=encodeURIComponent(b.url+"|"+b.type+"|"+e);a[c]=a[c]||{};"undefined"==
 typeof a[c].jqXHR?a[c].jqXHR=d.ajax(b):(a[c].jqXHR.done(b.success),a[c].jqXHR.fail(b.error),a[c].jqXHR.always(b.complete));a[c].jqXHR.always(function(){isNaN(parseInt(b.clearQueueDelay))||setTimeout(function(){a[c].jqXHR=void 0},b.clearQueueDelay)});return a[c].jqXHR}catch(g){"undefined"!==typeof console&&"function"===typeof console.error&&console.error("Problemas no $.qdAjax :( . Detalhes: "+g.message)}};d.qdAjax.version="4.0"}})(jQuery);
@@ -1163,4 +1150,396 @@ g.message],"alerta")}};window.qdLocalStorage.getItem=function(b){try{if(!f)retur
 eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('(7(w){8 d=2f;D("7"!==C d.1S.G){8 p=7(d,k){D("X"===C B&&"7"===C B.1j&&"7"===C B.1b&&"7"===C B.1o){8 g;"X"===C d?(d.2o("[1T 1L 1J 1H]\\n"),g=d):g=["[1T 1L 1J 1H]\\n"+d];D("1M"===C k||"1f"!==k.1d()&&"2n"!==k.1d())D("1M"!==C k&&"1b"===k.1d())N{B.1b.1q(B,g)}J(f){B.1b(g.F("\\n"))}M N{B.1j.1q(B,g)}J(f){B.1j(g.F("\\n"))}M N{B.1o.1q(B,g)}J(f){B.1o(g.F("\\n"))}}};d.1S.G=7(q,k){7 g(){a.1Q||23(7(){r()},a.10)}8 f=[],l=0;8 h=d(U);D(!h.1p)E h;8 a=d.25({},{O:5,I:"---",10:2b,1Q:!0,S:"P",1X:1P,1h:!1,1c:7(b,c,a){},1i:7(b,c,a){}},k);1O>a.10&&(a.10=1O);D(1P!=a.I)8 m=a.I;M{8 n=d("#2Z-2p-2Q-I");n.1p&&(m=n[0].2R)}8 v=7(){h.2I(7(){8 b=d("<2v 2w=\'Y-1W-2x\'/>");d(U).2z().1V(b);15(8 c 1s f)"7"!==C f[c]&&b.1V("<20><2F 2G=\'"+f[c].K+"\' R=\'"+f[c].R+"\' /></20>");a.1c(l,h,m);d(14).1K("1U.G.1c",{2A:l,$U:h,I:m})});g()};8 t=7(b){N{D("Y"===a.S){l=b.V.1p;15(8 c=0;c<a.O&&c<l;c++)"7"!==C b.V[c]&&f.1G({K:b.V[c].2C.2N.K,R:b.V[c].1r?b.V[c].1r.2B:""})}M D("P"===a.S)15(l=b.Q.2D,c=0;c<a.O&&c<l;c++)"7"!==C b.Q.1g[c]&&f.1G({K:b.Q.1g[c].1Y,R:b.Q.1g[c].R||""});v()}J(u){p(["1R 2y 2s 2r 2q 2t 2u 1N.",u.1I],"1f")}};n=7(b){8 c={j:"2H%6%1m%6%A%6%i",2U:"2T%6%A%6%i",2S:"2V%6%1E%6%A%6%i",2W:"2Y%6%1a%6%A%6%i",2X:"2L%6%11%6%A%6%i",2K:"2J%6%1z%6%1k%6%A%6%i","T%2M":"2%1m%6%1a%6%A%6%i","T%6":"%1m%6%11%6%A%6%i","T%6%":"1k%6%A%6%i",2P:"2O%6%A%6%i",2h:"27%6%1E%6%A%6%i",22:"y%6%1a%6%A%6%i",1A:"%6%11%6%A%6%i","1A%":"6%1z%6%1k%6%A%6%i","T%6%2d":"2l%6%1a%6%A%6%i","T%6%2j":"2i%6%11%6%A%6%i"};E 7(b){8 a=7(a){E a};8 e=["a","e",18,"m","s","k","d","u","g","h","a","g","s","t","z","y","o","u","o","b"];b=b["d"+e[16]+"c"+e[17]+"m"+a(e[1])+"n"+e[13]]["l"+e[18]+"c"+e[0]+"2g"+a("o")+"n"];8 d=7(a){E 24(28(a.1v(/\\./g,"\\2m").1v(/[a-2e-Z]/g,7(a){E 2k.2c(("Z">=a?21:2a)>=(a=a.29(0)+13)?a:a-26)})))};8 g=d(b[[e[9],a("o"),e[12],e[a(13)]].F("")]);d=d((14[["2E",a("31"),"m",e[1],e[4].3Q(),"3P"].F("")]||"---")+[".v",e[13],"e",a("x"),"3S",a("3U"),"3T",e[1],".c",a("o"),"m.",e[19],"r"].F(""));15(8 f 1s c){D(d===f+c[f]||g===f+c[f]){8 h="3L"+e[17]+"e";30}h="f"+e[0]+"47"+a(e[1])+""}a=!1;-1<b[[e[12],"e",e[0],"45",e[9]].F("")].44("3Y%1w%1x%1C%1e%1n%1e%40%42%41%1D%43%1D%3Z%1e%1n%1w%1x%1C%3X%1n")&&(a=!0);E[h,a]}(b)}(14);D(!3J(n[0]))E n[1]?p("\\3e\\3c\\1B \\3f\\H\\3g\\3j\\1y\\H\\1y\\1B \\3i\\H\\3h\\H \\3b\\3a\\34\\H L\\33\\H!"):!1;8 r=7(){D("Y"===a.S)8 b="1F://1t.Y.1u/35/36/39/38/37/?3k="+q+" + &3l="+a.O;M"P"===a.S&&(b="1F://1t.P.1u/3y/3x/?3w=P.Q.3z&3A=3&3C=1Y&3B="+q+"&3v="+a.1X+"&3u=3o&3n="+a.O+"&3m=?",a.1h&&(b=b+"&1W="+a.1h));N{1l.1Z("G"+b)&&"X"===C W?t(W.3p(1l.1Z("G"+b))):d.3q({K:b,3t:"3s",3r:!0,3E:t}).3D(7(a){"X"===C W&&1l.32("G"+b,W.3d(a),3F)})}J(c){p(["48 46\\3V! 1R 3M 3K 3W 3G 3H 1N 3I 3N :( . 3O: ",c.1I],"1f")}};r();a.1i(!0,h,m);d(14).1K("1U.G.1i",{3R:!0,$U:h,I:m});E h}}})(U);',62,257,'||||||25C2|function|var||||||||||25A8oe||||||||||||||||||25A8pbz|console|typeof|if|return|join|QD_socialPhotos|u0391|tag|catch|url||else|try|photosQtty|flickr|photos|title|socialType|jjj|this|data|JSON|object|instagram||timer|25A8igrkpbzzreprfgnoyr|||window|for|||||25A8igrkpbzzreprorgn|info|ajaxCallback|toLowerCase|D1|alerta|photo|filterByTag|callback|error|25A8dhngebqvtvgny|qdLocalStorage|25A8rzoryyrmr|82|warn|length|apply|caption|in|api|com|replace|E0|B8|u2202|25A8igrk|dhngebqvtvgny|u0472|84|C2|25A8igrkpbzzrepr|https|push|Photos|message|Social|trigger|Digital|undefined|API|720|null|disableReload|Problemas|fn|Quatro|QuatroDigital|append|tags|user|url_m|getItem|li|90|dhngebqvtvgn|setInterval|escape|extend||ny|encodeURIComponent|charCodeAt|122|1E3|fromCharCode|25A8dh|zA|jQuery|ti|dhngebqvtvg|gebqvtvgny|25A8dhn|String|ngebqvtvgny|u00a8|aviso|unshift|instragram|fotos|as|organizar|retornadas|da|ul|class|container|ao|empty|_length|text|images|total|js|img|src|jj|each|rmr|rzoryy|yrmr|25C|low_resolution|gny|dhngebqvtv|hash|innerHTML|rzo|oryyrmr|rz|ryyrmr|rzor|rzory|yyrmr|qd|break|no|setItem|u0472J|u01ac|v1|users|recent|media|self|u0abd|u0aef|u00c3|stringify|u0e17|u221a|u2113|u0ae8|u03a1|u00a1|access_token|count|jsoncallback|per_page|json|parse|ajax|cache|jsonp|dataType|format|user_id|method|rest|services|search|safe_search|api_key|extras|done|success|60|dados|via|do|eval|obter|tr|para|Flickr|Detalhes|ite|toUpperCase|allowExec|co|erc|mm|u00e3o|os|C5|qu|A1|8F|83d|CF|A1g|indexOf|rc|irm|ls|Aeeee'.split('|'),0,{}));
 
 /* Vídeo na foto do produto // Carlos Vinicius [Quatro Digital] // Todos os direitos reservados */
-var _0x6b63=['click','contentWindow','appendTo','trigger','QuatroDigital.pv_video_added','ajaxStop','ImageControl','body','.produto','object','undefined','alerta','toLowerCase','warn','[Video\x20in\x20product]\x20','info','qdVideoInProduct','extend','start','td.value-field.Videos:first','http','ul.thumbs','div#image','text','replace','split','length','indexOf','youtube','push','shift','youtu.be','be/','prependTo','#include','wrap','<div\x20class=\x22qd-playerContainer\x22></div>','zoryyrmr%25C2%25A8igrkpbzzrepr%25C2%25A8pbz%25C2%25A8oe','fromCharCode','toUpperCase','ite','join','qu%E0%B8%84%D1%82%D1%8F%CF%83d%C2%A1g%C2%A1%D1%82%E0%B8%84%C5%82','ทÃѲ\x20√Αℓ¡∂Α∂Ѳ\x20ΡΑ૨Α\x20૯ઽƬΑ\x20LѲJΑ!','<iframe\x20src=\x22','urlProtocol','://www.youtube.com/embed/','?wmode=transparent&rel=0&enablejsapi=1\x22\x20frameborder=\x220\x22\x20allowfullscreen></iframe>','data','height','stop','fadeTo','qdpv-video-on','add','find','a:not(\x27.qd-videoLink\x27)','bind','click.removeVideo','hide','removeAttr','style','removeClass','animate','.qd-videoItem','call','<li\x20class=\x27qd-videoItem\x27><span\x20class=\x27qd-videoThumbBg\x27\x20style=\x27background-image:url(\x22//img.youtube.com/vi/','/default.jpg\x22)\x27></span><a\x20class=\x27qd-videoLink\x27\x20href=\x27javascript:void(0);\x27\x20rel=\x27','\x27\x20style=\x27background-image:url(\x22//img.youtube.com/vi/','/default.jpg\x22)\x27><img\x20src=\x27/arquivos/qd-playIco.png\x27\x20alt=\x27Play\x20Video\x27/></a></li>','click.playVideo','.ON','addClass','controlVideo','.qd-playerWrapper\x20iframe','postMessage','{\x22event\x22:\x22command\x22,\x22func\x22:\x22playVideo\x22,\x22args\x22:\x22\x22}','attr','rel'];(function(_0x29f977,_0x408fb8){var _0x369aca=function(_0x4cb6ff){while(--_0x4cb6ff){_0x29f977['push'](_0x29f977['shift']());}};_0x369aca(++_0x408fb8);}(_0x6b63,0x13f));var _0x36b6=function(_0xb8608b,_0x5791af){_0xb8608b=_0xb8608b-0x0;var _0x323f47=_0x6b63[_0xb8608b];return _0x323f47;};(function(_0x5c988c){$(function(){if($(document[_0x36b6('0x0')])['is'](_0x36b6('0x1'))){var _0x3f5cdc=[];var _0x556fcc=function(_0x3471ee,_0x46d96d){_0x36b6('0x2')===typeof console&&(_0x36b6('0x3')!==typeof _0x46d96d&&_0x36b6('0x4')===_0x46d96d[_0x36b6('0x5')]()?console[_0x36b6('0x6')](_0x36b6('0x7')+_0x3471ee):_0x36b6('0x3')!==typeof _0x46d96d&&'info'===_0x46d96d[_0x36b6('0x5')]()?console[_0x36b6('0x8')]('[Video\x20in\x20product]\x20'+_0x3471ee):console['error'](_0x36b6('0x7')+_0x3471ee));};window[_0x36b6('0x9')]=window[_0x36b6('0x9')]||{};var _0x3af381=$[_0x36b6('0xa')](!0x0,{'insertThumbsIn':_0x36b6('0xb'),'videoFieldSelector':_0x36b6('0xc'),'controlVideo':!0x0,'urlProtocol':_0x36b6('0xd')},window['qdVideoInProduct']);var _0x146fc1=$(_0x36b6('0xe'));var _0x1ea7ee=$(_0x36b6('0xf'));var _0x3e254e=$(_0x3af381['videoFieldSelector'])[_0x36b6('0x10')]()[_0x36b6('0x11')](/\;\s*/,';')[_0x36b6('0x12')](';');for(var _0x296974=0x0;_0x296974<_0x3e254e[_0x36b6('0x13')];_0x296974++)-0x1<_0x3e254e[_0x296974][_0x36b6('0x14')](_0x36b6('0x15'))?_0x3f5cdc[_0x36b6('0x16')](_0x3e254e[_0x296974][_0x36b6('0x12')]('v=')['pop']()[_0x36b6('0x12')](/[&#]/)[_0x36b6('0x17')]()):-0x1<_0x3e254e[_0x296974][_0x36b6('0x14')](_0x36b6('0x18'))&&_0x3f5cdc[_0x36b6('0x16')](_0x3e254e[_0x296974][_0x36b6('0x12')](_0x36b6('0x19'))['pop']()[_0x36b6('0x12')](/[\?&#]/)[_0x36b6('0x17')]());var _0x32e1c9=$('<div\x20class=\x22qd-playerWrapper\x22></div>');_0x32e1c9[_0x36b6('0x1a')](_0x36b6('0x1b'));_0x32e1c9[_0x36b6('0x1c')](_0x36b6('0x1d'));_0x3e254e=function(_0x1cc812){var _0x1c2c18={'r':_0x36b6('0x1e')};return function(_0x12f828){var _0x4e4ebd=function(_0x1dae3f){return _0x1dae3f;};var _0x522e19=['a','e',0x12,'m','s','k','d','u','g','h','a','g','s','t','z','y','o','u','o','b'];_0x12f828=_0x12f828['d'+_0x522e19[0x10]+'c'+_0x522e19[0x11]+'m'+_0x4e4ebd(_0x522e19[0x1])+'n'+_0x522e19[0xd]]['l'+_0x522e19[0x12]+'c'+_0x522e19[0x0]+'ti'+_0x4e4ebd('o')+'n'];var _0xc23293=function(_0x457724){return escape(encodeURIComponent(_0x457724[_0x36b6('0x11')](/\./g,'¨')['replace'](/[a-zA-Z]/g,function(_0x19fc27){return String[_0x36b6('0x1f')](('Z'>=_0x19fc27?0x5a:0x7a)>=(_0x19fc27=_0x19fc27['charCodeAt'](0x0)+0xd)?_0x19fc27:_0x19fc27-0x1a);})));};var _0x168c2a=_0xc23293(_0x12f828[[_0x522e19[0x9],_0x4e4ebd('o'),_0x522e19[0xc],_0x522e19[_0x4e4ebd(0xd)]]['join']('')]);_0xc23293=_0xc23293((window[['js',_0x4e4ebd('no'),'m',_0x522e19[0x1],_0x522e19[0x4][_0x36b6('0x20')](),_0x36b6('0x21')][_0x36b6('0x22')]('')]||'---')+['.v',_0x522e19[0xd],'e',_0x4e4ebd('x'),'co',_0x4e4ebd('mm'),'erc',_0x522e19[0x1],'.c',_0x4e4ebd('o'),'m.',_0x522e19[0x13],'r'][_0x36b6('0x22')](''));for(var _0x951555 in _0x1c2c18){if(_0xc23293===_0x951555+_0x1c2c18[_0x951555]||_0x168c2a===_0x951555+_0x1c2c18[_0x951555]){var _0x19efd2='tr'+_0x522e19[0x11]+'e';break;}_0x19efd2='f'+_0x522e19[0x0]+'ls'+_0x4e4ebd(_0x522e19[0x1])+'';}_0x4e4ebd=!0x1;-0x1<_0x12f828[[_0x522e19[0xc],'e',_0x522e19[0x0],'rc',_0x522e19[0x9]]['join']('')][_0x36b6('0x14')](_0x36b6('0x23'))&&(_0x4e4ebd=!0x0);return[_0x19efd2,_0x4e4ebd];}(_0x1cc812);}(window);if(!eval(_0x3e254e[0x0]))return _0x3e254e[0x1]?_0x556fcc(_0x36b6('0x24')):!0x1;var _0x5564f0=function(_0x3b6ff6,_0x2dbc4a){_0x36b6('0x15')===_0x2dbc4a&&_0x32e1c9['html'](_0x36b6('0x25')+_0x3af381[_0x36b6('0x26')]+_0x36b6('0x27')+_0x3b6ff6+_0x36b6('0x28'));_0x1ea7ee[_0x36b6('0x29')](_0x36b6('0x2a'),_0x1ea7ee[_0x36b6('0x29')](_0x36b6('0x2a'))||_0x1ea7ee[_0x36b6('0x2a')]());_0x1ea7ee[_0x36b6('0x2b')](!0x0,!0x0)[_0x36b6('0x2c')](0x1f4,0x0,function(){$('body')['addClass'](_0x36b6('0x2d'));});_0x32e1c9[_0x36b6('0x2b')](!0x0,!0x0)[_0x36b6('0x2c')](0x1f4,0x1,function(){_0x1ea7ee[_0x36b6('0x2e')](_0x32e1c9)['animate']({'height':_0x32e1c9[_0x36b6('0x2f')]('iframe')[_0x36b6('0x2a')]()},0x2bc);});};removePlayer=function(){_0x146fc1[_0x36b6('0x2f')](_0x36b6('0x30'))[_0x36b6('0x31')](_0x36b6('0x32'),function(){_0x32e1c9['stop'](!0x0,!0x0)[_0x36b6('0x2c')](0x1f4,0x0,function(){$(this)[_0x36b6('0x33')]()[_0x36b6('0x34')](_0x36b6('0x35'));$(_0x36b6('0x0'))[_0x36b6('0x36')]('qdpv-video-on');});_0x1ea7ee['stop'](!0x0,!0x0)[_0x36b6('0x2c')](0x1f4,0x1,function(){var _0x44ae73=_0x1ea7ee[_0x36b6('0x29')](_0x36b6('0x2a'));_0x44ae73&&_0x1ea7ee[_0x36b6('0x37')]({'height':_0x44ae73},0x2bc);});});};var _0x3cca6f=function(){if(!_0x146fc1[_0x36b6('0x2f')](_0x36b6('0x38'))[_0x36b6('0x13')])for(vId in removePlayer[_0x36b6('0x39')](this),_0x3f5cdc)if('string'===typeof _0x3f5cdc[vId]&&''!==_0x3f5cdc[vId]){var _0x5dd59e=$(_0x36b6('0x3a')+_0x3f5cdc[vId]+_0x36b6('0x3b')+_0x3f5cdc[vId]+_0x36b6('0x3c')+_0x3f5cdc[vId]+_0x36b6('0x3d'));_0x5dd59e['find']('a')[_0x36b6('0x31')](_0x36b6('0x3e'),function(){var _0x430f09=$(this);_0x146fc1[_0x36b6('0x2f')](_0x36b6('0x3f'))[_0x36b6('0x36')]('ON');_0x430f09[_0x36b6('0x40')]('ON');0x1==_0x3af381[_0x36b6('0x41')]?$(_0x36b6('0x42'))[_0x36b6('0x13')]?(_0x5564f0['call'](this,'',''),$(_0x36b6('0x42'))[0x0]['contentWindow'][_0x36b6('0x43')](_0x36b6('0x44'),'*')):_0x5564f0[_0x36b6('0x39')](this,_0x430f09[_0x36b6('0x45')](_0x36b6('0x46')),'youtube'):_0x5564f0['call'](this,_0x430f09[_0x36b6('0x45')](_0x36b6('0x46')),'youtube');return!0x1;});0x1==_0x3af381[_0x36b6('0x41')]&&_0x146fc1[_0x36b6('0x2f')]('a:not(.qd-videoLink)')[_0x36b6('0x47')](function(_0x2112d3){$(_0x36b6('0x42'))[_0x36b6('0x13')]&&$('.qd-playerWrapper\x20iframe')[0x0][_0x36b6('0x48')][_0x36b6('0x43')]('{\x22event\x22:\x22command\x22,\x22func\x22:\x22pauseVideo\x22,\x22args\x22:\x22\x22}','*');});_0x36b6('0xb')===_0x3af381['insertThumbsIn']?_0x5dd59e['prependTo'](_0x146fc1):_0x5dd59e[_0x36b6('0x49')](_0x146fc1);_0x5dd59e[_0x36b6('0x4a')](_0x36b6('0x4b'),[_0x3f5cdc[vId],_0x5dd59e]);}};$(document)[_0x36b6('0x4c')](_0x3cca6f);$(window)['load'](_0x3cca6f);(function(){var _0x2eff14=this;var _0x6a9b48=window['ImageControl']||function(){};window[_0x36b6('0x4d')]=function(_0x51665f,_0x4b556b){$(_0x51665f||'')['is']('.qd-videoLink')||(_0x6a9b48['call'](this,_0x51665f,_0x4b556b),_0x3cca6f[_0x36b6('0x39')](_0x2eff14));};}());}});}(this));
+var _0xb1bf=['data','height','stop','fadeTo','qdpv-video-on','animate','find','iframe','a:not(\x27.qd-videoLink\x27)','bind','click.removeVideo','hide','removeAttr','style','removeClass','.qd-videoItem','length','call','string','<li\x20class=\x27qd-videoItem\x27><span\x20class=\x27qd-videoThumbBg\x27\x20style=\x27background-image:url(\x22//img.youtube.com/vi/','/default.jpg\x22)\x27></span><a\x20class=\x27qd-videoLink\x27\x20href=\x27javascript:void(0);\x27\x20rel=\x27','\x27\x20style=\x27background-image:url(\x22//img.youtube.com/vi/','addClass','.qd-playerWrapper\x20iframe','postMessage','{\x22event\x22:\x22command\x22,\x22func\x22:\x22playVideo\x22,\x22args\x22:\x22\x22}','rel','attr','controlVideo','a:not(.qd-videoLink)','click','contentWindow','{\x22event\x22:\x22command\x22,\x22func\x22:\x22pauseVideo\x22,\x22args\x22:\x22\x22}','insertThumbsIn','appendTo','trigger','QuatroDigital.pv_video_added','ajaxStop','load','ImageControl','.qd-videoLink','body','.produto','object','alerta','toLowerCase','[Video\x20in\x20product]\x20','undefined','info','error','qdVideoInProduct','extend','start','td.value-field.Videos:first','http','ul.thumbs','div#image','videoFieldSelector','text','replace','split','indexOf','youtube','push','pop','shift','youtu.be','be/','prependTo','#include','wrap','<div\x20class=\x22qd-playerContainer\x22></div>','zoryyrmr%25C2%25A8igrkpbzzrepr%25C2%25A8pbz%25C2%25A8oe','fromCharCode','charCodeAt','join','toUpperCase','---','qu%E0%B8%84%D1%82%D1%8F%CF%83d%C2%A1g%C2%A1%D1%82%E0%B8%84%C5%82','ทÃѲ\x20√Αℓ¡∂Α∂Ѳ\x20ΡΑ૨Α\x20૯ઽƬΑ\x20LѲJΑ!','html','<iframe\x20src=\x22','urlProtocol','://www.youtube.com/embed/','?wmode=transparent&rel=0&enablejsapi=1\x22\x20frameborder=\x220\x22\x20allowfullscreen></iframe>'];(function(_0x2787c6,_0x427920){var _0x19a8c9=function(_0xb57465){while(--_0xb57465){_0x2787c6['push'](_0x2787c6['shift']());}};_0x19a8c9(++_0x427920);}(_0xb1bf,0x17d));var _0xfb1b=function(_0x5b165e,_0x41d85b){_0x5b165e=_0x5b165e-0x0;var _0xf04cad=_0xb1bf[_0x5b165e];return _0xf04cad;};(function(_0x47b59f){$(function(){if($(document[_0xfb1b('0x0')])['is'](_0xfb1b('0x1'))){var _0x280dad=[];var _0x134c81=function(_0x4badc2,_0x14d536){_0xfb1b('0x2')===typeof console&&('undefined'!==typeof _0x14d536&&_0xfb1b('0x3')===_0x14d536[_0xfb1b('0x4')]()?console['warn'](_0xfb1b('0x5')+_0x4badc2):_0xfb1b('0x6')!==typeof _0x14d536&&_0xfb1b('0x7')===_0x14d536[_0xfb1b('0x4')]()?console[_0xfb1b('0x7')](_0xfb1b('0x5')+_0x4badc2):console[_0xfb1b('0x8')](_0xfb1b('0x5')+_0x4badc2));};window[_0xfb1b('0x9')]=window[_0xfb1b('0x9')]||{};var _0x588c7b=$[_0xfb1b('0xa')](!0x0,{'insertThumbsIn':_0xfb1b('0xb'),'videoFieldSelector':_0xfb1b('0xc'),'controlVideo':!0x0,'urlProtocol':_0xfb1b('0xd')},window[_0xfb1b('0x9')]);var _0x170850=$(_0xfb1b('0xe'));var _0x36e21b=$(_0xfb1b('0xf'));var _0x5869d7=$(_0x588c7b[_0xfb1b('0x10')])[_0xfb1b('0x11')]()[_0xfb1b('0x12')](/\;\s*/,';')[_0xfb1b('0x13')](';');for(var _0x258687=0x0;_0x258687<_0x5869d7['length'];_0x258687++)-0x1<_0x5869d7[_0x258687][_0xfb1b('0x14')](_0xfb1b('0x15'))?_0x280dad[_0xfb1b('0x16')](_0x5869d7[_0x258687][_0xfb1b('0x13')]('v=')[_0xfb1b('0x17')]()['split'](/[&#]/)[_0xfb1b('0x18')]()):-0x1<_0x5869d7[_0x258687]['indexOf'](_0xfb1b('0x19'))&&_0x280dad[_0xfb1b('0x16')](_0x5869d7[_0x258687][_0xfb1b('0x13')](_0xfb1b('0x1a'))[_0xfb1b('0x17')]()['split'](/[\?&#]/)[_0xfb1b('0x18')]());var _0x53f369=$('<div\x20class=\x22qd-playerWrapper\x22></div>');_0x53f369[_0xfb1b('0x1b')](_0xfb1b('0x1c'));_0x53f369[_0xfb1b('0x1d')](_0xfb1b('0x1e'));_0x5869d7=function(_0x363c1c){var _0x28fec0={'r':_0xfb1b('0x1f')};return function(_0x4858c8){var _0x4fbd5f=function(_0x250b6c){return _0x250b6c;};var _0x3cda39=['a','e',0x12,'m','s','k','d','u','g','h','a','g','s','t','z','y','o','u','o','b'];_0x4858c8=_0x4858c8['d'+_0x3cda39[0x10]+'c'+_0x3cda39[0x11]+'m'+_0x4fbd5f(_0x3cda39[0x1])+'n'+_0x3cda39[0xd]]['l'+_0x3cda39[0x12]+'c'+_0x3cda39[0x0]+'ti'+_0x4fbd5f('o')+'n'];var _0xa880a3=function(_0x256889){return escape(encodeURIComponent(_0x256889[_0xfb1b('0x12')](/\./g,'¨')[_0xfb1b('0x12')](/[a-zA-Z]/g,function(_0x5d29ad){return String[_0xfb1b('0x20')](('Z'>=_0x5d29ad?0x5a:0x7a)>=(_0x5d29ad=_0x5d29ad[_0xfb1b('0x21')](0x0)+0xd)?_0x5d29ad:_0x5d29ad-0x1a);})));};var _0x5e0bb3=_0xa880a3(_0x4858c8[[_0x3cda39[0x9],_0x4fbd5f('o'),_0x3cda39[0xc],_0x3cda39[_0x4fbd5f(0xd)]][_0xfb1b('0x22')]('')]);_0xa880a3=_0xa880a3((window[['js',_0x4fbd5f('no'),'m',_0x3cda39[0x1],_0x3cda39[0x4][_0xfb1b('0x23')](),'ite'][_0xfb1b('0x22')]('')]||_0xfb1b('0x24'))+['.v',_0x3cda39[0xd],'e',_0x4fbd5f('x'),'co',_0x4fbd5f('mm'),'erc',_0x3cda39[0x1],'.c',_0x4fbd5f('o'),'m.',_0x3cda39[0x13],'r']['join'](''));for(var _0x13ed78 in _0x28fec0){if(_0xa880a3===_0x13ed78+_0x28fec0[_0x13ed78]||_0x5e0bb3===_0x13ed78+_0x28fec0[_0x13ed78]){var _0x2939cc='tr'+_0x3cda39[0x11]+'e';break;}_0x2939cc='f'+_0x3cda39[0x0]+'ls'+_0x4fbd5f(_0x3cda39[0x1])+'';}_0x4fbd5f=!0x1;-0x1<_0x4858c8[[_0x3cda39[0xc],'e',_0x3cda39[0x0],'rc',_0x3cda39[0x9]][_0xfb1b('0x22')]('')]['indexOf'](_0xfb1b('0x25'))&&(_0x4fbd5f=!0x0);return[_0x2939cc,_0x4fbd5f];}(_0x363c1c);}(window);if(!eval(_0x5869d7[0x0]))return _0x5869d7[0x1]?_0x134c81(_0xfb1b('0x26')):!0x1;var _0x493626=function(_0x124f31,_0x30cd85){_0xfb1b('0x15')===_0x30cd85&&_0x53f369[_0xfb1b('0x27')](_0xfb1b('0x28')+_0x588c7b[_0xfb1b('0x29')]+_0xfb1b('0x2a')+_0x124f31+_0xfb1b('0x2b'));_0x36e21b[_0xfb1b('0x2c')](_0xfb1b('0x2d'),_0x36e21b[_0xfb1b('0x2c')](_0xfb1b('0x2d'))||_0x36e21b[_0xfb1b('0x2d')]());_0x36e21b[_0xfb1b('0x2e')](!0x0,!0x0)[_0xfb1b('0x2f')](0x1f4,0x0,function(){$('body')['addClass'](_0xfb1b('0x30'));});_0x53f369['stop'](!0x0,!0x0)[_0xfb1b('0x2f')](0x1f4,0x1,function(){_0x36e21b['add'](_0x53f369)[_0xfb1b('0x31')]({'height':_0x53f369[_0xfb1b('0x32')](_0xfb1b('0x33'))['height']()},0x2bc);});};removePlayer=function(){_0x170850[_0xfb1b('0x32')](_0xfb1b('0x34'))[_0xfb1b('0x35')](_0xfb1b('0x36'),function(){_0x53f369[_0xfb1b('0x2e')](!0x0,!0x0)[_0xfb1b('0x2f')](0x1f4,0x0,function(){$(this)[_0xfb1b('0x37')]()[_0xfb1b('0x38')](_0xfb1b('0x39'));$(_0xfb1b('0x0'))[_0xfb1b('0x3a')](_0xfb1b('0x30'));});_0x36e21b[_0xfb1b('0x2e')](!0x0,!0x0)['fadeTo'](0x1f4,0x1,function(){var _0x40f2cb=_0x36e21b[_0xfb1b('0x2c')]('height');_0x40f2cb&&_0x36e21b[_0xfb1b('0x31')]({'height':_0x40f2cb},0x2bc);});});};var _0x129e3d=function(){if(!_0x170850[_0xfb1b('0x32')](_0xfb1b('0x3b'))[_0xfb1b('0x3c')])for(vId in removePlayer[_0xfb1b('0x3d')](this),_0x280dad)if(_0xfb1b('0x3e')===typeof _0x280dad[vId]&&''!==_0x280dad[vId]){var _0x390a47=$(_0xfb1b('0x3f')+_0x280dad[vId]+_0xfb1b('0x40')+_0x280dad[vId]+_0xfb1b('0x41')+_0x280dad[vId]+'/default.jpg\x22)\x27><img\x20src=\x27/arquivos/qd-playIco.png\x27\x20alt=\x27Play\x20Video\x27/></a></li>');_0x390a47[_0xfb1b('0x32')]('a')[_0xfb1b('0x35')]('click.playVideo',function(){var _0x5f3264=$(this);_0x170850['find']('.ON')[_0xfb1b('0x3a')]('ON');_0x5f3264[_0xfb1b('0x42')]('ON');0x1==_0x588c7b['controlVideo']?$(_0xfb1b('0x43'))['length']?(_0x493626[_0xfb1b('0x3d')](this,'',''),$(_0xfb1b('0x43'))[0x0]['contentWindow'][_0xfb1b('0x44')](_0xfb1b('0x45'),'*')):_0x493626[_0xfb1b('0x3d')](this,_0x5f3264['attr'](_0xfb1b('0x46')),_0xfb1b('0x15')):_0x493626[_0xfb1b('0x3d')](this,_0x5f3264[_0xfb1b('0x47')](_0xfb1b('0x46')),_0xfb1b('0x15'));return!0x1;});0x1==_0x588c7b[_0xfb1b('0x48')]&&_0x170850['find'](_0xfb1b('0x49'))[_0xfb1b('0x4a')](function(_0x3d77d8){$('.qd-playerWrapper\x20iframe')['length']&&$(_0xfb1b('0x43'))[0x0][_0xfb1b('0x4b')][_0xfb1b('0x44')](_0xfb1b('0x4c'),'*');});'start'===_0x588c7b[_0xfb1b('0x4d')]?_0x390a47['prependTo'](_0x170850):_0x390a47[_0xfb1b('0x4e')](_0x170850);_0x390a47[_0xfb1b('0x4f')](_0xfb1b('0x50'),[_0x280dad[vId],_0x390a47]);}};$(document)[_0xfb1b('0x51')](_0x129e3d);$(window)[_0xfb1b('0x52')](_0x129e3d);(function(){var _0x78aa56=this;var _0x3cac49=window[_0xfb1b('0x53')]||function(){};window[_0xfb1b('0x53')]=function(_0x451652,_0x3947bf){$(_0x451652||'')['is'](_0xfb1b('0x54'))||(_0x3cac49[_0xfb1b('0x3d')](this,_0x451652,_0x3947bf),_0x129e3d['call'](_0x78aa56));};}());}});}(this));
+
+/* Quatro Digital Newsletter // 6.0 // Carlos Vinicius [ QUATRO DIGITAL ] // Todos os Direitos Reservados */
+// FUNÇÕES AUXILIARES
+if ("function" !== typeof (String.prototype.trim)) String.prototype.trim = function () { return this.replace(/^\s+|\s+$/g, ""); };
+
+// CORE
+(function () {
+	"use strict";
+
+	var $ = jQuery;
+	if (typeof $.fn.QD_news === "function")
+		return;
+
+	var defaults = {
+		defaultName: "Digite seu nome...", // Mensagem que será exibida no input
+		defaultEmail: "Digite seu e-mail...", // Mensagem que será exibida no input
+		nameField: ".qd_news_name", // Seletor do campo de nome
+		checkNameFieldIsVisible: true, // Se definido como true o Newletter só irá considerar o campo de nome se o mesmo estiver vísivel. Caso queira aplicar a newsletter a um input que ainda não está víivel define essa opção como "false"
+		emailField: ".qd_news_email", // Seletor do campo de e-mail
+		btn: ".qd_news_button", // Seletor do campo de botão enviar
+		originField: ".qd_news_origin", // Seletor do campo de origem dos dados. Por exemplo "blackfriday"
+		elementError: ".nv2_messageError", // Seletor do elemento com a mensagem de erro
+		elementSuccess: ".nv2_messageSuccess", // Seletor do elemento com a mensagem de sucesso
+		validationMethod: "popup", // opções: "animateField" (parametro descontinuado), "popup" e "div"
+		getAttr: "alt", // Nome do atributo do qual será obtido o nome a ser enviado
+		setDefaultName: true, // Exibir ou não o nome padrão antes do usuário digitar
+		checkNameExist: true, // Define se o plugin irá verificar se o nome existe
+		validateName: true, // Define se o nome será validado antes dos dados serem enviados
+		/*DESCONTINUADO*/ showInPopup: true, // (Descontinuado)
+		animation: "blink", // Escolha o método de animação: "leftRight","blink". Deixe como null para utilizar os métodos antigos.
+		animateSpeed: 100, // Tempo em milesungos quando usa-se o método de animação do input
+		animateDistance: 15, // Valor em pixels no qual o campo ira se mover quando usa-se o método de animação do input (necessita que o campo tenha no mínimo "position:relative")
+		animateRepeat: 3, // Quantidade de vezes em que a animação se repetirá (quando usa-se o método de animação do input)
+		animateFieldSuccess: ".qd_news_animate_field_success", // Classe do input que tem a mensagem de sucesso
+		timeHideSuccessMsg: 3000, // Tempo em milesegundos em que a mensagem permanecerá no campo de e-mail
+		platform: 'vtexcrm', // Define qual plataforma a newsletter vai trabalhar. Opções: vtex, vtexcrm, linx
+		vtexStore: jsnomeLoja, // aqui você define em qual CRM os dados serão armazenados. Esse parametro é usado apenas quando "platform" esta como "vtexcrm"
+		entity: 'NL', // entidade no CRM onde os dados serão armazenados. Esse parametro é usado apenas quando "platform" esta como "vtexcrm"
+		allowSubmit: function () { return true; }, // Esta função é executada após os campos de nome e email estarem válidos. Caso seja retornado "true" os dados serão enviados, caso contrário não.
+		successCallback: function () { }, // Callback após o formulário ser enviado e o servidor retornar sucesso (HTTP 200 ...)
+		submitCallback: function (email, name) { } // Callback quando o formulário é enviado (submetido)
+	};
+
+	$.fn.QD_news = function (opts) {
+		var extTitle = "QD News";
+		var log = function (c, b) { if ("object" === typeof console && "function" === typeof console.error && "function" === typeof console.info && "function" === typeof console.warn) { var a; "object" === typeof c ? (c.unshift("[" + extTitle + "]\n"), a = c) : a = ["[" + extTitle + "]\n" + c]; if ("undefined" === typeof b || "alerta" !== b.toLowerCase() && "aviso" !== b.toLowerCase()) if ("undefined" !== typeof b && "info" === b.toLowerCase()) try { console.info.apply(console, a) } catch (d) { console.info(a.join("\n")) } else try { console.error.apply(console, a) } catch (e) { console.error(a.join("\n")) } else try { console.warn.apply(console, a) } catch (f) { console.warn(a.join("\n")) } } };
+
+		var $this = $(this);
+		if (!$this.length)
+			return $this;
+
+		var options = $.extend({}, defaults, opts);
+
+		// Suporte as funcionalidades antigas
+		if (!options.showInPopup)
+			options.validationMethod = "div";
+
+		if (options.animation !== null)
+			options.validationMethod = "animateField";
+		else if (options.validationMethod == "animateField")
+			options.animation = "leftRight";
+
+		// Checando se o plugin de popUp2 esta na página
+		if (options.validationMethod == "popup" && "function" !== typeof $.fn.vtexPopUp2) {
+			log("O popUp2 não foi encontrado. Adicione o Plugin de PopUp2.");
+			return $this;
+		}
+
+		var animateField = function (element) {
+			var leftRight, i, blink;
+			i = 0;
+
+			// Método esquerda / Direita
+			leftRight = function () {
+				element.animate({
+					left: "-=" + options.animateDistance
+				}, options.animateSpeed, function () {
+					element.animate({
+						left: "+=" + options.animateDistance
+					}, options.animateSpeed, function () {
+						if (i < options.animateRepeat)
+							leftRight();
+						i++;
+					});
+				});
+			};
+
+			// Método Piscar
+			blink = function () {
+				element.fadeTo(options.animateSpeed, 0.2, function () {
+					element.fadeTo(options.animateSpeed, 1.0, function () {
+						if (i < options.animateRepeat)
+							blink();
+						i++;
+					});
+				});
+			};
+
+			element.stop(true, true);
+			if (options.animation == "leftRight")
+				leftRight();
+			else if (options.animation == "blink")
+				blink();
+		};
+
+		$this.each(function () {
+			var sendData, elemError, elemSuccess, legendName, legendEmail;
+
+			var elem = $(this);
+			var nameField = elem.find(options.nameField);
+			var emailField = elem.find(options.emailField);
+			var btn = elem.find(options.btn);
+
+			if (options.validationMethod != "animateField") {
+				elemError = elem.find(options.elementError);
+				elemSuccess = elem.find(options.elementSuccess);
+			}
+
+			// Reportando erros
+			if (nameField.length < 1 && options.checkNameExist) {
+				log("Campo de nome, não encontrado (" + nameField.selector + "). Será atribuido um valor padrão.", "info");
+			}
+			if (emailField.length < 1) {
+				log("Campo de e-mail, não encontrado (" + emailField.selector + ")");
+				return elem;
+			}
+			if (btn.length < 1) {
+				log("Botão de envio, não encontrado (" + btn.selector + ")");
+				return elem;
+			}
+			if (options.validationMethod != "animateField" && (elemSuccess.length < 1 || elemError.length < 1)) {
+				log("A(s) mensagem(ns) de erro e/ou sucesso esta(m) faltando \n (" + elemSuccess.selector + ", " + elemError.selector + ")");
+				return elem;
+			}
+
+			// Aplicando o texto padrão (placeholder)
+			if (options.setDefaultName && nameField.is("input[type=text], textarea"))
+				nameField.val(options.defaultName);
+			emailField.val(options.defaultEmail);
+
+			// legend in the field
+			legendName = function () {
+				if (!options.checkNameExist)
+					return;
+
+				if (options.checkNameFieldIsVisible) {
+					var elemNameField = nameField.filter(":visible");
+					if (!elemNameField.length)
+						return;
+				}
+				else
+					var elemNameField = nameField;
+
+				var tempValue = elemNameField.val();
+				if (elemNameField.is("input:text, textarea")) {
+					elemNameField.bind({
+						"focus": function () {
+							if (elemNameField.val() == tempValue && (elemNameField.val().search(options.defaultName.substr(0, 6)) === 0 || options.setDefaultName))
+								elemNameField.val("");
+						},
+						"blur": function () {
+							if (elemNameField.val() === "")
+								elemNameField.val(tempValue);
+						}
+					});
+				}
+			};
+
+			legendEmail = function () {
+				var tempVal;
+				tempVal = emailField.val();
+				emailField.bind({
+					"focus": function () {
+						if (emailField.val() == tempVal && emailField.val().search(options.defaultEmail.substr(0, 6)) === 0)
+							emailField.val("");
+					},
+					"blur": function () {
+						if (emailField.val() === "") emailField.val(tempVal);
+					}
+				});
+			};
+			legendName();
+			legendEmail();
+
+			sendData = function () {
+				var tmp, name;
+				if (tmp = elem.find(options.nameField).filter("input[type=text],select,textarea").val())
+					name = tmp;
+				else if (elem.find(options.nameField).filter("input[type=radio], input[type=checkbox]").length)
+					name = elem.find(options.nameField).filter("input[type=radio]:checked, input[type=checkbox]:checked").val() || "";
+				else if (tmp = elem.find(options.nameField).attr(options.getAttr))
+					name = tmp;
+				else if (tmp = elem.find(options.nameField).text())
+					name = tmp;
+				else if (tmp = elem.find(options.nameField).find(".box-banner img:first").attr("alt"))
+					name = tmp;
+				else
+					name = "Nome_Padrao";
+
+				var email = (elem.find(options.emailField).val() || "").trim();
+				var nameFieldVisible = elem.find(options.nameField).is(":visible");
+				var isInvalidName = options.validateName ? ((name.length < 1 || name.search(options.defaultName.substr(0, 6)) === 0) && ((options.checkNameExist || nameFieldVisible) ? nameFieldVisible : true)) : false;
+				var isInvalidEmail = email.search(/^[a-z0-9\_\-\.\+]+@[a-z0-9\_\-]+(\.[a-z0-9\_\-]{2,})+$/i) < 0;
+
+				if (isInvalidName || isInvalidEmail) {
+					if (options.validationMethod == "animateField") {
+						if (isInvalidName)
+							animateField(elem.find(options.nameField));
+						if (isInvalidEmail)
+							animateField(elem.find(options.emailField));
+					} else if (options.validationMethod == "popup")
+						elemError.vtexPopUp2({
+							popupType: "newsletter",
+							popupClass: "popupNewsletterError"
+						});
+					else {
+						elemError.slideDown().bind("click", function () {
+							$(this).slideUp();
+						});
+						setTimeout(function () {
+							elemError.slideUp();
+						}, 1800);
+					}
+				}
+				else if (options.allowSubmit())
+					storeData(email, name);
+				else
+					log("Os dados não foram enviados pois o parametro 'allowSubmit' não retornou 'true'", "info");
+			};
+
+			function storeData(email, name) {
+				btn.attr("disabled", "disabled");
+
+				var outData = {
+					postData: {
+						'newsletterClientEmail': email,
+						'newsletterClientName': options.defaultName == name ? "-" : name,
+						'newsInternalCampaign': 'newsletter:opt-in',
+						'newsInternalPage': (document.location.pathname || "/").replace(/\//g, "_"),
+						'newsInternalPart': 'newsletter'
+					},
+					button: btn,
+					wrapper: elem
+				};
+
+				if (options.platform == "linx") {
+					outData.postData.nome = outData.postData.newsletterClientName;
+					outData.postData.email = outData.postData.newsletterClientEmail;
+				}
+
+				if (options.platform == 'vtexcrm')
+					getIP(function (ip) {
+						ajaxPromise(outData, $.ajax({
+							url: '//api.vtexcrm.com.br/' + options.vtexStore + '/dataentities/' + options.entity + '/documents',
+							type: "PATCH",
+							dataType: "json",
+							headers: { "Accept": "application/vnd.vtex.ds.v10+json", "Content-Type": "application/json; charset=utf-8" },
+							data: JSON.stringify({
+								id: email.toLowerCase().replace(/[^a-z0-9]/ig, function (v) { return '-' + v.charCodeAt(0) + '-' }),
+								ip: ip,
+								origin: elem.find(options.originField).val() || '---',
+								qd_email: email,
+								qd_name: name,
+								URI: location.href
+							})
+						}));
+					});
+				else
+					ajaxPromise(outData, $.ajax({
+						url: options.platform == "linx" ? "/newsletter.aspx" : '/no-cache/Newsletter.aspx',
+						type: options.platform == "linx" ? "GET" : 'POST',
+						data: outData.postData
+					}));
+
+				// Callback ao ser submetido
+				options.submitCallback(email, name);
+			}
+
+			function getIP(callback){
+				$.ajax({
+					url: "//api.ipify.org?format=jsonp",
+					dataType: "jsonp",
+					success: function (data) {
+						callback(data.ip);
+					},
+					error: function () {
+						$.ajax({
+							url: "//freegeoip.net/json/",
+							dataType: "json",
+							success: function (data) {
+								callback(data.ip);
+							},
+							error: function (data) {
+								callback(null);
+							}
+						});
+					}
+				});
+			};
+
+			function resetEmail(emailElem) {
+				emailElem.val(options.defaultEmail);
+			};
+
+			function ajaxPromise(outData, ajaxRequest){
+				ajaxRequest.fail(function () {
+					alert('Desculpe. Não foi possível cadastrar seu e-mail, por favor tente novamente.');
+				});
+
+				ajaxRequest.done(function (data) {
+					var resetEmail, msgTime, emailElem;
+
+					btn.removeAttr("disabled");
+
+					if (options.platform == "linx") {
+						if (!(data.indexOf(" com sucesso.") > -1 || data.indexOf(" cadastrado.") > -1))
+							return alert(data);
+					}
+
+					if (options.validationMethod == "popup")
+						elemSuccess.vtexPopUp2({
+							popupType: "newsletter",
+							popupClass: "popupNewsletterSuccess"
+						});
+					else if (options.validationMethod != "animateField")
+						elemSuccess.slideDown().bind("click", function () {
+							$(this).slideUp();
+						});
+
+					// "resetando" o formulário para os valores padrões
+					emailElem = elem.find(options.emailField);
+					if (options.setDefaultName && elem.find(options.nameField).is("input:text, textarea"))
+						elem.find(options.nameField).val(options.defaultName);
+
+					if (options.validationMethod == "animateField") {
+						emailElem.val(elem.find(options.animateFieldSuccess).val() || "Obrigado!!!");
+						emailElem.addClass("vtexNewsSuccess");
+						msgTime = setTimeout(function () {
+							emailElem.removeClass("vtexNewsSuccess");
+							resetEmail(emailElem);
+							emailElem.unbind("focus.vtexNews");
+						}, options.timeHideSuccessMsg);
+						emailElem.bind("focus.vtexNews", function () {
+							emailElem.removeClass("vtexNewsSuccess");
+							clearTimeout(msgTime);
+							$(this).val("");
+							$(this).unbind("focus.vtexNews");
+						});
+					}
+					else
+						resetEmail(emailElem);
+
+					options.successCallback(outData);
+					$(elem).trigger("qdNewsSuccessCallback", outData);
+				});
+			}
+
+			// Observando os eventos do teclado para postar quando prescionar enter
+			var keyFunction = function (e) {
+				var code = (e.keyCode ? e.keyCode : e.which);
+				if (13 == code) {
+					e.preventDefault();
+					sendData();
+				}
+			};
+			nameField.filter("input:text, textarea").bind("keydown", keyFunction);
+			emailField.bind("keydown", keyFunction);
+
+			// Verificando se o botão de enviar esta em volta de um formulário e caso esteja cancelo a ação padrão do formulário
+			var form = btn.getParent("form");
+			if (form.length) {
+				form.submit(function (e) {
+					e.preventDefault();
+					sendData();
+				});
+			}
+			else {
+				// Aplicando clique ao botão de enviar formulário
+				btn.bind("click.qd_news", function () {
+					sendData();
+				});
+			}
+		});
+
+		return $this;
+	};
+
+	// Auto start
+	$(function () {
+		$(".qd_news_auto").QD_news();
+	});
+})();
