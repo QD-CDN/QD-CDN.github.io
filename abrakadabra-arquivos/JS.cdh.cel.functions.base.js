@@ -111,7 +111,7 @@ try {
 			});
 		},
 		facebookLikebox: function() {
-			$(".footer-qd-v1-facebook-likebox").html('<div class="fb-page" data-href="https://www.facebook.com.br/abrakadabrafantasias/" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com.br/abrakadabrafantasias/">Clube de Heróis</a></blockquote></div></div>');
+			$(".footer-qd-v1-facebook-likebox").html('<div class="fb-page" data-href="https://www.facebook.com/clubedeherois/" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/clubedeherois/">Clube de Heróis</a></blockquote></div></div>');
 		},
 		bannerResponsive : function(){
 			$(".banner-qd-v1-responsive .box-banner a, .qd-placeholder .box-banner a").each(function(){
