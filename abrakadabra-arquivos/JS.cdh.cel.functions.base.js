@@ -556,6 +556,8 @@ try {
 		run: function() {},
 		init: function () {
 			Product.zoomFix();
+			Product.accessoriesFix();
+			Product.accessoriesApplyCarousel();
 			Product.shelfCarouselProduct();
 			Product.openShipping();
 			Product.seeDescription();
@@ -590,6 +592,32 @@ try {
 		zoomFix: function(){
 			var overlay = $("<div class='qdZoomInvisibleOverlay' />");
 			$("#image").prepend(overlay).on("mouseout", ".zoomPad", function(){ overlay.hide(); }).on("mouseover", ".zoomPad", function(){ overlay.show(); });
+		},
+		accessoriesFix: function () {
+			$('fieldset >.buy-product-checkbox').parent().each(function () {
+				var $t = $(this);
+				$t.add($t.prev('ul')).wrapAll('<div class="accessories-qd-v1-item col-xs-12 col-sm-6 col-md-3"/>');
+			});
+		},
+		accessoriesApplyCarousel: function () {
+			var item = $('.accessories-qd-v1-item');
+
+			if (!item.length)
+				return;
+
+			item.wrapAll('<div class="accessories-qd-v1-carousel"></div>');
+
+			$(".accessories-qd-v1-wrapper").find('.prateleira').each(function () {
+				var $this = $(this);
+
+				$this.find("h2").addClass('heading-2').insertBefore($this);
+			});
+
+			$("accessories-qd-v1-carousel").owlCarousel({
+				items: 4,
+				navigation: true,
+				pagination: false
+			});
 		},
 		shelfCarouselProduct: function() {
 			var wrapper = $('.qd-collections-wrap ');
