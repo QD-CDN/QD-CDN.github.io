@@ -23,6 +23,7 @@ try {
 			Common.modalAccount();
 			Common.fixImagesLink();
 			Common.mobileAmazingMenu();
+			Common.formNewsLetter();
 		},
 		ajaxStop: function() {},
 		windowOnload: function() {
@@ -53,7 +54,7 @@ try {
 			});
 		},
 		favicon: function() {
-			$('link[rel="shortcut icon"]').attr('href', 'http://qd-cdn.github.io/lolja-mshops/images/favicon.ico');
+			$('link[rel="shortcut icon"]').attr('href', 'http://qd-cdn.github.io/brautopartes-mshops/images/favicon.ico');
 		},
 		qdOverlayClass: 'qd-am-on qd-sn-on',
 		qdOverlay: function() {
@@ -116,7 +117,7 @@ try {
 			elem.addClass('qd-banner-loading');
 
 			$.qdAjax({
-				url: 'https://spreadsheets.google.com/feeds/list/1GrZLkyKroQdpRGFMU23nMssxXaZ4ZgmGMocZQM7BxEs/od6/public/values?alt=json'
+				url: 'https://spreadsheets.google.com/feeds/list/1kNGz4tANV02QRkKS0hJwf4UUy3cmhg-fKlsM_zhAjlg/od6/public/values?alt=json'
 			}).done(function(data){
 				if (!data.feed.entry.length)
 					return;
@@ -313,6 +314,53 @@ try {
 		},
 		fixImagesLink: function() {
 			$('a[href*="$contentImage.link"]').attr('href', '#').removeAttr('target');
+		},
+		formNewsLetter: function () {
+			$.getScript("//qd-cdn.github.io/brautopartes-mshops/JS.jquery.validate.min.js");
+
+			$('.newsletter-qd-v1').html('<div class="row"><div class="col-xs-12 col-md-6"><div class="newsletter-qd-v1-banner"></div></div><div class="col-xs-12 col-md-6"><div class="row"><div class="col-xs-12"><div class="newsletter-qd-v1-content"><h3 class="newsletter-qd-v1-title">Receba descontos imperdíveis</h3><p class="newsletter-qd-v1-sub-title">Fique sabendo das nossas promoções, descontos e novidades em primeira mão!</p><div class="newsletter-qd-v1-form"><form> <input class="qd_news_email input-type-text required email" type="text" name="email" placeholder="Digite aqui seu e-mail" /> <input class="qd_news_animate_field_success" value="Obrigado!" type="text" style="display: none" /> <button class="qd_news_button" type="submit">ENVIAR <i class="fa fa-paper-plane" aria-hidden="true"></i> </button></form></div><div class="social-qd-v1-list"><ul><li><a href="https://www.facebook.com/brautopartes" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li></ul></div></div></div></div></div></div>');
+			var $form = $(".newsletter-qd-v1-form form");
+
+			$(".newsletter-qd-v1-form .qd_news_button").click(function () {
+				if (typeof $.fn.validate !== "function")
+					return;
+
+				$form.validate({
+					submitHandler: function (form) {
+						var $form = $(form);
+
+						if (!$form.valid())
+							return;
+
+						// $form.addClass('qd-loading');
+
+						// $.ajax({
+						// 	"async": true,
+						// 	"crossDomain": true,
+						// 	"url": "https://events.woowup.com/events/users",
+						// 	"type": "POST",
+						// 	"headers": { "cache-control": "no-cache" },
+						// 	"data": JSON.stringify({
+						// 		"app": "WU-WFKQE3",
+						// 		"service_uid": ($form.find('[name="email"]').val() || ""),
+						// 		"email": ($form.find('[name="email"]').val() || "")
+						// 	})
+						// }).done(function (d) {
+						// 	$form.find('.qd_news_email').hide();
+						// 	$form.find('.qd_news_animate_field_success').show();
+						// }).error(function () {
+						// 	alert("Não foi possível cadastrar a newsletter, tente novamente em alguns instantes.");
+						// }).complete(function () {
+						// 	$form.removeClass('qd-loading');
+						// });
+					}
+				});
+			});
+
+			Common.bannerNewsLetter();
+		},
+		bannerNewsLetter: function () {
+			Common.spreadsheetImages('Banner NewsLetter', $('.newsletter-qd-v1-banner'));
 		}
 	};
 
@@ -325,55 +373,11 @@ try {
 			Home.applyCarouselShelf();
 			Home.applyCarouselBannerShelf();
 			Home.bannerFranchise();
-			Home.formNewsLetter();
 			Home.collections();
 		},
 		ajaxStop: function() {},
 		windowOnload: function() {},
-		formNewsLetter: function() {
-			$.getScript("//qd-cdn.github.io/lolja-mshops/JS.jquery.validate.min.js");
-
-			$('.newsletter-qd-v1').html('<div class="row"> <div class="col-xs-12 col-md-6"> <div class="newsletter-qd-v1-banner"></div> </div> <div class="col-xs-12 col-md-6"> <div class="row"> <div class="col-xs-10 col-xs-offset-1"> <div class="newsletter-qd-v1-content"> <h3 class="newsletter-qd-v1-title">Mantenha-se atualizado</h3> <p class="newsletter-qd-v1-sub-title">Fique sabendo das nossas promoções, descontos e novidades em primeira mão!</p> <div class="newsletter-qd-v1-form"> <form> <input class="qd_news_email input-type-text required email" type="text" name="email" placeholder="Digite aqui seu e-mail" /> <input class="qd_news_animate_field_success" value="Obrigado!" type="text" style="display: none" /> <button class="qd_news_button" type="submit">ENVIAR <i class="fa fa-paper-plane" aria-hidden="true"></i> </button> </form> </div> <div class="social-qd-v1-list"> <ul> <li><a href="https://www.facebook.com/brautopartes/?fref=ts" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li> <li><a href="https://www.instagram.com/uselolja/?hl=pt-br" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li> <li><a href="https://twitter.com/uselolja" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li> <!-- <li><a href="" target="_blank"><i class="fa fa-rss" aria-hidden="true"></i></a></li> --> </ul> </div> </div> </div> </div> </div> </div>');
-			var $form = $(".newsletter-qd-v1-form form");
-
-			$(".newsletter-qd-v1-form .qd_news_button").click(function() {
-				if (typeof $.fn.validate !== "function")
-					return;
-
-				$form.validate({
-					submitHandler: function(form) {
-						var $form = $(form);
-
-						if (!$form.valid())
-							return;
-
-						$form.addClass('qd-loading');
-
-						$.ajax({
-							"async": true,
-							"crossDomain": true,
-							"url": "https://events.woowup.com/events/users",
-							"type": "POST",
-							"headers": {"cache-control": "no-cache" },
-							"data": JSON.stringify({
-								"app": "WU-WFKQE3",
-								"service_uid": ($form.find('[name="email"]').val() || ""),
-								"email": ($form.find('[name="email"]').val() || "")
-							})
-						}).done(function(d) {
-							$form.find('.qd_news_email').hide();
-							$form.find('.qd_news_animate_field_success').show();
-						}).error(function() {
-							alert("Não foi possível cadastrar a newsletter, tente novamente em alguns instantes.");
-						}).complete(function() {
-							$form.removeClass('qd-loading');
-						});
-					}
-				});
-			});
-
-			Home.bannerNewsLetter();
-		},
+		
 		collections: function() {
 			Common.worksheetCollection('Home - Coleção Abaixo do Mosaico 1', $('.home-qd-v1-shelf-collections'), function() {
 				Home.applyCarouselShelf();
@@ -382,9 +386,6 @@ try {
 			Common.worksheetCollection('Home - Coleção Abaixo do Mosaico 2', $('.home-qd-v1-shelf-collections'), function() {
 				Home.applyCarouselShelf();
 			});
-		},
-		bannerNewsLetter: function() {
-			Common.spreadsheetImages('Banner NewsLetter', $('.newsletter-qd-v1-banner'));
 		},
 		bannerFranchise: function() {
 			Common.spreadsheetImages('Banner de Franquia', $('.banner-franchise-qd-v1'));
@@ -705,7 +706,7 @@ try {
 
 			$(document.body).addClass('qd-empty-search');
 
-			$('.search-qd-v1-wrapper').append('<div class="search-empty-qd-v1-wrapper"> <div class="row"> <div class="col-xs-6 img-responsive"> <img src="//qd-cdn.github.io/lolja-mshops/images/empty-search-qd-v1.png" alt="" /> </div> <div class="col-xs-6"> <div class="row"> <div class="col-xs-10 col-xs-offset-1"> <div class="search-empty-qd-v1-block"> <h4>Ops! O item procurado não pode ser encontrado.</h4> <p>Confira se você digitou as palavras corretamente ou tente novamente a busca.</p> <strong>Dicas para melhorar a sua busca:</strong> <p>- Verifique se houve erro de digitação;</p> <p>- Procure por um termo similar ou sinônimo;</p> <p>- Tente procurar por palavras-chave mais gerais e filtrar o resultado de busca;</p> <p>- Tente utilizar uma única palavra.</p> </div> </div> </div> </div> </div> </div>');
+			$('.search-qd-v1-wrapper').append('<div class="search-empty-qd-v1-wrapper"> <div class="row"> <div class="col-xs-6 img-responsive"> <img src="//qd-cdn.github.io/brautopartes-mshops/images/empty-search-qd-v1.png" alt="" /> </div> <div class="col-xs-6"> <div class="row"> <div class="col-xs-10 col-xs-offset-1"> <div class="search-empty-qd-v1-block"> <h4>Ops! O item procurado não pode ser encontrado.</h4> <p>Confira se você digitou as palavras corretamente ou tente novamente a busca.</p> <strong>Dicas para melhorar a sua busca:</strong> <p>- Verifique se houve erro de digitação;</p> <p>- Procure por um termo similar ou sinônimo;</p> <p>- Tente procurar por palavras-chave mais gerais e filtrar o resultado de busca;</p> <p>- Tente utilizar uma única palavra.</p> </div> </div> </div> </div> </div> </div>');
 		}
 	};
 
@@ -864,11 +865,11 @@ try {
 			// var tabContent = '';
 			var prodInfo = $('.categoriesPath').text().trim() + ($('input#title').val() || '');
 
-			// var htmlFeminino = '<div class="img-responsive"> <img src="//qd-cdn.github.io/lolja-mshops/images/Feminino.png" /> </div>';
-			// var htmlMasculino = '<div class="img-responsive"> <img src="//qd-cdn.github.io/lolja-mshops/images/Masculino.png" /> </div>';
-			// var htmlMoletom = '<div class="img-responsive"> <img src="//qd-cdn.github.io/lolja-mshops/images/Moletom.png" /> </div>';
-			// var htmlRaglan = '<div class="img-responsive"> <img src="//qd-cdn.github.io/lolja-mshops/images/Raglan.png" /> </div>';
-			// var htmlPoster = '<div class="img-responsive"> <img src="//qd-cdn.github.io/lolja-mshops/images/Poster.png" /> </div>';
+			// var htmlFeminino = '<div class="img-responsive"> <img src="//qd-cdn.github.io/brautopartes-mshops/images/Feminino.png" /> </div>';
+			// var htmlMasculino = '<div class="img-responsive"> <img src="//qd-cdn.github.io/brautopartes-mshops/images/Masculino.png" /> </div>';
+			// var htmlMoletom = '<div class="img-responsive"> <img src="//qd-cdn.github.io/brautopartes-mshops/images/Moletom.png" /> </div>';
+			// var htmlRaglan = '<div class="img-responsive"> <img src="//qd-cdn.github.io/brautopartes-mshops/images/Raglan.png" /> </div>';
+			// var htmlPoster = '<div class="img-responsive"> <img src="//qd-cdn.github.io/brautopartes-mshops/images/Poster.png" /> </div>';
 
 			// if(prodInfo.toLowerCase().indexOf('feminin') > -1) tabContent += htmlFeminino;
 			// if(prodInfo.toLowerCase().indexOf('masculin') > -1) tabContent += htmlMasculino;
