@@ -265,7 +265,7 @@ try {
 						if($data.find('.noProd').length && !($('.qd-minicart-items tr').length))
 							return;
 
-						$cartHtml = $('<div class="qd-minicart-dropdown" aria-hidden="true"><div class="qd-minicart-space"><span>Fechar</span></div><div class="qd-minicart-wrapper"><table class="qd-minicart-items"><tr><td class="qd-minicart-img"></td><td class="qd-minicart-name"></td><td class="qd-minicart-info"><span><span class="qd-minicart-price">Por: <span>---</span></span><span class="qd-minicart-remove"><i class="fa fa-times-circle"></i></span></span></td></tr></table><div class="qd-minicart-footer-wrapper"><table class="qd-minicart-footer"><tr><td class="qd-minicart-total">Total: <span>---</span></td><td><a href="/cart" class="qd-minicart-checkout"><i class="fa fa-shopping-basket"></i> Finalizar compra </a></td></tr></table></div></div></div>');
+						$cartHtml = $('<div class="qd-minicart-dropdown" aria-hidden="true"><div class="qd-minicart-space"><span>Fechar</span></div><div class="qd-minicart-wrapper"><table class="qd-minicart-items"><tr><td class="qd-minicart-img"></td><td class="qd-minicart-name"></td><td class="qd-minicart-info"><span><span class="qd-minicart-price">Por: <span>---</span></span><span class="qd-minicart-remove"><i class="fa fa-times-circle"></i></span></span></td></tr></table><div class="qd-minicart-footer-wrapper"><table class="qd-minicart-footer"><tr><td class="qd-minicart-total">Total: <span>---</span></td><td><a href="/cart" class="qd-minicart-checkout"><i class="fa fa-shopping-cart"></i> Finalizar compra </a></td></tr></table></div></div></div>');
 						var trBase = $cartHtml.find('.qd-minicart-items tr');
 
 						$data.find('ul.tbody').each(function() {
@@ -371,8 +371,7 @@ try {
 			Home.sliderFull();
 			Home.brandCarroussel();
 			Home.bannerCollection();
-			Home.bannerMosaicB();
-			Home.bannerMosaicT();
+			Home.bannerMosaic();
 			Home.applyCarouselShelf();
 			Home.applyCarouselBannerShelf();
 			Home.bannerFranchise();
@@ -393,10 +392,10 @@ try {
 		bannerFranchise: function() {
 			Common.spreadsheetImages('Banner de Franquia', $('.banner-franchise-qd-v1'));
 		},
-		bannerMosaicB: function() {
-			var wrapper = $('.banner-mosaic-qd-v1-bottom');
+		bannerMosaic: function() {
+			var wrapper = $('.banner-mosaic-qd-v1');
 
-			Common.spreadsheetImages('Banner Mosaic Bottom', wrapper, function() {
+			Common.spreadsheetImages('Banner Mosaic', wrapper, function() {
 				mosaicAddRow(wrapper.find("> a"));
 
 				function mosaicAddRow($wrapper) {
@@ -407,37 +406,6 @@ try {
 						return;
 
 					$wrapper.each(function(){
-						var $t = $(this);
-						var offsetTop = $t.offset().top;
-
-						if (!firstTop)
-							firstTop = offsetTop;
-
-						if (offsetTop >= firstTop - 9 && offsetTop <= firstTop + 9)
-							items = items.add($t);
-						else
-							return false;
-					});
-
-					items.wrapAll('<div class="row"></div>');
-					mosaicAddRow(wrapper.find("> a"));
-				}
-			});
-		},
-		bannerMosaicT: function () {
-			var wrapper = $('.banner-mosaic-qd-v1-top');
-
-			Common.spreadsheetImages('Banner Mosaic Top', wrapper, function () {
-				mosaicAddRow(wrapper.find("> a"));
-
-				function mosaicAddRow($wrapper) {
-					var firstTop;
-					var items = new $;
-
-					if (!$wrapper.length)
-						return;
-
-					$wrapper.each(function () {
 						var $t = $(this);
 						var offsetTop = $t.offset().top;
 
