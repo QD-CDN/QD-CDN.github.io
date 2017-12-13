@@ -90,9 +90,7 @@ try {
 			$(window).on('QD_amazingMenuLoaded', function() {
 				$('.amazing-menu-mobile-qd-v1-main > ul > li > ul').each(function(index, el) {
 					var $ul = $(this);
-
-					console.log("$ul", $ul);
-					$ul.parent().addClass('qd-li-active').append($('<span class="amazing-menu-mobile-qd-v1-dropdown-trigger"><i class="fa fa-caret-down" /></span>').click(function(evt) {
+					$ul.parent().addClass('qd-li-active').append($('<span class="amazing-menu-mobile-qd-v1-dropdown-trigger"><i class="fa fa-chevron-down" /></span>').click(function(evt) {
 						console.log("$ul.parent()", $ul.parent());
 						$ul.parent().toggleClass('qd-am-is-active');
 						$ul.stop(true, true).slideToggle();
@@ -102,6 +100,10 @@ try {
 
 				$('.bnt-call-menu-mobile').click(function() {
 					$(document.body).toggleClass('qd-am-on');
+				});
+
+				$('.close-qd-v1').click(function(){
+					$(document.body).removeClass('qd-am-on');
 				});
 			});
 		},
