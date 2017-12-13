@@ -160,7 +160,7 @@ try {
 
 			if(!Common.applyCollectionData){
 				Common.applyCollectionAjax = $.qdAjax({
-					url: 'https://spreadsheets.google.com/feeds/list/1005BXdF3ZuxWXy-fTbeTQMPQNUrNeW_8P9fNNxDt-VA/od6/public/values?alt=json',
+					url: 'https://spreadsheets.google.com/feeds/list/1gIN5XwyapGzT6AMCqPuapypO4S-LHTAuDmbKpJ8NFNA/od6/public/values?alt=json',
 					dataType: 'json',
 					clearQueueDelay: null
 				}).done(function(data){
@@ -209,7 +209,7 @@ try {
 					requestStarted++;
 
 					$.qdAjax({
-						url: '//api.mercadoshops.com/v1/shops/175429550/listings/' + products[i],
+						url: '//api.mercadoshops.com/v1/shops/161766806/listings/' + products[i],
 						dataType: 'json',
 						clearQueueDelay: null
 					}).done(function(dataJson) {
@@ -371,7 +371,8 @@ try {
 			Home.sliderFull();
 			Home.brandCarroussel();
 			Home.bannerCollection();
-			Home.bannerMosaic();
+			Home.bannerMosaicB();
+			Home.bannerMosaicT();
 			Home.applyCarouselShelf();
 			Home.applyCarouselBannerShelf();
 			Home.bannerFranchise();
@@ -392,10 +393,10 @@ try {
 		bannerFranchise: function() {
 			Common.spreadsheetImages('Banner de Franquia', $('.banner-franchise-qd-v1'));
 		},
-		bannerMosaic: function() {
-			var wrapper = $('.banner-mosaic-qd-v1');
+		bannerMosaicB: function() {
+			var wrapper = $('.banner-mosaic-qd-v1-bottom');
 
-			Common.spreadsheetImages('Banner Mosaic', wrapper, function() {
+			Common.spreadsheetImages('Banner Mosaic Bottom', wrapper, function() {
 				mosaicAddRow(wrapper.find("> a"));
 
 				function mosaicAddRow($wrapper) {
@@ -406,6 +407,37 @@ try {
 						return;
 
 					$wrapper.each(function(){
+						var $t = $(this);
+						var offsetTop = $t.offset().top;
+
+						if (!firstTop)
+							firstTop = offsetTop;
+
+						if (offsetTop >= firstTop - 9 && offsetTop <= firstTop + 9)
+							items = items.add($t);
+						else
+							return false;
+					});
+
+					items.wrapAll('<div class="row"></div>');
+					mosaicAddRow(wrapper.find("> a"));
+				}
+			});
+		},
+		bannerMosaicT: function () {
+			var wrapper = $('.banner-mosaic-qd-v1-top');
+
+			Common.spreadsheetImages('Banner Mosaic Top', wrapper, function () {
+				mosaicAddRow(wrapper.find("> a"));
+
+				function mosaicAddRow($wrapper) {
+					var firstTop;
+					var items = new $;
+
+					if (!$wrapper.length)
+						return;
+
+					$wrapper.each(function () {
 						var $t = $(this);
 						var offsetTop = $t.offset().top;
 
