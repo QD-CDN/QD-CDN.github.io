@@ -740,7 +740,7 @@ try {
 
 			$(document.body).addClass('qd-empty-search');
 
-			$('.search-qd-v1-wrapper').append('<div class="search-empty-qd-v1-wrapper"> <div class="row"> <div class="col-xs-6 img-responsive"> <img src="//qd-cdn.github.io/brautopartes-mshops/images/empty-search-qd-v1.png" alt="" /> </div> <div class="col-xs-6"> <div class="row"> <div class="col-xs-10 col-xs-offset-1"> <div class="search-empty-qd-v1-block"> <h4>Ops! O item procurado não pode ser encontrado.</h4> <p>Confira se você digitou as palavras corretamente ou tente novamente a busca.</p> <strong>Dicas para melhorar a sua busca:</strong> <p>- Verifique se houve erro de digitação;</p> <p>- Procure por um termo similar ou sinônimo;</p> <p>- Tente procurar por palavras-chave mais gerais e filtrar o resultado de busca;</p> <p>- Tente utilizar uma única palavra.</p> </div> </div> </div> </div> </div> </div>');
+			$('.search-qd-v1-wrapper').append('<div class="search-empty-qd-v1-wrapper"><div class="row"><div class="col-xs-12 col-md-6 img-responsive"> <img src="//qd-cdn.github.io/brautopartes-mshops/images/empty-search-qd-v1.png" alt="" class="center-block"/></div><div class="col-xs-12 col-md-6"><div class="row"><div class="col-xs-12"><div class="search-empty-qd-v1-block"><h4>Ops! O item procurado não pode ser encontrado.</h4><p>Confira se você digitou as palavras corretamente ou tente novamente a busca.</p> <strong>Dicas para melhorar a sua busca:</strong><p>- Verifique se houve erro de digitação;</p><p>- Procure por um termo similar ou sinônimo;</p><p>- Tente procurar por palavras-chave mais gerais e filtrar o resultado de busca;</p><p>- Tente utilizar uma única palavra.</p></div></div></div></div></div></div>');
 		}
 	};
 
