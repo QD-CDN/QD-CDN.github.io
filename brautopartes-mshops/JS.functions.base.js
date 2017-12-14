@@ -33,7 +33,7 @@ try {
 			var modal = $('.qd-v1-modal').clone().appendTo(document.body).addClass('qd-v1-modal-account').removeClass('qd-v1-modal');
 
 			modal.find('.modal-body').append('<iframe src="https://www.mercadopago.com.br/settings/account" frameborder="0"></iframe>');
-			modal.find('.modal-header').append('<p> Ola, coisa <strong>LINDA</strong>, tudo bem? </p>');
+			modal.find('.modal-header').append('<p><strong>Seja Bem-Vindo</strong>, aproveite nossa loja!</p>');
 
 			$('.header-qd-v1-links-user-account').click(function(evt) {
 				$(document.body).removeClass(Common.qdOverlayClass);
@@ -44,8 +44,8 @@ try {
 		modalOders: function() {
 			var modal = $('.qd-v1-modal').clone().appendTo(document.body).addClass('qd-v1-modal-orders').removeClass('qd-v1-modal');
 
-			modal.find('.modal-body').append('<iframe src="//www.mercadopago.com.br/activities?type_date=custom&date_from=01%2F01%2F2015&date_to=01%2F01%2F2060&q=Lolja" frameborder="0"></iframe>');
-			modal.find('.modal-header').append('<p> Ola, coisa <strong>LINDA</strong>, tudo bem? </p>');
+			modal.find('.modal-body').append('<iframe src="//www.mercadopago.com.br/activities?type_date=custom&date_from=01%2F01%2F2015&date_to=01%2F01%2F2060&q=brautopartes" frameborder="0"></iframe>');
+			modal.find('.modal-header').append('<p><strong>Seja Bem-Vindo</strong>, aproveite nossa loja!</p>');
 
 			$('.header-qd-v1-links-user-orders').click(function(evt) {
 				$(document.body).removeClass(Common.qdOverlayClass);
