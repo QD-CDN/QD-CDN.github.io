@@ -752,7 +752,7 @@ try {
 			Product.bannerTop();
 			Product.qdSeeDescription();
 			Product.facebookComments();
-			Product.newsletterFooter();
+			// Product.newsletterFooter();
 			Product.floating();
 			Product.shelfBuyTogether();
 			Product.shelfSimilar();
@@ -1021,7 +1021,7 @@ try {
 			});
 		},
 		pageStructure: function() {
-			$('.ch-g1.main.wrapper').attr('class', 'container').before('<div class="product-qd-v1-banner hidden-xs hidden-sm"></div>').before('<div class="product-qd-v1-banner-mobile visible-xs visible-sm"></div>');
+			$('.ch-g1.wrapper').attr('class', 'container').before('<div class="product-qd-v1-banner hidden-xs hidden-sm"></div>').before('<div class="product-qd-v1-banner-mobile visible-xs visible-sm"></div>');
 			$('.ch-container.oneColumn').attr('class', 'row');
 			$('.ch-g4-10').attr('class', 'col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-0');
 			$('.ch-g6-10').attr('class', 'col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-0 product-qd-v1-sku-selection-fixed');
@@ -1059,13 +1059,13 @@ try {
 			if(!$(document.body).is('#page-STATIC'))
 				return;
 
-			$('.ch-g1.mainContent .ch-container').last().addClass('institutional-qd-v1-wrapper').wrapInner('<div class="container" />');
+			$('.ch-g1.main .mainWrapper').last().addClass('institutional-qd-v1-wrapper').wrapInner('<div class="container" />');
 		},
 		contactFormStructure: function() {
 			if(!$(document.body).is('#page-CONTACT'))
 				return;
 
-			$('.ch-g1.mainContent .ch-container').last().addClass('contact-form-qd-v1-wrapper').wrapInner('<div class="container" />');
+			$('.ch-g1.main .mainWrapper').last().addClass('contact-form-qd-v1-wrapper').wrapInner('<div class="container" />');
 
 			var social = $('.component.social');
 			social.nextAll().add(social).hide();
@@ -1099,8 +1099,8 @@ try {
 			});
 		},
 		pageStructure: function() {
-			$('.ch-g1.main.wrapper').attr('class', 'container').before('<div class="product-qd-v1-banner hidden-xs hidden-sm"></div>').before('<div class="product-qd-v1-banner-mobile visible-xs visible-sm"></div>');
-			$('.ch-g1.mainContent .ch-container').last().addClass('checkout-qd-v1-wrapper').wrapInner('<div class="container" />');
+			$('.ch-g1.main').attr('class', 'container').before('<div class="product-qd-v1-banner hidden-xs hidden-sm"></div>').before('<div class="product-qd-v1-banner-mobile visible-xs visible-sm"></div>');
+			$('.ch-g1.wrapper .ch-container').last().addClass('checkout-qd-v1-wrapper').wrapInner('<div class="container" />');
 			$('#couponCode').getParent('.item').addClass('checkout-qd-v1-coupon');
 			$('.subtotal').addClass('checkout-qd-v1-subtotal');
 			$('#ms-shipping-calculator-container').getParent('.item').addClass('checkout-qd-v1-shipping');
