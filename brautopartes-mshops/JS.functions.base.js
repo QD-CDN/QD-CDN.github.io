@@ -775,7 +775,7 @@ try {
 		},
 		shelfBuyTogether: function() {
 			var wrapper = $('.product-qd-v1-shelf-buy-together');
-			var buyButton = $('<span class="product-qd-v1-buy-button"><i class="fa fa-shopping-basket" aria-hidden="true"></i> comprar junto</span>');
+			var buyButton = $('<span class="product-qd-v1-buy-button"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Comprar junto</span>');
 			var $error = $('<span class="product-qd-v1-error hide"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Selecione a variação</span>');
 			var productId1;
 			var productId2;
