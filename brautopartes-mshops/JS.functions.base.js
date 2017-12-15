@@ -758,7 +758,7 @@ try {
 			Product.shelfSimilar();
 			Product.shelfCollections();
 			Product.affix();
-			Product.tableSize();
+			// Product.tableSize();
 		},
 		ajaxStop: function() {},
 		windowOnload: function() {},
