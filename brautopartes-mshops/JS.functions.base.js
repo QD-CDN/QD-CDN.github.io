@@ -155,7 +155,7 @@ try {
 				var $html = $('<div class="row"> <div class="col-xs-12"> <div class="row"> <div class="col-xs-10 col-xs-offset-1 col-md-12 col-md-offset-0"> <h3 class="heading-3"></h3> </div> </div> <div class="carousel-qd-v1-shelf shelf-qd-v1-structure"> </div> </div> </div>');
 
 			var $ulShelf = $('<ul>');
-			var handlebarsTemplate = $("#handlebars-template").html('<li class="shelf-qd-v1"> <input type="hidden" name="qd-id" value="{{id}}" /> <input type="hidden" name="qd-idSku" value="{{sku}}" /> <div class="row"> <div class="col-xs-10 col-xs-offset-1"> <div class="row"> <div class="col-xs-12"> <div class="shelf-qd-v1-image"> <a title="{{title}}" href="{{permalink}}"> {{#if pictures.0.url}} <img alt="{{title}}" title="{{title}}" src="{{pictures.0.url}}" /> {{else}} <img alt="Sem Foto" title="Sem Foto" src="{{pictures.0.url}}" /> {{/if}} </a> <div class="shelf-qd-v1-stamp"> {{#if promotion.discount_type}} <p class="shelf-qd-v1-stamp-descont"> <span>{{promotion.discount_percent}}</span> </p> {{/if}} {{#if promotion.free_shipping}} <div class="promotionFreeShippingSmall"> <span class="freeShippingText"> Frete grátis </span> </div> {{/if}} </div> </div> </div> </div> <div class="row"> <div class="col-xs-12"> <div class="shelf-qd-v1-name"> <a href="{{permalink}}" title="{{title}}">{{title}}</a> </div> </div> </div> <div class="row"> <div class="col-xs-12"> <div class="shelf-qd-v1-price"> {{#eq promotion.discount_type "percent"}} <input type="hidden" name="qd-best-price" value="{{calculatePercentage price promotion.discount_percent}}" /> <span class="shelf-qd-v1-price-best-price"> R$ {{calculatePercentage price promotion.discount_percent}} </span> <span class="shelf-qd-v1-price-old-price"> {{numberFormat price}} </span> {{else}} <input type="hidden" name="qd-best-price" value="{{numberFormat price}}" /> <span class="shelf-qd-v1-price-best-price"> {{numberFormat price}} </span> {{/eq}} </div> </div> </div> <div class="row"> <div class="col-xs-12"> <div class="shelf-qd-v1-buy-button"> <a href="{{permalink}}"> <i class="fa fa-shopping-basket" aria-hidden="true"></i> Comprar </a> </div> </div> </div> </div> </div> </li>');
+			var handlebarsTemplate = $("#handlebars-template").html('<li class="shelf-qd-v1"> <input type="hidden" name="qd-id" value="{{id}}" /> <input type="hidden" name="qd-idSku" value="{{sku}}" /> <div class="row"> <div class="col-xs-10 col-xs-offset-1"> <div class="row"> <div class="col-xs-12"> <div class="shelf-qd-v1-image"> <a title="{{title}}" href="{{permalink}}"> {{#if pictures.0.url}} <img alt="{{title}}" title="{{title}}" src="{{pictures.0.url}}" /> {{else}} <img alt="Sem Foto" title="Sem Foto" src="{{pictures.0.url}}" /> {{/if}} </a> <div class="shelf-qd-v1-stamp"> {{#if promotion.discount_type}} <p class="shelf-qd-v1-stamp-descont"> <span>{{promotion.discount_percent}}</span> </p> {{/if}} {{#if promotion.free_shipping}} <div class="promotionFreeShippingSmall"> <span class="freeShippingText"> Frete grátis </span> </div> {{/if}} </div> </div> </div> </div> <div class="row"> <div class="col-xs-12"> <div class="shelf-qd-v1-name"> <a href="{{permalink}}" title="{{title}}">{{title}}</a> </div> </div> </div> <div class="row"> <div class="col-xs-12"> <div class="shelf-qd-v1-price"> {{#eq promotion.discount_type "percent"}} <input type="hidden" name="qd-best-price" value="{{calculatePercentage price promotion.discount_percent}}" /> <span class="shelf-qd-v1-price-best-price"> R$ {{calculatePercentage price promotion.discount_percent}} </span> <span class="shelf-qd-v1-price-old-price"> {{numberFormat price}} </span> {{else}} <input type="hidden" name="qd-best-price" value="{{numberFormat price}}" /> <span class="shelf-qd-v1-price-best-price"> {{numberFormat price}} </span> {{/eq}} </div> </div> </div> <div class="row"> <div class="col-xs-12"> <div class="shelf-qd-v1-buy-button"> <a href="{{permalink}}"> <i class="fa fa-shopping-cart" aria-hidden="true"></i> Comprar </a> </div> </div> </div> </div> </div> </li>');
 			var handlebarsCompile = Handlebars.compile(handlebarsTemplate.html());
 
 			if(!Common.applyCollectionData){
@@ -682,7 +682,7 @@ try {
 		},
 		insertBuyButton: function() {
 			$('.search-qd-v1-results li > article').append(function(){
-				return '<div class="shelf-qd-v1-buy-button"> <a href="' + $(this).find('a').first().attr('href') + '" tabindex="0"><i class="fa fa-shopping-basket" aria-hidden="true"></i> Comprar</a> </div>'
+				return '<div class="shelf-qd-v1-buy-button"> <a href="' + $(this).find('a').first().attr('href') + '" tabindex="0"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Comprar</a> </div>'
 			});
 		},
 		createCategoryList: function() {
@@ -691,7 +691,7 @@ try {
 			}));
 
 			$.ajax({
-				url: '//api.mercadoshops.com/v1/shops/175429550/categories/tree',
+				url: '//api.mercadoshops.com/v1/shops/161766806/categories/tree',
 				success: function(data) {
 					firstList = $('<ul class="search-qd-v1-category-list qd-list-1"></ul>');
 					wrapper.append(firstList);
@@ -775,7 +775,7 @@ try {
 		},
 		shelfBuyTogether: function() {
 			var wrapper = $('.product-qd-v1-shelf-buy-together');
-			var buyButton = $('<span class="product-qd-v1-buy-button"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Comprar junto</span>');
+			var buyButton = $('<span class="product-qd-v1-buy-button"><i class="fa fa-shopping-cart" aria-hidden="true"></i> comprar junto</span>');
 			var $error = $('<span class="product-qd-v1-error hide"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Selecione a variação</span>');
 			var productId1;
 			var productId2;
