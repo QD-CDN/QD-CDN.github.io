@@ -54,7 +54,7 @@ try {
 			});
 		},
 		favicon: function() {
-			$('link[rel="shortcut icon"]').attr('href', 'http://qd-cdn.github.io/brautopartes-mshops/images/favicon.ico');
+			$('link[rel="shortcut icon"]').attr('href', 'http://qd-cdn.github.io/brautopartes-mshops/images/favicon-brauto.ico');
 		},
 		qdOverlayClass: 'qd-am-on qd-sn-on',
 		qdOverlay: function() {
