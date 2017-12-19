@@ -1021,7 +1021,7 @@ try {
 			});
 		},
 		pageStructure: function() {
-			$('.ch-g1.wrapper').attr('class', 'container').before('<div class="product-qd-v1-banner hidden-xs hidden-sm"></div>').before('<div class="product-qd-v1-banner-mobile visible-xs visible-sm"></div>');
+			$('.ch-g1 .mainWrapper').attr('class', 'container').before('<div class="product-qd-v1-banner hidden-xs hidden-sm"></div>').before('<div class="product-qd-v1-banner-mobile visible-xs visible-sm"></div>');
 			$('.ch-container.oneColumn').attr('class', 'row');
 			$('.ch-g4-10').attr('class', 'col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-0');
 			$('.ch-g6-10').attr('class', 'col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-0 product-qd-v1-sku-selection-fixed');
