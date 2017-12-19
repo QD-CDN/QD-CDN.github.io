@@ -708,7 +708,7 @@ try {
 						var listElement = $('<li class="qd-level-' + level + ((hasDropdown)?" qd-has-dropdown":"") + '" />').append('<' + tagName + '><a href="' + (item[index].permalink.split('.mercadoshops.com.br').pop()) + '">' + item[index].name + '</a></' + tagName + '>');
 
 						if(hasDropdown) {
-							listElement.append($('<span class="search-qd-v1-menu-arrow"><i class="fa fa-sort-down"></i></span>').click(function() {
+							listElement.append($('<span class="search-qd-v1-menu-arrow"><i class="fa fa-chevron-up"></i></span>').click(function() {
 								$(this).parent().toggleClass('qd-active');
 							}));
 							createItems(item[index].children, $('<ul class="qd-list-' + (level + 1).toString() + '" />').appendTo(listElement), 0, level + 1);
