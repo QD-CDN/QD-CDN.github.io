@@ -679,6 +679,11 @@ try {
 				e.preventDefault();
 				$(document.body).addClass('qd-sn-on');
 			})));
+
+			$('.floating-mobile-qd-v1-search .search-qd-v1-navigator-trigger').click(function(e){
+				e.preventDefault();
+				$(document.body).addClass('qd-sn-on');
+			});
 		},
 		insertBuyButton: function() {
 			$('.search-qd-v1-results li > article').append(function(){
@@ -1021,6 +1026,7 @@ try {
 			});
 		},
 		pageStructure: function() {
+			$('.ch-g1.wrapper').addClass('qd-loaded');
 			$('.ch-g1 .mainWrapper').attr('class', 'container').before('<div class="product-qd-v1-banner hidden-xs hidden-sm"></div>').before('<div class="product-qd-v1-banner-mobile visible-xs visible-sm"></div>');
 			$('.ch-container.oneColumn').attr('class', 'row');
 			$('.ch-g4-10').attr('class', 'col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-0');
@@ -1098,7 +1104,7 @@ try {
 				$t.attr('src', ($t.attr('src') || '').replace(/-[a-z]\.jpg/i, '-E.jpg'));
 			});
 		},
-		pageStructure: function() {
+		pageStructure: function() {			
 			$('.ch-g1.main').attr('class', 'container').before('<div class="product-qd-v1-banner hidden-xs hidden-sm"></div>').before('<div class="product-qd-v1-banner-mobile visible-xs visible-sm"></div>');
 			$('.ch-g1.wrapper .ch-container').last().addClass('checkout-qd-v1-wrapper').wrapInner('<div class="container" />');
 			$('#couponCode').getParent('.item').addClass('checkout-qd-v1-coupon');
