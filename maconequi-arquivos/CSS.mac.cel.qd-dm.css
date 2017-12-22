@@ -396,6 +396,13 @@ a#next_page_button, a#prev_page_button {
     background: #AAA;
     font-family: "FontAwesome";
     font-size: 2em;
+    padding: 20px;
+}
+
+.qd-dm-wrapper a:hover {
+    color: #868686;
+    text-decoration: none;
+    opacity: 0.5;
 }
 
 a#prev_page_button::before {
