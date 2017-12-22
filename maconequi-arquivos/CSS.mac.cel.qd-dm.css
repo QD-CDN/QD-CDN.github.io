@@ -387,6 +387,7 @@
 
 a#next_page_button, a#prev_page_button {
     z-index: 40;
+    font-family: 'Glyphicons Halflings';
     display: none;
     position: absolute;
     width: 41px;
@@ -396,11 +397,21 @@ a#next_page_button, a#prev_page_button {
     background: #AAA;
 }
 
+a#prev_page_button::after {
+    content: "\e079";
+}
+
 a#prev_page_button {
+    border-radius: 0 120px 120px 0;
     left: 0;
 }
 
+a#next_page_button::after {
+    content: "\e080";
+}
+
 a#next_page_button {
+    border-radius: 120px 0 0 120px;
     right: 0;
 }
 
