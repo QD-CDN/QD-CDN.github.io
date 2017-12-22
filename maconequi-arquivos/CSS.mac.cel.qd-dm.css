@@ -389,10 +389,11 @@
 }
 
 a#next_page_button, a#prev_page_button {
+    z-index: 40;
     display: none;
     position: absolute;
     width: 41px;
-    height: 40px;
+    height: 80px;
     cursor: pointer;
     margin-top: -20px;
     top: 50%;
