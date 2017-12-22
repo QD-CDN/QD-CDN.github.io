@@ -375,7 +375,7 @@
 
 .qd-dm-wrapper {
     margin: 0 auto;
-    width: 905px;
+    width: 1000px;
     position: relative;
 }
 
@@ -392,17 +392,16 @@ a#next_page_button, a#prev_page_button {
     width: 41px;
     height: 80px;
     cursor: pointer;
-    margin-top: -20px;
-    top: 50%;
+    top: 40%;
+    background: #AAA;
 }
 
 a#prev_page_button {
-    left: -30px;
+    left: 0;
 }
 
 a#next_page_button {
-    right: -30px;
-    background-position: -41px -40px;
+    right: 0;
 }
 
 a#next_page_button:hover {
