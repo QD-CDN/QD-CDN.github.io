@@ -387,7 +387,6 @@
 
 a#next_page_button, a#prev_page_button {
     z-index: 40;
-    font-family: 'Glyphicons Halflings';
     display: none;
     position: absolute;
     width: 41px;
@@ -395,10 +394,12 @@ a#next_page_button, a#prev_page_button {
     cursor: pointer;
     top: 40%;
     background: #AAA;
+    font-family: "FontAwesome";
+    font-size: 2em;
 }
 
-a#prev_page_button::after {
-    content: "\e079";
+a#prev_page_button::before {
+    content: "\f053";
 }
 
 a#prev_page_button {
@@ -406,8 +407,8 @@ a#prev_page_button {
     left: 0;
 }
 
-a#next_page_button::after {
-    content: "\e080";
+a#next_page_button::before {
+    content: "\f054";
 }
 
 a#next_page_button {
