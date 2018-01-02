@@ -411,7 +411,7 @@ a#prev_page_button::before {
 
 a#prev_page_button {
     border-radius: 0 120px 120px 0;
-    left: 0;
+    padding-left: 4px;
 }
 
 a#next_page_button::before {
@@ -421,6 +421,7 @@ a#next_page_button::before {
 a#next_page_button {
     border-radius: 120px 0 0 120px;
     right: 0;
+    padding-left: 18px;
 }
 
 a#next_page_button:hover {
