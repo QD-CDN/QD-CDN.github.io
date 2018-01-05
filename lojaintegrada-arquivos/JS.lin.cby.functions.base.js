@@ -13,38 +13,79 @@ try {
 			Common.setDataScrollToggle();
 			Common.AccountDropDown();
 			Common.AdaptHeader();
+			Common.NewsletterFooter();
+			Common.CompanyFooter();
 		},
 		ajaxStop: function() {},
 		windowOnload: function() {},
 		setDataScrollToggle: function () {
-			$(document.body).attr('data-qd-scroll-limit', '100');
+			$(document.body).attr('data-qd-scroll-limit', '50');
 		},
 		AccountDropDown: function () {
-			$(document).ready(function () {
-				$('<div class="span3 minha-conta">' +
-					'<span><i class="fa fa-user-circle-o" aria-hidden="true"></i> Minha conta</span>' +
-					'<ul class="drop-conta">' +
-					'<li class="entrar"><a href="/conta/index">Entrar</a></li>' +
-					'<li class="minhaconta"><a href="/conta/index">Minha conta</a></li>' +
-					'<li class="meuspedidos"><a href="/conta/pedido/listar">Meus Pedidos</a></li>' +
-					// '<li class="atd-title"><a href="/#modalRastreio" data-toggle="modal" data-target="#modalRastreio">Rastrear Pedido</a></li>' +
-					'</ul></div>').insertAfter('.busca-mobile');				
-			});
+			$('<div class="span3 minha-conta">' +
+				'<span><i class="fa fa-user-circle-o" aria-hidden="true"></i> Minha conta</span>' +
+				'<ul class="drop-conta">' +
+				'<li class="entrar"><a href="/conta/index">Entrar</a></li>' +
+				'<li class="minhaconta"><a href="/conta/index">Minha conta</a></li>' +
+				'<li class="meuspedidos"><a href="/conta/pedido/listar">Meus Pedidos</a></li>' +
+				// '<li class="atd-title"><a href="/#modalRastreio" data-toggle="modal" data-target="#modalRastreio">Rastrear Pedido</a></li>' +
+				'</ul></div>').insertAfter('.busca-mobile');
 		},
 		AdaptHeader: function() {
-			$(document).ready(function () {
-				$('#cabecalho > .conteiner > .row-fluid > .span3').addClass('span2').removeClass('span3');
-				$('#cabecalho .row-fluid .conteudo-topo').addClass('span10').removeClass('span9');
-				$('#cabecalho .row-fluid .conteudo-topo .inferior .busca-mobile').addClass('span6').removeClass('span8');
-				$('#cabecalho .row-fluid .conteudo-topo .inferior > .hidden-phone').addClass('span3').removeClass('span4');
-			});
+			$('#cabecalho > .conteiner > .row-fluid > .span3').addClass('span2').removeClass('span3');
+			$('#cabecalho .row-fluid .conteudo-topo').addClass('span10').removeClass('span9');
+			$('#cabecalho .row-fluid .conteudo-topo .inferior .busca-mobile').addClass('span6').removeClass('span8');
+			$('#cabecalho .row-fluid .conteudo-topo .inferior > .hidden-phone').addClass('span3').removeClass('span4');
+		},
+		NewsletterFooter: function() {
+			$('#rodape .institucional').before(
+				'<div class="componente newsletter">' +
+					'<div class="interno conteiner">' +
+						'<div class="row-fluid">' +
+							'<div class="span12 newsletter-form">' +
+								'<div class="span6"><span class="titulo cor-secundaria">' +
+									'Fique por dentro das novidades cervejeiras' +
+								'</span></div>' +
+
+									'<div class="span6"><div class="interno-conteudo">' +
+										'<div class="newsletter-cadastro input-conteiner">' +
+											'<input type="text" name="email" placeholder="Digite seu email">' +
+											'<button class="botao botao-input fundo-principal icon-chevron-right newsletter-assinar" data-action="https://marketbeer.lojaintegrada.com.br/newsletter/assinar/"></button>' +
+										'</div>' +
+
+										'<div class="newsletter-confirmacao hide">' +
+											'<i class="icon-ok icon-3x"></i>' +
+											'<span>Obrigado por se inscrever! Aguarde novidades da nossa loja em breve.</span>' +
+										'</div>' +
+									'</div></div>' +
+								'</div>' +
+							'</div>' +
+					'</div>' +
+				'</div>'
+			);
+		},
+		CompanyFooter: function () {
+			// === Assinatura rodape ===
+			$('#rodape > div:last-child .row-fluid div:last-child').addClass('loja-integrada-copyright');
+			$('.loja-integrada-copyright a').html('<img src="//qd-cdn.github.io/lojaintegrada-arquivos/logo-lojaintegrada.png">');
+
+			$('#rodape .loja-integrada-copyright').append('<div class="company-logo"><a target="_blank" href="http://agencia.quatrodigital.com.br/"><img src="//qd-cdn.github.io/lojaintegrada-arquivos/logo-quatrodigital.png"></a></div>');
 		}
 	};
 
 	var Home = {
-		init: function() {},
+		init: function() {
+			Home.InsertTitleBrandCarroussel();
+		},
 		ajaxStop: function() {},
-		windowOnload: function() {}
+		windowOnload: function() {},
+		InsertTitleBrandCarroussel: function() {
+			$('.pagina-inicial .marcas').prepend(
+				'<div class="titulo-categoria borda-principal cor-principal vitrine-destaque">' +
+				'<strong>As Melhores Marcas</strong>' +
+				'</div>'
+			);
+		}
 	};
 
 	var Search = {
