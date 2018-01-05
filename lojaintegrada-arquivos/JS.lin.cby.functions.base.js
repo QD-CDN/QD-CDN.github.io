@@ -10,23 +10,34 @@ try {
 	var Common = {
 		run: function() {},
 		init: function() {
-			// Common.AccountTest();
+			Common.setDataScrollToggle();
+			Common.AccountDropDown();
+			Common.AdaptHeader();
 		},
 		ajaxStop: function() {},
 		windowOnload: function() {},
-		AccountTest: function () {
+		setDataScrollToggle: function () {
+			$(document.body).attr('data-qd-scroll-limit', '100');
+		},
+		AccountDropDown: function () {
 			$(document).ready(function () {
-				// === div entrar ou cadastro ===
-				$('<div class="minha-conta">' +
-					'<span>Minha conta</span>' +
+				$('<div class="span3 minha-conta">' +
+					'<span><i class="fa fa-user-circle-o" aria-hidden="true"></i> Minha conta</span>' +
 					'<ul class="drop-conta">' +
-					'<li class="meuspedidos"><a href="/conta/pedido/listar"><i class="icon-list fundo-principal"></i>Meus Pedidos</a></li>' +
-					'<li class="minhaconta"><a href="/conta/index"><i class="icon-user fundo-principal"></i>Minha conta</a></li>' +
-					'<li class="atd-title"><a href="/#modalContato" data-toggle="modal" data-target="#modalContato">Atendimento</a></li>' +
-					'<li class="atd-title"><a href="/#modalRastreio" data-toggle="modal" data-target="#modalRastreio"><i class="fa fa-truck fundo-principal"></i>Rastrear Pedido</a></li>' +
-					'<p class="divider"></p>' +
-					'</ul></div>').insertBefore('.busca-mobile');
-				});
+					'<li class="entrar"><a href="/conta/index">Entrar</a></li>' +
+					'<li class="minhaconta"><a href="/conta/index">Minha conta</a></li>' +
+					'<li class="meuspedidos"><a href="/conta/pedido/listar">Meus Pedidos</a></li>' +
+					// '<li class="atd-title"><a href="/#modalRastreio" data-toggle="modal" data-target="#modalRastreio">Rastrear Pedido</a></li>' +
+					'</ul></div>').insertAfter('.busca-mobile');				
+			});
+		},
+		AdaptHeader: function() {
+			$(document).ready(function () {
+				$('#cabecalho > .conteiner > .row-fluid > .span3').addClass('span2').removeClass('span3');
+				$('#cabecalho .row-fluid .conteudo-topo').addClass('span10').removeClass('span9');
+				$('#cabecalho .row-fluid .conteudo-topo .inferior .busca-mobile').addClass('span6').removeClass('span8');
+				$('#cabecalho .row-fluid .conteudo-topo .inferior > .hidden-phone').addClass('span3').removeClass('span4');
+			});
 		}
 	};
 
