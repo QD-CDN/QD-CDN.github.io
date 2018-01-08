@@ -103,18 +103,11 @@ try {
 		ajaxStop: function() {},
 		windowOnload: function() {},
 		setAvailableBodyClass: function() {
-			function checkVisibleNotify(available) {
-				if (available)
-					$(document.body).addClass('qd-product-available').removeClass('qd-product-unavailable');
-				else
-					$(document.body).addClass('qd-product-unavailable').removeClass('qd-product-available');
-			}
-
-			$(document).on("skuSelected.vtex", function(e, id, sku) {
-				checkVisibleNotify(sku.available);
-			});
-
-			checkVisibleNotify(skuJson.available);
+			// Não esta muito bem testado
+			if ($(".preco-produto .avise-me").length)
+				$(document.body).addClass('qd-product-unavailable').removeClass('qd-product-available');
+			else
+				$(document.body).addClass('qd-product-available').removeClass('qd-product-unavailable');
 		},
 		forceImageZoom: function() {
 			try {
@@ -175,7 +168,7 @@ try {
 			Common.windowOnload();
 			if (body.is(".pagina-inicial")) Home.windowOnload();
 			else if (body.is(".resultado-busca, .departamento, .categoria")) Search.windowOnload();
-			else if (body.is(".produto")) Product.windowOnload();
+			else if (body.is(".pagina-produto")) Product.windowOnload();
 			else if (body.is(".listas")) List.windowOnload();
 			else if (body.is(".institucional")) Institutional.windowOnload();
 			else if (body.is(".orders")) Orders.windowOnload();
@@ -185,7 +178,7 @@ try {
 			Common.ajaxStop();
 			if (body.is(".pagina-inicial")) Home.ajaxStop();
 			else if (body.is(".resultado-busca, .departamento, .categoria")) Search.ajaxStop();
-			else if (body.is(".produto")) Product.ajaxStop();
+			else if (body.is(".pagina-produto")) Product.ajaxStop();
 			else if (body.is(".listas")) List.ajaxStop();
 			else if (body.is(".institucional")) Institutional.ajaxStop();
 			else if (body.is(".orders")) Orders.ajaxStop();
@@ -201,7 +194,7 @@ try {
 				Search.isCategory = $(document.body).is('.categoria');
 				Search.init();
 			}
-			else if (body.is(".produto")) Product.init();
+			else if (body.is(".pagina-produto")) Product.init();
 			else if (body.is(".listas")) List.init();
 			else if (body.is(".institucional")) Institutional.init();
 			else if (body.is(".orders")) Orders.init();
