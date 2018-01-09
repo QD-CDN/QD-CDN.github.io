@@ -28,6 +28,7 @@ try {
 				'<li class="entrar"><a href="/conta/index">Entrar</a></li>' +
 				'<li class="minhaconta"><a href="/conta/index">Minha conta</a></li>' +
 				'<li class="meuspedidos"><a href="/conta/pedido/listar">Meus Pedidos</a></li>' +
+				'<li class="meuspedidos"><a href="/conta/favorito/listar">Lista de Desejos</a></li>' +
 				// '<li class="atd-title"><a href="/#modalRastreio" data-toggle="modal" data-target="#modalRastreio">Rastrear Pedido</a></li>' +
 				'</ul></div>').insertAfter('.busca-mobile');
 		},
