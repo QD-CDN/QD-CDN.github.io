@@ -323,40 +323,21 @@ try {
 			$('.newsletter-qd-v1').html('<div class="row"><div class="col-xs-12 col-md-6"><div class="newsletter-qd-v1-banner"></div></div><div class="col-xs-12 col-md-6"><div class="row"><div class="col-xs-12"><div class="newsletter-qd-v1-content"><h3 class="newsletter-qd-v1-title">Receba descontos imperdíveis</h3><p class="newsletter-qd-v1-sub-title">Fique sabendo das nossas promoções, descontos e novidades em primeira mão!</p><div class="newsletter-qd-v1-form"><form> <input class="qd_news_email input-type-text required email" type="text" name="email" placeholder="Digite aqui seu e-mail" /> <input class="qd_news_animate_field_success" value="Obrigado!" type="text" style="display: none" /> <button class="qd_news_button" type="submit">Enviar <i class="fa fa-paper-plane" aria-hidden="true"></i> </button></form></div><div class="social-qd-v1-list"><ul><li><a href="https://www.facebook.com/brautopartes" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li></ul></div></div></div></div></div></div>');
 			var $form = $(".newsletter-qd-v1-form form");
 
-			$(".newsletter-qd-v1-form .qd_news_button").click(function () {
-				if (typeof $.fn.validate !== "function")
-					return;
+			$(".newsletter-qd-v1-form .qd_news_button").on('click', function (e) {
+				e.preventDefault();
+				$form.addClass('qd-loading');
 
-				$form.validate({
-					submitHandler: function (form) {
-						var $form = $(form);
-
-						if (!$form.valid())
-							return;
-
-						// $form.addClass('qd-loading');
-
-						// $.ajax({
-						// 	"async": true,
-						// 	"crossDomain": true,
-						// 	"url": "https://events.woowup.com/events/users",
-						// 	"type": "POST",
-						// 	"headers": { "cache-control": "no-cache" },
-						// 	"data": JSON.stringify({
-						// 		"app": "WU-WFKQE3",
-						// 		"service_uid": ($form.find('[name="email"]').val() || ""),
-						// 		"email": ($form.find('[name="email"]').val() || "")
-						// 	})
-						// }).done(function (d) {
-						// 	$form.find('.qd_news_email').hide();
-						// 	$form.find('.qd_news_animate_field_success').show();
-						// }).error(function () {
-						// 	alert("Não foi possível cadastrar a newsletter, tente novamente em alguns instantes.");
-						// }).complete(function () {
-						// 	$form.removeClass('qd-loading');
-						// });
-					}
+				var $url = 'https://docs.google.com/forms/d/e/1FAIpQLSeMYEvVBciEFWyWlAxab32m4Xs2RLPPAjwvStvb9stTR0MqiQ/formResponse';
+				var $params = '?entry.727237671='+($form.find('[name="qd_name"]').val() || '')+'&entry.616361496='+$form.find('[name="email"]').val();
+				
+				var iframe = $('<iframe src="' + $url + $params + '" style="display:none">');
+				
+				iframe.load(function() {
+					$form.find('.qd_news_email').val('').attr('placeholder', 'Obrigado!');
+					$form.removeClass('qd-loading');
+					$(this).remove();
 				});
+				iframe.appendTo($('body'));
 			});
 
 			Common.bannerNewsLetter();
