@@ -352,7 +352,7 @@ try {
 			Search.shelfLineFix();
 			Departament.sidemenuToggle();
 			Search.getShelf2Carousel();
-			Departament.hideExtendedMenu();
+			// Departament.hideExtendedMenu();
 			Search.addDiscountFilterClass();
 			Search.hideExtendedMenu();
 
@@ -421,7 +421,7 @@ try {
 			Search.shelfLineFix();
 			Departament.sidemenuToggle();
 			// Search.getShelf2Carousel();
-			Departament.hideExtendedMenu();
+			// Departament.hideExtendedMenu();
 			Search.addDiscountFilterClass();
 			Search.hideExtendedMenu();
 
@@ -442,20 +442,20 @@ try {
 			Search.shelfLineFix();
 		},
 		hideExtendedMenu: function () {
-			$(".search-qd-v1-navigator ul").each(function () {
+			$(".search-qd-v1-navigator fieldset").each(function () {
 				var t, li, qtt, moreLink, moreLi, click, liHide;
 
 				t = $(this);
-				li = t.find(">li");
-				qtt = 10;
+				li = t.find("label");
+				qtt = 5;
 
 				if (li.length <= qtt) return;
 
 				liHide = li.filter(":gt(" + (qtt - 1) + ")").stop(true, true).hide();
 				moreLink = $('<a class="qd-viewMoreMenu">Mostrar mais</a>');
-				t.after(moreLink);
-				moreLi = $('<li class="qd-viewMoreWrapper"><a class="qd-viewMoreMenu2">Mostrar mais filtros</a></li>');
-				t.append(moreLi);
+				t.find('div').append(moreLink);
+				moreLi = $('<span class="qd-viewMoreWrapper"><a class="qd-viewMoreMenu2">ver mais</a></span>');
+				t.find('div').append(moreLi);
 
 				click = function () {
 					liHide.stop(true, true).slideToggle(0, function () {
@@ -474,7 +474,9 @@ try {
 			});
 
 			var wrapper = $(".search-single-navigator, .search-multiple-navigator");
-
+			wrapper.find('h3, h4, h5').addClass('qd-seach-active-menu');
+			wrapper.find('h3, h4, h5').find("+ ul").stop(true, true).slideToggle(0);
+			wrapper.find('h3, h4, h5').find("+ div").stop(true, true).slideToggle(0);
 			wrapper.find('h3, h4, h5').click(function (evt) {
 				var $t = $(this);
 
