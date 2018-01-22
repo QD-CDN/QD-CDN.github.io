@@ -45,13 +45,13 @@ try {
 						'<div class="row-fluid">' +
 							'<div class="span12 newsletter-form">' +
 								'<div class="span6"><span class="titulo cor-secundaria">' +
-									'Fique por dentro das novidades cervejeiras' +
+									'Receba em primeira mão novidades e ofertas exclusivas!' +
 								'</span></div>' +
 
 									'<div class="span6"><div class="interno-conteudo">' +
 										'<div class="newsletter-cadastro input-conteiner">' +
 											'<input type="text" name="email" placeholder="Digite seu email">' +
-											'<button class="botao botao-input fundo-principal icon-chevron-right newsletter-assinar" data-action="https://marketbeer.lojaintegrada.com.br/newsletter/assinar/"></button>' +
+											'<button class="botao botao-input fundo-principal icon-chevron-right newsletter-assinar" data-action="/newsletter/assinar/"></button>' +
 										'</div>' +
 
 										'<div class="newsletter-confirmacao hide">' +
