@@ -440,3 +440,24 @@ a#prev_page_button:hover {
 .qd-dm-page img {
     height: 100%;
 }
+
+.qd-dm-msg {
+    display: block;
+    text-align: center;
+    background: #FFD332;
+    color: #AD2229;
+    border-radius: 4px;
+    font-weight: bold;
+    margin: 10px;
+    padding: 10px;
+}
+
+.qd-dm-msg > span {
+    font-weight: normal;
+}
+
+@media screen and (max-width: 480px) {
+    .qd-dm-msg > span:before  {
+        content: 'Mova a tela lateramente para visualizar o catálogo. ';
+    }
+}
