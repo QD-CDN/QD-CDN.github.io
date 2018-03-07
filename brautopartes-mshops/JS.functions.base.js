@@ -1007,7 +1007,7 @@ try {
 			Home.formNewsLetter();
 		},
 		facebookComments: function() {
-			$('.prodDescription').after('<div id="fb-comments-box" class="third-party-component hidden-xs hidden-sm col-xs-12"> <h2 class="heading-3"> Confira as opniões sobre esse produto </h2> <div class="row"> <div class="col-xs-10 col-xs-offset-1"> <div data-num-posts="4" data-width="100%" class="fb-comments"></div> </div> </div> </div>');
+			$('.prodDescription').after('<div id="fb-comments-box" class="third-party-component col-xs-12"> <h2 class="heading-3"> Confira as opniões sobre esse produto </h2> <div class="row"> <div class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1"> <div data-num-posts="4" data-width="100%" class="fb-comments"></div> </div> </div> </div>');
 		},
 		qdSeeDescription: function() {
 			$('.product-qd-v1-details').click(function(e) {
