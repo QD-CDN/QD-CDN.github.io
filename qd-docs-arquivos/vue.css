@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto+Mono|Source+Sans+Pro:300,400,600");
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700,800');
 * {
   -webkit-font-smoothing: antialiased;
   -webkit-overflow-scrolling: touch;
@@ -667,8 +667,9 @@ body {
   color: #2c3e50;
   font-weight: 600;
 }
-.markdown-section a {
-  color: var(--theme-color, #42b983);
+.markdown-section a:not(.anchor) {
+  color: #3297B1;
+  /* color: var(--theme-color, #42b983); */
   font-weight: 600;
 }
 .markdown-section h1 {
@@ -858,4 +859,138 @@ pre::after {
   right: 0;
   text-align: right;
   top: 0;
+}
+
+
+/* ------------------------ CUSTOMIZAÇÕES QD ---------------------------- */
+
+/* MARDKDOWN */
+
+/* LARANJA #e96900
+AZUL ESCURO #2973b7
+AZUL CLARO #3297B1
+CINZA ESCURO #525252 */
+
+.token.control, .token.directive, .token.unit,
+.token.string,
+.token.selector,
+.token.attr-value {
+  color: #3297B1 !important;
+}
+
+.token.property,
+.token.mixin-usage,
+.token.tag {
+  color: #e96900 !important;
+}
+
+.token.tag .token.punctuation {
+  color: #525252 !important;
+}
+
+.markdown-section code {
+  color: #34495e !important;
+}
+
+/* BARRA LATERAL E BUSCA */
+
+.app-name-link {
+  font-weight: 700;
+  font-size: 1.5rem !important;
+}
+
+.sidebar {
+  width: 430px;
+}
+
+body.close .sidebar {
+  transform: translateX(-430px);
+}
+
+.sidebar-nav ul li {
+  font-weight: 600;
+}
+
+.sidebar-nav ul li ul {
+  font-weight: 400;
+}
+
+.search {
+  padding: 13px 6px !important;
+  background: #f3f3f3;
+}
+
+.search input {
+  font-size: 18px !important;
+  background: #f3f3f3;
+}
+
+.search .matching-post {
+  padding: 0 10px;
+  border-bottom: 1px solid #e1dede;
+}
+
+.search .matching-post h2 {
+  color: #3297B1;
+}
+
+.search-keyword {
+  font-weight: bold !important;
+  color: #364149 !important;
+}
+
+.search h2 {
+  font-size: 14px !important;
+}
+
+.search a {
+  line-height: 1.5;
+}
+
+.search a:hover {
+  color: #525252 !important;
+  opacity: 1;
+}
+
+/* HOVER DOS TITULOS */
+
+.anchor:hover,
+.markdown-section a.anchor {
+  color: #34495e;
+}
+
+/* ESCONDE TÓPICOS DA SIDEBAR */
+
+.app-sub-sidebar li::before {
+  display: none;
+}
+
+/* TAMANHOS DE TITULOS */
+
+h1 {
+  font-size: 34px !important;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 24px !important;
+  font-weight: 600;
+}
+
+/* LINKS */
+a {
+  transition: all 0.2s ease-out;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+.markdown-section p a,
+.markdown-section p a strong {
+   color: #3297B1 !important;
+}
+
+.markdown-section ul {
+  list-style: none;
 }
