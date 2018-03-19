@@ -2,6 +2,7 @@ $( document ).ready(function() {
     createSearchModal();
     $('.open-search-modal-qd-v1').click(function(){
         $('#search-qd-v1-modal').modal("toggle");
+        $('#search-qd-v1-modal').unbind();
     });
 
     $(".closeFiltros").click(function () {
