@@ -671,6 +671,7 @@ body {
   color: #3297B1;
   /* color: var(--theme-color, #42b983); */
   font-weight: 600;
+  word-wrap: break-word;
 }
 .markdown-section h1 {
   font-size: 2rem;
