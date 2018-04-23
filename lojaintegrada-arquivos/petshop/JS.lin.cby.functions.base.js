@@ -68,9 +68,9 @@ try {
 		CompanyFooter: function () {
 			// === Assinatura rodape ===
 			$('#rodape > div:last-child .row-fluid div:last-child').addClass('loja-integrada-copyright');
-			$('.loja-integrada-copyright a').html('<img src="//qd-cdn.github.io/lojaintegrada-arquivos/logo-lojaintegrada.png">');
+			$('.loja-integrada-copyright a').html('<img src="//cdn.quatrodigital.com/lojaintegrada-arquivos/logo-lojaintegrada.png">');
 
-			$('#rodape .loja-integrada-copyright').append('<div class="company-logo"><a target="_blank" href="http://agencia.quatrodigital.com.br/"><img src="//qd-cdn.github.io/lojaintegrada-arquivos/logo-quatrodigital.png"></a></div>');
+			$('#rodape .loja-integrada-copyright').append('<div class="company-logo"><a target="_blank" href="http://agencia.quatrodigital.com.br/"><img src="//cdn.quatrodigital.com/lojaintegrada-arquivos/logo-quatrodigital.png"></a></div>');
 		}
 	};
 
